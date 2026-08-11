@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Doughdominion">
+<meta name="theme-color" content="#FBFAF5">
+<script>(function(){try{var p=localStorage.getItem("doughjo_theme")||"auto";var d=(p==="dark")||(p==="auto"&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");}catch(e){document.documentElement.setAttribute("data-theme","light");}})();</script>
+<title>Doughdominion — master your dough</title>
+<meta name="description" content="Master your dough. Plan pizza dough from your time and temperature — poolish, biga, sourdough or direct. Tune it yourself or let it plan for you. Free, offline, no account.">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-512.png">
+<link rel="manifest" href="manifest.json">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Doughdominion">
+<meta property="og:title" content="Doughdominion — master your dough">
+<meta property="og:description" content="Master your dough. Plan from your time and temperature — poolish, biga, sourdough or direct. Tune it yourself or let it plan for you. Free & offline.">
+<meta property="og:url" content="https://sander-hazewinkel.github.io/Doughdominion/">
+<meta property="og:image" content="https://sander-hazewinkel.github.io/Doughdominion/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Doughdominion — master your dough">
+<meta name="twitter:description" content="Master your dough. Plan by time & temperature — poolish, biga, sourdough or direct. Free & offline.">
+<meta name="twitter:image" content="https://sander-hazewinkel.github.io/Doughdominion/og-image.png">
+<link rel="canonical" href="https://sander-hazewinkel.github.io/Doughdominion/app.html">
+<style>
+*{ box-sizing:border-box; }
+html[data-theme="light"]{ color-scheme:light; }
+html[data-theme="dark"]{ color-scheme:dark; }
+html[data-theme="dark"] body{ --paper:#1B1A17; --panel:#26251F; --ink:#ECE9E0; --muted:#A29C90; --brick:#6FBE79; --brick-deep:#57AE64; --basil:#4FA98D; --line:rgba(255,255,255,0.13); --accent2:#8AD694; --on-accent:#17181A; --quickbg:linear-gradient(180deg,#2C2B25,#24231E); }
+html,body{ margin:0; background-color:var(--paper); background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); }
+body{ --paper:#FBFAF5; --panel:#F1EFE6; --ink:#2C2B26; --muted:#6E6B62; --brick:#3B7A45; --brick-deep:#2C6238; --basil:#2E7D5B; --accent2:#4E9D58; --on-accent:#FBFAF5; --quickbg:linear-gradient(180deg,#FFFFFF,#F5F2E9); --line:rgba(38,32,26,0.14);
+  background:var(--paper); color:var(--ink); min-height:100vh;
+  padding:clamp(18px,4vw,56px);
+  padding-top:max(clamp(18px,4vw,56px), env(safe-area-inset-top));
+  padding-left:max(clamp(18px,4vw,56px), env(safe-area-inset-left));
+  padding-right:max(clamp(18px,4vw,56px), env(safe-area-inset-right));
+  padding-bottom:max(clamp(18px,4vw,56px), env(safe-area-inset-bottom));
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; font-variant-numeric:tabular-nums; -webkit-text-size-adjust:100%; }
+.pdc-head{ max-width:1040px; margin:0 auto 22px; padding-bottom:20px; border-bottom:1px solid var(--line); }
+.pdc-settings{ max-width:1040px; margin:0 auto 14px; display:flex; gap:14px; flex-wrap:wrap; justify-content:flex-end; }
+.pdc-set{ display:flex; align-items:center; gap:6px; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+.pdc-set select{ font:inherit; font-size:12.5px; padding:5px 8px; border-radius:8px; border:1px solid var(--line); background:var(--panel); color:var(--ink); }
+.pdc-mark{ display:block; width:44px; height:44px; margin-bottom:12px; }
+.pdc-tagline{ margin:0 0 6px; font-size:17px; font-weight:600; color:var(--ink); letter-spacing:-.01em; }
+.pdc-zen{ margin:0 0 14px; font-family:Georgia,"Times New Roman",serif; font-style:italic; font-size:14px; color:var(--muted); }
+.pdc-title{ font-family:Georgia,"Times New Roman",serif; font-weight:700; font-size:clamp(38px,9vw,52px); line-height:.9; letter-spacing:-.025em; margin:0 0 8px; color:var(--brick-deep); }
+.pdc-title .pdc-accent{ color:var(--accent2); }
+/* .pdc-sub retired -> .pdc-tagline */
+.pdc-props{ margin:0; color:var(--muted); font-size:11px; letter-spacing:.1em; text-transform:uppercase; opacity:.9; }
+.pdc-grid{ max-width:1040px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
+.pdc-panel{ background:transparent; border:none; border-radius:0; padding:0; }
+.pdc-planner{ border:1px solid rgba(59,122,69,0.30); background:rgba(59,122,69,0.05); border-radius:14px; padding:16px 17px; margin-bottom:16px; }
+.pdc-quick{ display:flex; align-items:center; justify-content:center; gap:9px; width:100%; font:inherit; font-size:15px; font-weight:700; color:var(--brick-deep); background:var(--quickbg); border:1.5px solid rgba(59,122,69,.4); border-radius:12px; padding:14px 16px; cursor:pointer; margin-bottom:14px; box-shadow:0 1px 3px rgba(0,0,0,.05); transition:border-color .15s, transform .06s; }
+.pdc-quick:hover{ border-color:var(--brick); }
+.pdc-quick:active{ transform:translateY(1px); }
+.pdc-quick svg{ width:19px; height:19px; }
+.pdc-quick-out{ border:1px solid var(--line); background:var(--panel); border-radius:14px; padding:17px; margin-bottom:16px; text-align:center; }
+.pdc-quick-lead{ font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+.pdc-quick-big{ font-family:Georgia,"Times New Roman",serif; font-size:clamp(22px,6.4vw,30px); color:var(--ink); margin:5px 0 2px; }
+.pdc-quick-big b{ color:var(--brick-deep); }
+.pdc-quick-dur{ font-size:13.5px; color:var(--muted); }
+.pdc-quick-verdict{ font-size:14px; color:var(--ink); margin:13px auto 0; max-width:36ch; line-height:1.5; }
+.pdc-quick-build{ margin-top:15px; font:inherit; font-size:14px; font-weight:700; color:var(--on-accent); background:var(--brick-deep); border:none; border-radius:10px; padding:11px 20px; cursor:pointer; }
+.pdc-quick-build:hover{ background:var(--brick); }
+.pdc-quick-fine{ font-size:11.5px; color:var(--muted); margin-top:11px; }
+.pdc-plan-title{ font-family:Georgia,serif; font-size:21px; font-weight:700; color:var(--brick-deep); }
+.pdc-plan-desc{ font-size:12.5px; color:var(--muted); margin:4px 0 12px; line-height:1.4; }
+.pdc-plan-go{ font:inherit; font-size:15px; font-weight:700; letter-spacing:.01em; padding:15px 18px; border-radius:11px; background:var(--brick-deep); color:var(--on-accent); border:none; cursor:pointer; width:100%; margin-top:8px; box-shadow:0 2px 8px rgba(36,78,46,.22); transition:transform .06s ease, box-shadow .2s ease; }
+.pdc-plan-go:hover{ box-shadow:0 4px 14px rgba(36,78,46,.28); }
+.pdc-plan-go:active{ transform:translateY(1px); }
+.pdc-plan-notes{ margin-top:12px; display:flex; flex-direction:column; gap:7px; }
+.pdc-plan-note{ font-size:12.5px; color:var(--ink); line-height:1.45; padding-left:15px; position:relative; }
+.pdc-plan-note:before{ content:"\2192"; position:absolute; left:0; color:var(--brick); }
+.pdc-plan-divider{ text-align:center; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:0 0 18px; }
+.pdc-toggle2{ font:inherit; font-size:15px; padding:10px 13px; border-radius:9px; border:1px solid var(--line); background:var(--paper); color:var(--muted); cursor:pointer; text-align:left; width:100%; }
+.pdc-toggle2.on{ border-color:var(--basil); color:var(--basil); font-weight:600; }
+.pdc-presets{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+.pdc-chip{ font:inherit; display:flex; flex-direction:column; align-items:center; gap:1px; line-height:1.15; padding:7px 13px; border-radius:14px; cursor:pointer; background:transparent; color:var(--brick-deep); border:1px solid var(--brick); }
+.pdc-chip-name{ font-size:13px; font-weight:600; }
+.pdc-chip-meth{ font-size:9.5px; letter-spacing:.07em; text-transform:uppercase; opacity:.7; }
+.pdc-chip:active,.pdc-chip:hover{ background:var(--brick); color:var(--on-accent); }
+.pdc-group{ margin-bottom:18px; } .pdc-group:last-child{ margin-bottom:0; }
+.pdc-glabel{ font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); font-weight:600; margin-bottom:10px; }
+.pdc-glabel-note{ letter-spacing:0; text-transform:none; font-weight:400; font-style:italic; }
+.pdc-seg-ctl{ display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.pdc-seg-btn{ font:inherit; font-size:14px; padding:11px 10px; cursor:pointer; background:var(--paper); color:var(--muted); border:1px solid var(--line); border-radius:9px; }
+.pdc-seg-btn.on{ background:var(--basil); color:var(--on-accent); font-weight:600; border-color:var(--basil); }
+.pdc-method-hint{ font-size:12.5px; color:var(--muted); font-style:italic; margin-top:8px; line-height:1.4; }
+.pdc-howto{ margin-top:12px; border:1px solid var(--line); border-radius:10px; background:var(--paper); padding:0 13px; }
+.pdc-howto summary{ cursor:pointer; padding:11px 0; font-size:13.5px; font-weight:600; color:var(--brick); list-style:none; }
+.pdc-howto summary::-webkit-details-marker{ display:none; }
+.pdc-howto summary::before{ content:"\203A"; display:inline-block; margin-right:8px; transition:transform .15s; }
+.pdc-howto[open] summary::before{ transform:rotate(90deg); }
+.pdc-howto-intro{ font-size:13px; color:var(--muted); margin:0 0 10px; line-height:1.5; }
+.pdc-howto ol{ margin:0 0 12px; padding-left:20px; }
+.pdc-howto li{ font-size:13px; margin-bottom:7px; line-height:1.5; }
+.pdc-howto li strong{ color:var(--ink); }
+.pdc-howto-keep{ font-size:12.5px; color:var(--muted); border-top:1px solid var(--line); padding:10px 0 12px; line-height:1.5; }
+.pdc-sched-head{ display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+.pdc-sched-head span:first-child{ grid-column:1 / -1; }
+.pdc-stagerow{ margin-bottom:12px; }
+.pdc-stagerow-top{ display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px; }
+.pdc-stagerow-label{ font-size:13px; }
+.pdc-fridge{ font:inherit; font-size:11px; padding:5px 9px; border-radius:999px; border:1px solid var(--line); background:var(--paper); color:var(--muted); cursor:pointer; white-space:nowrap; }
+.pdc-fridge.on{ border-color:var(--basil); color:var(--basil); font-weight:600; background:rgba(92,114,52,0.08); }
+.pdc-sr-row{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.pdc-sr-cell{ position:relative; }
+.pdc-sr{ padding-right:34px; }
+.pdc-sr-unit{ position:absolute; right:11px; top:50%; transform:translateY(-50%); font-size:11px; color:var(--muted); pointer-events:none; }
+.pdc-sched-yeast{ font-size:12.5px; color:var(--muted); margin-top:12px; line-height:1.5; }
+.pdc-sched-yeast strong{ color:var(--ink); }
+.pdc-apply-sm{ font:inherit; font-size:12px; padding:4px 11px; border-radius:7px; border:1px solid var(--basil); background:var(--basil); color:var(--on-accent); cursor:pointer; margin-left:4px; }
+.pdc-row2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+.pdc-row2:last-child{ margin-bottom:0; }
+.pdc-field{ display:flex; flex-direction:column; gap:5px; }
+.pdc-flabel{ font-size:13px; }
+.pdc-flabel-row{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.pdc-unit{ font:inherit; font-size:11px; line-height:1; padding:3px 8px; border-radius:999px; cursor:pointer; background:var(--paper); color:var(--muted); border:1px solid var(--line); }
+.pdc-unit:active,.pdc-unit:hover{ border-color:var(--brick); color:var(--brick); }
+.pdc-unit-on{ border-color:var(--basil); color:var(--basil); font-weight:600; background:rgba(92,114,52,0.08); }
+.pdc-input{ font:inherit; font-size:16px; padding:10px 11px; border-radius:9px; border:1px solid var(--line); background:var(--paper); color:var(--ink); width:100%; -webkit-appearance:none; appearance:none; }
+.pdc-input:focus{ outline:2px solid var(--brick); outline-offset:1px; border-color:var(--brick); }
+.pdc-input[readonly]{ background:rgba(92,114,52,0.06); color:var(--basil); font-weight:600; }
+.pdc-input:disabled{ opacity:.5; }
+.pdc-cups-warn{ font-size:11.5px; color:var(--brick-deep); font-style:italic; line-height:1.4; margin-top:2px; }
+.pdc-mode{ font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--brick); font-weight:600; margin-bottom:14px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:baseline; }
+.pdc-mode-time{ letter-spacing:.04em; color:var(--muted); font-weight:400; text-transform:none; font-style:italic; }
+.pdc-results-head{ display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; }
+.pdc-rh-title{ font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--brick); font-weight:600; }
+.pdc-start{ display:flex; align-items:center; gap:7px; font-size:12px; color:var(--muted); }
+.pdc-start input{ font:inherit; font-size:14px; padding:6px 9px; border-radius:8px; border:1px solid var(--line); background:var(--paper); color:var(--ink); }
+.pdc-totals{ display:flex; align-items:baseline; gap:26px; flex-wrap:wrap; margin-bottom:20px; }
+.pdc-tnum{ font-family:Georgia,serif; font-size:clamp(34px,6vw,56px); line-height:1; color:var(--brick); font-weight:700; }
+.pdc-tnum2{ font-family:Georgia,serif; font-size:clamp(24px,4vw,34px); line-height:1; font-weight:700; }
+.pdc-tunit{ font-size:.5em; color:var(--muted); margin-left:4px; font-weight:400; }
+.pdc-tlabel{ font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-top:6px; }
+.pdc-bar{ display:flex; height:30px; border-radius:7px; overflow:hidden; border:1px solid var(--line); margin-bottom:22px; background:var(--paper); box-shadow:inset 0 1px 2px rgba(0,0,0,.04); }
+.pdc-seg{ height:100%; min-width:0; }
+.pdc-steps{ list-style:none; margin:0; padding:0; position:relative; }
+.pdc-step{ display:grid; grid-template-columns:auto 1fr; gap:15px; padding:16px 0; border-bottom:none; position:relative; }
+.pdc-step:first-child{ padding-top:0; }
+.pdc-step:last-child{ border-bottom:none; padding-bottom:0; }
+.pdc-step-left{ display:flex; flex-direction:column; align-items:center; gap:5px; min-width:52px; }
+.pdc-step-n{ width:28px; height:28px; border-radius:999px; background:var(--brick-deep); color:var(--on-accent); font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; position:relative; z-index:1; box-shadow:0 0 0 4px var(--paper); }
+.pdc-step-time{ font-size:11px; font-weight:700; color:var(--ink); white-space:nowrap; }
+.pdc-step-elapsed{ font-size:10px; color:var(--muted); white-space:nowrap; }
+.pdc-step::before{ content:""; position:absolute; left:25px; top:0; bottom:0; width:2px; background:var(--line); z-index:0; }
+.pdc-step:first-child::before{ top:14px; }
+.pdc-step:last-child::before{ top:0; height:30px; bottom:auto; }
+.pdc-step-title{ font-family:Georgia,serif; font-size:16px; font-weight:700; color:var(--ink); line-height:1.2; }
+.pdc-step-detail{ font-size:13px; color:var(--muted); line-height:1.45; margin-top:3px; }
+.pdc-salt-note{ margin-top:18px; font-size:12px; color:var(--muted); font-style:italic; line-height:1.5; }
+.pdc-actions{ margin-top:16px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.pdc-actions{ display:flex; gap:10px; flex-wrap:wrap; }
+.pdc-share{ font:inherit; font-size:14px; font-weight:600; padding:10px 16px; border-radius:9px; cursor:pointer; background:var(--brick-deep); color:var(--on-accent); border:1px solid var(--brick-deep); }
+.pdc-copy{ font:inherit; font-size:14px; padding:10px 16px; border-radius:9px; cursor:pointer; background:transparent; color:var(--brick-deep); border:1px solid var(--line); }
+.pdc-print{ font:inherit; font-size:14px; padding:10px 16px; border-radius:9px; cursor:pointer; background:transparent; color:var(--brick-deep); border:1px solid var(--line); }
+.pdc-remind{ margin-top:20px; padding-top:18px; border-top:1px solid var(--line); }
+.pdc-remind-title{ font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:600; margin-bottom:10px; }
+.pdc-remind-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+.pdc-cal{ font:inherit; font-size:14px; font-weight:600; padding:11px 16px; border-radius:9px; cursor:pointer; background:var(--brick); color:var(--on-accent); border:1px solid var(--brick); width:100%; }
+.pdc-remind-note{ font-size:11.5px; color:var(--muted); font-style:italic; line-height:1.45; margin-top:8px; }
+.pdc-foot{ max-width:1040px; margin:22px auto 0; font-size:12.5px; color:var(--muted); line-height:1.5; }
+@media (max-width:720px){ .pdc-grid{ grid-template-columns:1fr; } }
+@media print{
+  @page{ margin:15mm; }
+  html,body{ background:#fff !important; padding:0 !important; }
+  .pdc-settings, .pdc-head, .pdc-foot, .pdc-panel[aria-label="Controls"]{ display:none !important; }
+  .pdc-grid{ display:block !important; max-width:none !important; }
+  #results.pdc-panel{ border:none !important; background:#fff !important; padding:0 !important; box-shadow:none !important; }
+  #results .pdc-bar, #results .pdc-salt-note, #results .pdc-actions, #results .pdc-remind, #results .pdc-start{ display:none !important; }
+  *{ color:#1a1a1a !important; text-shadow:none !important; }
+  .pdc-results-head{ border-bottom:1.5px solid #2C6238; padding-bottom:8px; margin-bottom:14px; }
+  .pdc-rh-title, .pdc-mode, .pdc-tnum{ color:#2C6238 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .pdc-mode-time{ color:#555 !important; }
+  .pdc-tlabel, .pdc-step-elapsed{ color:#666 !important; }
+  .pdc-step{ break-inside:avoid; padding:11px 0 !important; }
+  .pdc-step-n{ background:#fff !important; color:#2C6238 !important; border:2px solid #2C6238 !important; box-shadow:none !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .pdc-step::before{ display:none !important; }
+  .pdc-step-title{ color:#111 !important; }
+  #results::after{ content:"Doughdominion \00B7 beheers je deeg \00B7 sander-hazewinkel.github.io/Doughdominion"; display:block; margin-top:18px; padding-top:8px; border-top:1px solid #ddd; font-size:10px; color:#999 !important; }
+}
+</style>
+</head>
+<body>
+<div class="pdc-settings">
+  <label class="pdc-set"><span data-i18n="settings_lang">Language</span>
+    <select id="langSel"></select></label>
+  <label class="pdc-set"><span data-i18n="settings_units">Units</span>
+    <select id="unitSel">
+      <option value="metric" data-i18n="unit_metric">Metric (g, &deg;C)</option>
+      <option value="imperial" data-i18n="unit_imperial">Imperial (oz, &deg;F)</option>
+      <option value="cups" data-i18n="unit_cups">US cups</option>
+    </select></label>
+  <label class="pdc-set"><span data-i18n="settings_theme">Theme</span>
+    <select id="themeSel">
+      <option value="auto" data-i18n="theme_auto">Auto</option>
+      <option value="light" data-i18n="theme_light">Light</option>
+      <option value="dark" data-i18n="theme_dark">Dark</option>
+    </select></label>
+  <label class="pdc-set"><span data-i18n="settings_intro">Intro</span>
+    <select id="introSel">
+      <option value="on" data-i18n="intro_on">On</option>
+      <option value="off" data-i18n="intro_off">Off</option>
+    </select></label>
+</div>
+
+<header class="pdc-head">
+  <svg class="pdc-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="18" stroke="var(--brick)" stroke-width="4" stroke-linecap="round" stroke-dasharray="98 16" transform="rotate(-32 24 24)"/></svg>
+  <h1 class="pdc-title">Dough<span class="pdc-accent">dominion</span></h1>
+  <p class="pdc-tagline" data-i18n="sub">Master your dough</p>
+  <p class="pdc-zen" data-i18n="eyebrow">bringing the zen into pizza making</p>
+  <p class="pdc-props" data-i18n="props">free · offline · no account · every method</p>
+</header>
+
+<div class="pdc-grid">
+  <section class="pdc-panel" aria-label="Controls">
+    <button type="button" class="pdc-quick" id="quickBtn">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="13" r="8" stroke="currentColor" stroke-width="2"/><path d="M12 9.5V13l2.5 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M9 3h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span data-i18n="quick_btn">Do I have time?</span>
+    </button>
+    <div class="pdc-quick-out" id="quickOut" hidden>
+      <div class="pdc-quick-lead" data-i18n="quick_lead">Fastest possible pizza</div>
+      <div class="pdc-quick-big"><span data-i18n="quick_ready">Dough ready</span> <b id="quickTime">—</b></div>
+      <div class="pdc-quick-dur" data-i18n="quick_dur">Direct dough, warm rise — about 2 h 30 of dough time.</div>
+      <div class="pdc-quick-verdict" data-i18n="quick_verdict">Want pizza sooner? That's takeaway territory. Otherwise — you've got time. Start now.</div>
+      <button type="button" class="pdc-quick-build" id="quickBuild" data-i18n="quick_build">Build this plan →</button>
+      <div class="pdc-quick-fine" data-i18n="quick_fine">Honest minimum — real dough needs ~2 h. Then stretch &amp; bake.</div>
+    </div>
+    <div class="pdc-planner">
+      <div class="pdc-plan-title" data-i18n="plan_title">Plan it for me</div>
+      <div class="pdc-plan-desc" data-i18n="plan_desc">Give it your temperatures and time.</div>
+      <div class="pdc-seg-ctl" id="planModeCtl" style="margin-bottom:12px">
+        <button type="button" class="pdc-seg-btn on" id="pmHave" data-i18n="pm_have">I have time</button>
+        <button type="button" class="pdc-seg-btn" id="pmOven" data-i18n="pm_oven">In the oven at</button>
+      </div>
+      <div class="pdc-row2" id="rowHave">
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="time_to_oven">Time to oven (h)</span><input class="pdc-input" id="planHours" type="number" inputmode="decimal" min="0" step="0.5" value="6"></label>
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="start_time">Start time (now)</span><input class="pdc-input" id="planStart" type="time"></label>
+      </div>
+      <div class="pdc-row2" id="rowOven" style="display:none">
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="oven_time">In the oven at</span><input class="pdc-input" id="planOvenAt" type="time"></label>
+        <div class="pdc-field"></div>
+      </div>
+      <div class="pdc-row2">
+        <label class="pdc-field"><span class="pdc-flabel" id="lbl_planTemp">Room temp</span><input class="pdc-input" id="planTemp" type="number" inputmode="decimal" step="1" value="20"></label>
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="warm_spot">Warm proofing spot</span>
+          <select class="pdc-input" id="planWarm"><option value="room" data-i18n="spot_room">Room temperature</option><option value="oven" data-i18n="spot_oven">Oven, light on</option></select>
+        </label>
+      </div>
+      <div class="pdc-row2">
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="fridge_available">Fridge available?</span>
+          <button type="button" class="pdc-toggle2 on" id="planFridge" aria-pressed="true" data-i18n="yes">Yes</button>
+        </label>
+        <label class="pdc-field"><span class="pdc-flabel" id="lbl_planFridgeTemp">Fridge temp</span><input class="pdc-input" id="planFridgeTemp" type="number" inputmode="decimal" step="1" value="4"></label>
+      </div>
+      <div class="pdc-row2">
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="flour_have">Flour you have (g)</span><input class="pdc-input" id="planFlour" type="number" inputmode="decimal" min="0" step="50" value="600"></label>
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="pizza_size">Pizza size</span>
+          <select class="pdc-input" id="planSize"><option value="230" data-i18n="size_small">Small</option><option value="270" selected data-i18n="size_medium">Medium</option><option value="320" data-i18n="size_large">Large</option></select>
+        </label>
+      </div>
+      <div class="pdc-row2">
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="flour_strength">Flour strength</span>
+          <select class="pdc-input" id="planStrength"><option value="strong" data-i18n="str_strong">Strong (00 / bread)</option><option value="plain" data-i18n="str_plain">All-purpose</option><option value="unsure" selected data-i18n="str_unsure">Not sure</option></select>
+        </label>
+        <div class="pdc-field"></div>
+      </div>
+      <div class="pdc-row2" id="rowStarter" style="display:none">
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="starter_strength">Starter strength</span>
+          <select class="pdc-input" id="planStarter"><option value="young" data-i18n="starter_young">Young / just fed</option><option value="active" selected data-i18n="starter_active">Active / peaking</option><option value="ripe" data-i18n="starter_ripe">Ripe / mature</option></select>
+        </label>
+        <div class="pdc-field"></div>
+      </div>
+
+      <button type="button" class="pdc-plan-go" id="planGo" data-i18n="build_plan">Build my plan</button>
+      <div class="pdc-plan-notes" id="planNotes"></div>
+    </div>
+
+    <div class="pdc-plan-divider" data-i18n="or_by_hand">or set it by hand</div>
+
+    <div class="pdc-glabel" data-i18n="style_label">Style</div>
+    <div class="pdc-presets" id="presets"></div>
+
+    <div class="pdc-group">
+      <div class="pdc-glabel" data-i18n="method">Method</div>
+      <div class="pdc-seg-ctl" role="group">
+        <button type="button" class="pdc-seg-btn on" id="mPoolish" data-i18n="poolish">Poolish</button>
+        <button type="button" class="pdc-seg-btn" id="mBiga" data-i18n="biga">Biga</button>
+        <button type="button" class="pdc-seg-btn" id="mSour" data-i18n="sourdough">Sourdough</button>
+        <button type="button" class="pdc-seg-btn" id="mTrad" data-i18n="traditional">Traditional</button>
+      </div>
+      <div class="pdc-method-hint" id="methodHint"></div>
+      <details class="pdc-howto" id="starterHowto" style="display:none"><summary id="howtoSummary"></summary><div id="howtoBody"></div></details>
+    </div>
+
+    <div class="pdc-group">
+      <div class="pdc-glabel"><span data-i18n="schedule">Schedule</span> <span class="pdc-glabel-note" data-i18n="schedule_note">time &amp; temperature per stage</span></div>
+      <div class="pdc-sched-head"><span data-i18n="stage">Stage</span><span data-i18n="hours">hours</span><span id="hdr_temp">&deg;C</span></div>
+      <div id="schedule"></div>
+      <div class="pdc-sched-yeast" id="schedYeast"></div>
+    </div>
+
+    <div class="pdc-group">
+      <div class="pdc-glabel" data-i18n="batch">Batch</div>
+      <div class="pdc-row2">
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="balls">Dough balls</span><input class="pdc-input" id="balls" type="number" inputmode="numeric" min="1" step="1" value="6"></label>
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="weight_each">Weight each (g)</span><input class="pdc-input" id="ballWeight" type="number" inputmode="decimal" min="0" step="5" value="280"></label>
+      </div>
+    </div>
+
+    <div class="pdc-group">
+      <div class="pdc-glabel"><span data-i18n="ratios">Ratios</span> <span class="pdc-glabel-note" data-i18n="ratios_note">% of flour</span></div>
+      <div class="pdc-row2">
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="hydration">Hydration %</span><input class="pdc-input" id="hydration" type="number" inputmode="decimal" min="0" step="1" value="70"></label>
+        <label class="pdc-field"><span class="pdc-flabel pdc-flabel-row"><span data-i18n="salt">Salt</span><button type="button" class="pdc-unit" id="saltUnitBtn">%</button></span><input class="pdc-input" id="salt" type="number" inputmode="decimal" min="0" step="0.1" value="3"></label>
+      </div>
+      <div class="pdc-row2" id="rowYeast">
+        <label class="pdc-field"><span class="pdc-flabel pdc-flabel-row"><span data-i18n="yeast">Yeast %</span><button type="button" class="pdc-unit pdc-unit-on" id="yeastAuto" data-i18n="auto">Auto</button></span><input class="pdc-input" id="yeast" type="number" inputmode="decimal" min="0" step="0.05" value="0.5" readonly></label>
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="yeast_type">Yeast type</span>
+          <select class="pdc-input" id="yeastType"><option value="instant" data-i18n="type_instant">Instant dry</option><option value="active" data-i18n="type_active">Active dry</option><option value="fresh" data-i18n="type_fresh">Fresh / cake</option></select>
+        </label>
+      </div>
+      <div class="pdc-row2" id="rowLevain" style="display:none">
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="levain_pct">Levain %</span><input class="pdc-input" id="levainPct" type="number" inputmode="decimal" min="0" step="1" value="20"></label>
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="levain_hyd">Levain hydration %</span><input class="pdc-input" id="levainHyd" type="number" inputmode="decimal" min="0" step="5" value="100"></label>
+      </div>
+      <div class="pdc-row2">
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="oil">Oil %</span><input class="pdc-input" id="oil" type="number" inputmode="decimal" min="0" step="0.5" value="1"></label>
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="honey">Honey %</span><input class="pdc-input" id="honey" type="number" inputmode="decimal" min="0" step="0.1" value="0.5"></label>
+      </div>
+      <div class="pdc-row2">
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="sugar">Sugar %</span><input class="pdc-input" id="sugar" type="number" inputmode="decimal" min="0" step="0.5" value="0"></label>
+        <div class="pdc-field"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pdc-panel" id="results" aria-label="Plan">
+    <div class="pdc-results-head"><div class="pdc-rh-title" data-i18n="timed_plan">Timed plan</div><label class="pdc-start"><span data-i18n="start">Start</span> <input type="time" id="startTime"></label></div>
+    <div id="resultsBody"></div>
+  </section>
+</div>
+
+<footer class="pdc-foot" id="foot"></footer>
+
+<script>
+/* ---------- i18n dictionaries (English + Dutch complete; more languages drop in here) ---------- */
+var I18N = {
+ en: {
+  _name:"English",
+  settings_lang:"Language", settings_units:"Units",
+  unit_metric:"Metric (g, \u00B0C)", unit_imperial:"Imperial (oz, \u00B0F)", unit_cups:"US cups",
+  cups_warning:"Cups are approximate \u2014 flour especially varies a lot by how it\u2019s scooped. Weigh in grams for a consistent dough.",
+  eyebrow:"bringing the zen into pizza making",
+  sub:"Master your dough",
+  plan_title:"Plan it for me",
+  plan_desc:"Give it your real temperatures and time. It picks the method, works the yeast from those temperatures, sizes the batch, and builds the timed plan.",
+  time_to_oven:"Time to oven (h)", start_time:"Start time (now)",
+  room_temp:"Room temp", warm_spot:"Warm proofing spot", spot_room:"Room temperature", spot_oven:"Oven, light on",
+  fridge_available:"Fridge available?", yes:"Yes", no:"No", fridge_temp:"Fridge temp",
+  flour_have:"Flour you have (g)", pizza_size:"Pizza size", size_small:"Small", size_medium:"Medium", size_large:"Large",
+  flour_strength:"Flour strength", str_strong:"Strong (00 / bread)", str_plain:"All-purpose / plain", str_unsure:"Not sure",
+  build_plan:"Build my plan \u2192", or_by_hand:"\u2014 or set it by hand \u2014",
+  method:"Method", poolish:"Poolish", traditional:"Traditional",
+  hint_poolish:"Overnight pre-ferment \u2014 less yeast, deeper flavour, more open crumb.",
+  hint_trad:"One straight mix \u2014 more yeast, faster, milder flavour.",
+  schedule:"Schedule", schedule_note:"time & temperature per stage", stage:"Stage", hours:"hours",
+  fridge:"\u2744 Fridge", room:"Room",
+  sched_auto:"Yeast is set automatically from this schedule: {pct} instant. Change any time or temperature and it recalculates.",
+  sched_manual:"This schedule suggests \u2248 {pct} instant.", apply:"Apply",
+  auto:"Auto", manual:"Manual",
+  st_pwarm:"Poolish \u2014 warm rest", st_pcold:"Poolish \u2014 cold", st_dough:"Dough bulk", st_proof:"Final proof", st_bulk:"Bulk rise",
+  batch:"Batch", balls:"Dough balls", weight_each:"Weight each (g)",
+  ratios:"Ratios", ratios_note:"% of flour", hydration:"Hydration %", salt:"Salt", yeast:"Yeast %",
+  yeast_type:"Yeast type", type_instant:"Instant dry", type_active:"Active dry", type_fresh:"Fresh / cake",
+  oil:"Oil %", honey:"Honey %", sugar:"Sugar %",
+  timed_plan:"Timed plan", start:"Start",
+  mode_poolish:"Poolish method", mode_trad:"Traditional method", mode_time:"\u2248 {h} start to bake",
+  flour:"flour", total_dough:"total dough", copy:"Copy plan", copied:"Copied", share:"Share", print:"Print",
+  yl_instant:"instant dry", yl_active:"active dry", yl_fresh:"fresh",
+  s_make_poolish:"Make the poolish", s_make_poolish_d:"Combine {flour} flour, {water} water, {yeast} {yl} yeast{honey}. Stir to a batter and cover.",
+  s_warm_rest:"Warm rest \u2014 {dur} at {temp}", s_warm_rest_d:"Leave at room temperature until bubbly and domed.",
+  s_cold:"Cold ferment \u2014 {dur} at {temp}", s_cold_d_fridge:"Into the fridge.", s_cold_d_room:"Hold at a cool room temperature.",
+  s_mix_final:"Mix the final dough", s_mix_final_d:"Add {flour} flour, {water} water, {salt} salt{oil} to the {pre}. Knead ~10 min until smooth.",
+  s_bulk_ferment:"Bulk ferment \u2014 {dur} at {temp}", s_bulk_d_fridge:"Bulk in the fridge.", s_bulk_d_room:"Bulk at room temperature.",
+  s_divide:"Divide & ball", s_divide_d:"Cut into {n} pieces of {w} and round into tight balls.",
+  s_final_proof:"Final proof \u2014 {dur} at {temp}", s_proof_d_fridge:"Proof in the fridge, then bring to room temp before baking.", s_proof_d_room:"Until relaxed and puffy.",
+  s_shape:"Shape & bake", s_shape_d:"Stretch each ball by hand and bake as hot as the oven goes.",
+  s_mix_knead:"Mix & knead", s_mix_knead_d:"Combine {flour} flour, {water} water, {salt} salt, {yeast} {yl} yeast{extra}. Knead until smooth.",
+  s_bulk_rise:"Bulk rise \u2014 {dur} at {temp}", s_bulk_rise_d_fridge:"Bulk in the fridge.", s_bulk_rise_d_room:"At room temperature until about half again in size.",
+  s_divide2_d:"Cut into {n} pieces of {w} and round.", s_shape2_d:"Stretch and bake hot.",
+  salt_note:"Salt {saltP} = {gkg} g/kg flour \u2192 {saltG}. Yeast {yeastP} \u2192 {yeastG} {yl}.",
+  reminders:"Reminders", alarm_lead:"Alarm lead time",
+  lead_0:"At the step time", lead_5:"5 min before", lead_10:"10 min before", lead_15:"15 min before", lead_30:"30 min before",
+  which_steps:"Which steps", steps_every:"Every step", steps_active:"Active only (skip waiting)", steps_big:"Big handoffs only",
+  add_calendar:"Add to calendar (with alarms)", no_steps_match:"No steps match that choice.",
+  remind_note:"Adds one alarmed event per chosen step to your calendar, anchored to your start time. Re-add if you change the plan.",
+  footer:"Every stage carries its own time and temperature, and the yeast follows them automatically: a fridge hour counts for a fraction of a warm one. The planner uses your real fridge and room temperatures (or the oven-light warm spot) the same way. A calibrated starting point, not a guarantee \u2014 flour strength and your actual dough temperature still shift it, so judge by eye and treat the clock as a guide."
+ },
+ nl: {
+  _name:"Nederlands",
+  settings_lang:"Taal", settings_units:"Eenheden",
+  unit_metric:"Metrisch (g, \u00B0C)", unit_imperial:"Imperiaal (oz, \u00B0F)", unit_cups:"US cups",
+  cups_warning:"Cups zijn bij benadering \u2014 zeker bloem verschilt sterk per schep. Weeg in grammen voor een consistent deeg.",
+  eyebrow:"breng zen in het pizza maken",
+  sub:"Beheers je deeg",
+  plan_title:"Plan het voor mij",
+  plan_desc:"Geef je echte temperaturen en tijd. Het kiest de methode, berekent de gist op basis van die temperaturen, bepaalt de hoeveelheid en bouwt het getimede plan.",
+  time_to_oven:"Tijd tot oven (u)", start_time:"Starttijd (nu)",
+  room_temp:"Kamertemp.", warm_spot:"Warme rijsplek", spot_room:"Kamertemperatuur", spot_oven:"Oven, lampje aan",
+  fridge_available:"Koelkast beschikbaar?", yes:"Ja", no:"Nee", fridge_temp:"Koelkasttemp.",
+  flour_have:"Bloem die je hebt (g)", pizza_size:"Pizzagrootte", size_small:"Klein", size_medium:"Middel", size_large:"Groot",
+  flour_strength:"Bloemsterkte", str_strong:"Sterk (00 / brood)", str_plain:"Patent / gewoon", str_unsure:"Weet niet",
+  build_plan:"Bouw mijn plan \u2192", or_by_hand:"\u2014 of stel het zelf in \u2014",
+  method:"Methode", poolish:"Poolish", traditional:"Traditioneel",
+  hint_poolish:"Voordeeg dat een nacht rijst \u2014 minder gist, meer smaak, luchtiger kruim.",
+  hint_trad:"\u00C9\u00E9n directe mix \u2014 meer gist, sneller, mildere smaak.",
+  schedule:"Schema", schedule_note:"tijd & temperatuur per fase", stage:"Fase", hours:"uren",
+  fridge:"\u2744 Koelkast", room:"Kamer",
+  sched_auto:"De gist wordt automatisch uit dit schema bepaald: {pct} instant. Wijzig een tijd of temperatuur en het herberekent.",
+  sched_manual:"Dit schema suggereert \u2248 {pct} instant.", apply:"Toepassen",
+  auto:"Auto", manual:"Handmatig",
+  st_pwarm:"Poolish \u2014 warme rust", st_pcold:"Poolish \u2014 koud", st_dough:"Deeg bulkrijs", st_proof:"Narijs", st_bulk:"Bulkrijs",
+  batch:"Hoeveelheid", balls:"Deegballen", weight_each:"Gewicht per stuk (g)",
+  ratios:"Verhoudingen", ratios_note:"% van bloem", hydration:"Hydratatie %", salt:"Zout", yeast:"Gist %",
+  yeast_type:"Gistsoort", type_instant:"Instant droog", type_active:"Actief droog", type_fresh:"Vers / blok",
+  oil:"Olie %", honey:"Honing %", sugar:"Suiker %",
+  timed_plan:"Getimed plan", start:"Start",
+  mode_poolish:"Poolish-methode", mode_trad:"Traditionele methode", mode_time:"\u2248 {h} tot bakken",
+  flour:"bloem", total_dough:"totaal deeg", copy:"Plan kopi\u00EBren", share:"Delen", copied:"Gekopieerd", print:"Afdrukken",
+  yl_instant:"instant droge", yl_active:"actief droge", yl_fresh:"verse",
+  s_make_poolish:"Maak de poolish", s_make_poolish_d:"Meng {flour} bloem, {water} water, {yeast} {yl} gist{honey}. Roer tot een beslag en dek af.",
+  s_warm_rest:"Warme rust \u2014 {dur} bij {temp}", s_warm_rest_d:"Laat op kamertemperatuur staan tot bubbelig en bol.",
+  s_cold:"Koude rijs \u2014 {dur} bij {temp}", s_cold_d_fridge:"De koelkast in.", s_cold_d_room:"Houd op een koele kamertemperatuur.",
+  s_mix_final:"Meng het uiteindelijke deeg", s_mix_final_d:"Voeg {flour} bloem, {water} water, {salt} zout{oil} toe aan de {pre}. Kneed ~10 min tot glad.",
+  s_bulk_ferment:"Bulkrijs \u2014 {dur} bij {temp}", s_bulk_d_fridge:"Bulkrijs in de koelkast.", s_bulk_d_room:"Bulkrijs op kamertemperatuur.",
+  s_divide:"Verdelen & bollen", s_divide_d:"Verdeel in {n} stukken van {w} en draai tot strakke bollen.",
+  s_final_proof:"Narijs \u2014 {dur} bij {temp}", s_proof_d_fridge:"Narijzen in de koelkast, breng daarna op kamertemperatuur voor het bakken.", s_proof_d_room:"Tot ontspannen en gerezen.",
+  s_shape:"Vormen & bakken", s_shape_d:"Trek elke bol met de hand uit en bak zo heet als de oven kan.",
+  s_mix_knead:"Mengen & kneden", s_mix_knead_d:"Meng {flour} bloem, {water} water, {salt} zout, {yeast} {yl} gist{extra}. Kneed tot glad.",
+  s_bulk_rise:"Bulkrijs \u2014 {dur} bij {temp}", s_bulk_rise_d_fridge:"Bulkrijs in de koelkast.", s_bulk_rise_d_room:"Op kamertemperatuur tot ongeveer anderhalf keer zo groot.",
+  s_divide2_d:"Verdeel in {n} stukken van {w} en bol op.", s_shape2_d:"Uittrekken en heet bakken.",
+  salt_note:"Zout {saltP} = {gkg} g/kg bloem \u2192 {saltG}. Gist {yeastP} \u2192 {yeastG} {yl}.",
+  reminders:"Herinneringen", alarm_lead:"Alarm vooraf",
+  lead_0:"Op de staptijd", lead_5:"5 min ervoor", lead_10:"10 min ervoor", lead_15:"15 min ervoor", lead_30:"30 min ervoor",
+  which_steps:"Welke stappen", steps_every:"Elke stap", steps_active:"Alleen actieve (wachten overslaan)", steps_big:"Alleen grote momenten",
+  add_calendar:"Aan agenda toevoegen (met alarm)", no_steps_match:"Geen stappen passen bij die keuze.",
+  remind_note:"Voegt \u00E9\u00E9n gealarmeerde afspraak per gekozen stap toe aan je agenda, verankerd aan je starttijd. Opnieuw toevoegen als je het plan wijzigt.",
+  footer:"Elke fase heeft zijn eigen tijd en temperatuur, en de gist volgt die automatisch: een koelkastuur telt voor een fractie van een warm uur. De planner gebruikt je echte koelkast- en kamertemperaturen (of de oven-lampje warme plek) op dezelfde manier. Een gekalibreerd startpunt, geen garantie \u2014 bloemsterkte en je werkelijke deegtemperatuur be\u00EFnvloeden het nog steeds, dus beoordeel op het oog en zie de klok als richtlijn."
+ }
+};
+var LANG_ORDER = ["en","nl"]; /* languages currently built; add codes here as translations land */
+
+/* ---------- state ---------- */
+var LANG="en", UNITS="metric", planMode="have", THEME="auto";
+var method="poolish", YEASTBY={poolish:"0.5",biga:"0.4",traditional:"0.7"}, autoYeast=true, saltUnit="pct", planFridge=true, startTime="", remLead="5", remMode="active";
+function defaultTiming(){ return { poolish:{pwarm:{h:"1",t:"20"},pcold:{h:"16",t:"4"},dough:{h:"2",t:"20"},proof:{h:"2",t:"20"}}, biga:{pwarm:{h:"1",t:"20"},pcold:{h:"16",t:"18"},dough:{h:"1",t:"20"},proof:{h:"2",t:"20"}}, sourdough:{levain:{h:"6",t:"22"},bulk:{h:"5",t:"22"},proof:{h:"3",t:"22"}}, traditional:{bulk:{h:"2",t:"22"},proof:{h:"3",t:"22"}} }; }
+var TIMING=defaultTiming();
+var PRESETS = {
+  "Contemporary": { balls:"6", ballWeight:"280", hydration:"70", salt:"3", yeast:"0.5", oil:"1", sugar:"0", honey:"0.5", method:"poolish" },
+  "Neapolitan": { balls:"4", ballWeight:"250", hydration:"62", salt:"2.8", yeast:"0.2", oil:"0", sugar:"0", honey:"0", method:"traditional" },
+  "New York": { balls:"4", ballWeight:"280", hydration:"63", salt:"2", yeast:"0.4", oil:"2", sugar:"1.5", honey:"0", method:"traditional" },
+  "Detroit / Pan": { balls:"2", ballWeight:"450", hydration:"70", salt:"2", yeast:"0.6", oil:"2", sugar:"0", honey:"0", method:"traditional" }
+};
+var YEAST_FACTOR = { instant:1, active:1.25, fresh:3 };
+var STAGE_DEFS = { poolish:[["pwarm","st_pwarm"],["pcold","st_pcold"],["dough","st_dough"],["proof","st_proof"]], biga:[["pwarm","st_bwarm"],["pcold","st_bcold"],["dough","st_dough"],["proof","st_proof"]], sourdough:[["levain","st_levain"],["bulk","st_sbulk"],["proof","st_proof"]], traditional:[["bulk","st_bulk"],["proof","st_proof"]] };
+var OVEN_LIGHT_T = 28;
+
+/* ---------- helpers ---------- */
+function num(v){ var x=parseFloat(v); return isFinite(x)?x:0; }
+function round(n,d){ d=d||0; var f=Math.pow(10,d); return Math.round(n*f)/f; }
+function roundHalf(n){ return Math.round(n*2)/2; }
+function clamp(n,lo,hi){ return Math.min(hi,Math.max(lo,n)); }
+function nf(n,d){ d=d||0; return round(n,d).toLocaleString(LANG==="nl"?"nl-NL":"en-US",{minimumFractionDigits:d,maximumFractionDigits:d}); }
+function two(n){ return (n<10?"0":"")+n; }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+function V(id){ var e=document.getElementById(id); return e?e.value:""; }
+function t(k){ var d=I18N[LANG]||I18N.en; return (d[k]!=null?d[k]:(I18N.en[k]!=null?I18N.en[k]:k)); }
+function tt(k,vars){ var s=t(k); if(vars){ for(var key in vars){ s=s.split("{"+key+"}").join(vars[key]); } } return s; }
+function tempIsF(){ return UNITS!=="metric"; }
+function cToDisp(c){ return tempIsF()? Math.round(c*9/5+32) : round(c,0); }
+function dispToC(v){ v=num(v); return tempIsF()? (v-32)*5/9 : v; }
+function fmtT(c){ return tempIsF()? Math.round(c*9/5+32)+"\u00B0F" : round(c,0)+"\u00B0C"; }
+/* weight formatting: grams internal -> display unit. ingredient governs cup/tsp choice */
+function fmtW(grams, ing){
+  if(UNITS==="imperial"){
+    var oz=grams/28.3495;
+    if(oz>=16) return nf(oz/16,2)+" lb";
+    return nf(oz, oz<1?2:1)+" oz";
+  }
+  if(UNITS==="cups"){
+    if(ing==="flour") return nf(grams/125,2)+" "+cupWord(grams/125);
+    if(ing==="water") return nf(grams/236.6,2)+" "+cupWord(grams/236.6);
+    var per = ing==="salt"?6 : ing==="yeast"?3 : ing==="oil"?4.5 : ing==="honey"?7 : ing==="sugar"?4.2 : 5;
+    var tsp=grams/per; return nf(tsp, tsp<1?2:1)+" tsp";
+  }
+  return nf(grams, grams<10?1:0)+" g";
+}
+function cupWord(n){ return LANG==="nl" ? (Math.abs(n-1)<0.001?"cup":"cups") : (Math.abs(n-1)<0.001?"cup":"cups"); }
+function fmtDur(h){ return round(h,1)+" "+(LANG==="nl"?"u":"h"); }
+function nowHM(){ var d=new Date(); return two(d.getHours())+":"+two(d.getMinutes()); }
+var WD_EN=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], WD_NL=["zo","ma","di","wo","do","vr","za"];
+function startBase(hhmm){ var p=(hhmm||"").split(":"); var d=new Date(); d.setSeconds(0,0); d.setHours(parseInt(p[0],10)||0, parseInt(p[1],10)||0); return d; }
+function clockLabel(hhmm,elapsedH){ if(!hhmm) return fmtElapsed(elapsedH); var base=startBase(hhmm), d=new Date(base.getTime()+elapsedH*3600000); var hm=two(d.getHours())+":"+two(d.getMinutes()); if(d.toDateString()===base.toDateString()) return hm; var wd=(LANG==="nl"?WD_NL:WD_EN)[d.getDay()]; return wd+" "+hm; }
+function fmtElapsed(h){ if(h<=0) return LANG==="nl"?"start":"start"; var w=Math.floor(h+1e-9), m=Math.round((h-w)*60); if(m===60){w+=1;m=0;} return "+"+w+"h"+(m?(" "+m+"m"):""); }
+function stageLeaven(h,tC){ return h>0 ? h*Math.pow(2,(tC-20)/10) : 0; }
+function dayLabel(d){ var n=new Date(); var a=new Date(n.getFullYear(),n.getMonth(),n.getDate()), b=new Date(d.getFullYear(),d.getMonth(),d.getDate()); var diff=Math.round((b-a)/86400000); if(diff===0) return t("today"); if(diff===1) return t("tomorrow"); return (LANG==="nl"?WD_NL:WD_EN)[d.getDay()]; }
+function saltPctVal(){ return saltUnit==="gkg" ? num(V("salt"))/10 : num(V("salt")); }
+function suggestFromSchedule(){ var lv=0; STAGE_DEFS[method].forEach(function(d){ var s=TIMING[method][d[0]]; lv+=stageLeaven(num(s.h),num(s.t)); }); return lv>0?clamp(2.4/lv,0.02,3):0; }
+function effYeast(){ return autoYeast ? round(suggestFromSchedule(),2) : num(YEASTBY[method]); }
+
+/* ---------- planner ---------- */
+function makePlan(hours,roomTemp,ovenLight,fridge,fridgeTemp,flourG,ballTarget,strength){
+  hours=Math.max(0,hours);
+  var warm = ovenLight ? OVEN_LIGHT_T : roomTemp, cold = fridgeTemp;
+  var hyd = strength==="strong"?70:strength==="plain"?62:65, salt=2.8, method_, stages={}, notes=[];
+  if(hours<8){
+    method_="traditional";
+    var pr=clamp(roundHalf(Math.min(2.5,hours*0.35)),0.5,Math.max(0.5,hours-0.5)), bk=Math.max(0.5,roundHalf(hours-pr));
+    stages={bulk:{h:bk,t:warm},proof:{h:pr,t:warm}};
+    notes.push(tt("pl_short",{h:round(hours,1)}));
+  } else if(fridge && hours>=12){
+    method_="poolish";
+    var rest=1, prf=2, ct=Math.max(0,hours-rest-prf), pc=roundHalf(ct*0.55), dc=roundHalf(Math.max(0,ct-pc));
+    stages={pwarm:{h:rest,t:warm},pcold:{h:pc,t:cold},dough:{h:dc,t:cold},proof:{h:prf,t:warm}};
+    notes.push(tt("pl_cold",{h:round(hours,1),c:round(cold)}));
+  } else {
+    method_="poolish";
+    var pf=clamp(roundHalf(hours*0.2),1,3), db=clamp(roundHalf(hours*0.25),1,4), pw=Math.max(1,roundHalf(hours-pf-db));
+    stages={pwarm:{h:pw,t:warm},pcold:{h:0,t:cold},dough:{h:db,t:warm},proof:{h:pf,t:warm}};
+    notes.push(fridge ? tt("pl_warm_fridge",{w:round(warm)}) : tt("pl_warm_nofridge",{w:round(warm),pw:round(pw,1)}));
+  }
+  if(ovenLight) notes.push(tt("pl_oven",{t:OVEN_LIGHT_T}));
+  else if(roomTemp<18) notes.push(tt("pl_cool",{r:round(roomTemp),t:OVEN_LIGHT_T}));
+  var leaven=Object.keys(stages).reduce(function(a,k){ return a+stageLeaven(stages[k].h,stages[k].t); },0);
+  var yeast=leaven>0?clamp(2.4/leaven,0.02,3):0.3;
+  if(!fridge && warm>=26 && hours>8) notes.push(t("pl_overproof"));
+  if(strength==="plain" && (hours>24 || hyd>=68)) notes.push(t("pl_weak"));
+  var totalDough=flourG*(1+hyd/100+salt/100), n=Math.max(1,Math.round(totalDough/ballTarget)), bw=Math.max(1,Math.round(totalDough/n));
+  notes.push(tt("pl_batch",{flour:fmtW(flourG,"flour"),n:n,w:fmtW(bw,"flour"),hyd:hyd}));
+  return { method:method_, hyd:hyd, salt:salt, yeast:round(yeast,2), stages:stages, balls:n, ballWeight:bw, notes:notes };
+}
+/* planner note templates live in I18N too (added below at runtime for en/nl) */
+I18N.en.pl_short="{h} h is too short for a poolish \u2014 the pre-ferment alone wants 8 h or more \u2014 so a straight (direct) dough is the move.";
+I18N.en.pl_cold="{h} h with a fridge at {c}\u00B0C: a poolish with a long cold ferment gives the best flavour and the most forgiving timing.";
+I18N.en.pl_warm_fridge="Under 12 h a warm poolish beats a cold one, so this runs at {w}\u00B0C \u2014 no fridge needed.";
+I18N.en.pl_warm_nofridge="No fridge, so it all runs warm ({w}\u00B0C): a {pw} h poolish, then dough, then proof.";
+I18N.en.pl_oven="Warm stages are set to ~{t}\u00B0C \u2014 the oven with only its light on. Leave a note on the door so nobody preheats it.";
+I18N.en.pl_cool="Your room is cool ({r}\u00B0C), which slows the rise. Proofing in the oven with just the light on holds ~{t}\u00B0C and makes the timing far more predictable.";
+I18N.en.pl_overproof="Warm and no fridge with this much time \u2014 the dough can overproof, so watch it and bake early if it balloons.";
+I18N.en.pl_weak="On all-purpose flour, keep it shorter and cooler; a very long or very wet dough can go slack.";
+I18N.en.pl_batch="{flour} flour \u2192 {n} \u00D7 {w} balls at {hyd}% hydration.";
+I18N.nl.pl_short="{h} u is te kort voor een poolish \u2014 alleen het voordeeg wil al 8 u of meer \u2014 dus een direct deeg is de juiste keuze.";
+I18N.nl.pl_cold="{h} u met een koelkast op {c}\u00B0C: een poolish met een lange koude rijs geeft de beste smaak en de meest vergevingsgezinde timing.";
+I18N.nl.pl_warm_fridge="Onder 12 u wint een warme poolish van een koude, dus dit loopt op {w}\u00B0C \u2014 geen koelkast nodig.";
+I18N.nl.pl_warm_nofridge="Geen koelkast, dus alles loopt warm ({w}\u00B0C): een poolish van {pw} u, dan deeg, dan narijs.";
+I18N.nl.pl_oven="Warme fasen staan op ~{t}\u00B0C \u2014 de oven met alleen het lampje aan. Leg een briefje op de deur zodat niemand voorverwarmt.";
+I18N.nl.pl_cool="Je kamer is koel ({r}\u00B0C), wat de rijs vertraagt. Rijzen in de oven met alleen het lampje aan houdt ~{t}\u00B0C en maakt de timing veel voorspelbaarder.";
+I18N.nl.pl_overproof="Warm en geen koelkast met zoveel tijd \u2014 het deeg kan overrijzen, dus houd het in de gaten en bak eerder als het opbolt.";
+I18N.nl.pl_weak="Bij patentbloem: houd het korter en koeler; een heel lange of natte rijs kan slap worden.";
+I18N.nl.pl_batch="{flour} bloem \u2192 {n} \u00D7 {w} ballen bij {hyd}% hydratatie.";
+I18N.en.biga="Biga"; I18N.nl.biga="Biga";
+I18N.en.mode_biga="Biga method"; I18N.nl.mode_biga="Biga-methode";
+I18N.en.hint_biga="Stiff overnight pre-ferment \u2014 structure and chew, a bit less open than poolish."; I18N.nl.hint_biga="Stijf voordeeg dat een nacht rijst \u2014 structuur en beet, iets minder open dan poolish.";
+I18N.en.st_bwarm="Biga \u2014 warm rest"; I18N.nl.st_bwarm="Biga \u2014 warme rust";
+I18N.en.st_bcold="Biga \u2014 cool/cold"; I18N.nl.st_bcold="Biga \u2014 koel/koud";
+I18N.en.s_make_biga="Make the biga"; I18N.nl.s_make_biga="Maak de biga";
+I18N.en.s_make_biga_d="Mix {flour} flour, {water} water, {yeast} {yl} yeast{honey} into a stiff, shaggy dough. Cover."; I18N.nl.s_make_biga_d="Meng {flour} bloem, {water} water, {yeast} {yl} gist{honey} tot een stijf, rafelig deeg. Dek af.";
+I18N.en.ing_honey="honey"; I18N.nl.ing_honey="honing";
+I18N.en.ing_oil="oil"; I18N.nl.ing_oil="olie";
+I18N.en.ing_sugar="sugar"; I18N.nl.ing_sugar="suiker";
+I18N.en.pre_poolish="poolish"; I18N.nl.pre_poolish="poolish";
+I18N.en.pre_biga="biga"; I18N.nl.pre_biga="biga";
+I18N.en.sourdough="Sourdough"; I18N.nl.sourdough="Zuurdesem";
+I18N.en.mode_sour="Sourdough method"; I18N.nl.mode_sour="Zuurdesem-methode";
+I18N.en.hint_sour="Wild-yeast levain \u2014 tangy, slow, rise-led. Needs an active starter."; I18N.nl.hint_sour="Wilde gist (desem) \u2014 zuurder, trager, op de rijs gestuurd. Vereist een actief desem.";
+I18N.en.levain_pct="Levain %"; I18N.nl.levain_pct="Levain %";
+I18N.en.levain_hyd="Levain hydration %"; I18N.nl.levain_hyd="Levain hydratatie %";
+I18N.en.st_levain="Levain"; I18N.nl.st_levain="Levain";
+I18N.en.st_sbulk="Bulk (folds)"; I18N.nl.st_sbulk="Bulk (vouwen)";
+I18N.en.s_build_levain="Build the levain"; I18N.nl.s_build_levain="Maak het levain";
+I18N.en.s_build_levain_d="Mix {flour} flour, {water} water and about {seed} of ripe, active starter. Cover."; I18N.nl.s_build_levain_d="Meng {flour} bloem, {water} water en ongeveer {seed} rijp, actief desem. Dek af.";
+I18N.en.s_levain_ripen="Levain ripen \u2014 {dur} at {temp}"; I18N.nl.s_levain_ripen="Levain rijpen \u2014 {dur} bij {temp}";
+I18N.en.s_levain_d="Leave until doubled, domed and bubbly (a spoonful floats in water)."; I18N.nl.s_levain_d="Laat tot verdubbeld, bol en bubbelig (een lepeltje drijft in water).";
+I18N.en.s_sour_mix="Mix the dough"; I18N.nl.s_sour_mix="Meng het deeg";
+I18N.en.s_sour_mix_d="Add {flour} flour, {water} water, {salt} salt{oil} to the ripe levain. Mix, then rest 30 min."; I18N.nl.s_sour_mix_d="Voeg {flour} bloem, {water} water, {salt} zout{oil} toe aan het rijpe levain. Meng en laat 30 min rusten.";
+I18N.en.s_sour_bulk="Bulk ferment \u2014 {dur} at {temp}"; I18N.nl.s_sour_bulk="Bulkrijs \u2014 {dur} bij {temp}";
+I18N.en.s_sour_bulk_d="Give 3\u20134 sets of stretch-and-folds in the first 2 h. Bulk until risen ~30\u201350% and airy."; I18N.nl.s_sour_bulk_d="Geef 3\u20134 keer stretch-and-folds in de eerste 2 u. Bulkrijs tot ~30\u201350% gerezen en luchtig.";
+I18N.en.s_sour_proof_d="Until puffy and jiggly; a gentle poke springs back slowly."; I18N.nl.s_sour_proof_d="Tot gerezen en verend; een lichte indruk veert langzaam terug.";
+I18N.en.sour_note="Sourdough timing depends on your starter\u2019s strength and the temperature \u2014 watch the rise, not just the clock."; I18N.nl.sour_note="Zuurdesemtiming hangt af van de kracht van je desem en de temperatuur \u2014 kijk naar de rijs, niet alleen de klok.";
+I18N.en.salt_note_sour="Salt {saltP} = {gkg} g/kg flour \u2192 {saltG}. Levain {levainP} of flour at {levainH} hydration \u2192 {levainG}."; I18N.nl.salt_note_sour="Zout {saltP} = {gkg} g/kg bloem \u2192 {saltG}. Levain {levainP} van de bloem op {levainH} hydratatie \u2192 {levainG}.";
+I18N.en.pm_have="I have time"; I18N.nl.pm_have="Ik heb tijd";
+I18N.en.pm_oven="In the oven at"; I18N.nl.pm_oven="In de oven om";
+I18N.en.oven_time="In the oven at"; I18N.nl.oven_time="In de oven om";
+I18N.en.today="today"; I18N.nl.today="vandaag";
+I18N.en.tomorrow="tomorrow"; I18N.nl.tomorrow="morgen";
+I18N.en.pl_startat="In the oven: {oven}. Start: {start}."; I18N.nl.pl_startat="In de oven: {oven}. Begin: {start}.";
+I18N.en.sourdough="Sourdough"; I18N.nl.sourdough="Zuurdesem";
+I18N.en.mode_sour="Sourdough method"; I18N.nl.mode_sour="Zuurdesem-methode";
+I18N.en.hint_sour="Wild-yeast levain — tangy, slow, rise-led. Needs an active starter."; I18N.nl.hint_sour="Wilde gist (desem) — zuurder, trager, op de rijs gestuurd. Vereist een actief desem.";
+I18N.en.st_levain="Levain"; I18N.nl.st_levain="Levain";
+I18N.en.st_sbulk="Bulk (folds)"; I18N.nl.st_sbulk="Bulk (vouwen)";
+I18N.en.levain_pct="Levain %"; I18N.nl.levain_pct="Levain %";
+I18N.en.levain_hyd="Levain hydration %"; I18N.nl.levain_hyd="Levain-hydratatie %";
+I18N.en.s_build_levain="Build the levain"; I18N.nl.s_build_levain="Maak de levain";
+I18N.en.s_build_levain_d="Mix {flour} flour, {water} water and about {seed} ripe starter. Cover."; I18N.nl.s_build_levain_d="Meng {flour} bloem, {water} water en ongeveer {seed} rijp desem. Dek af.";
+I18N.en.s_levain_ripen="Levain ripen — {dur} at {temp}"; I18N.nl.s_levain_ripen="Levain rijpen — {dur} bij {temp}";
+I18N.en.s_levain_d="Leave until doubled, domed and bubbly (it floats in water)."; I18N.nl.s_levain_d="Laat tot verdubbeld, bol en bubbelig (drijft in water).";
+I18N.en.s_sour_mix="Mix the dough"; I18N.nl.s_sour_mix="Meng het deeg";
+I18N.en.s_sour_mix_d="Add {flour} flour, {water} water, {salt} salt{oil} to the ripe levain. Mix, then rest 30 min."; I18N.nl.s_sour_mix_d="Voeg {flour} bloem, {water} water, {salt} zout{oil} toe aan de rijpe levain. Meng en laat 30 min rusten.";
+I18N.en.s_sour_bulk="Bulk ferment — {dur} at {temp}"; I18N.nl.s_sour_bulk="Bulkrijs — {dur} bij {temp}";
+I18N.en.s_sour_bulk_d="Give 3–4 stretch-and-folds in the first 2 h. Bulk until risen ~30–50% and airy."; I18N.nl.s_sour_bulk_d="Geef 3–4 keer stretch-and-folds in de eerste 2 u. Bulkrijs tot ~30–50% gerezen en luchtig.";
+I18N.en.s_sour_proof_d="Until puffy and jiggly; a gentle poke springs back slowly."; I18N.nl.s_sour_proof_d="Tot gerezen en verend; een lichte indruk veert langzaam terug.";
+I18N.en.sour_note="Sourdough timing depends on your starter and the temperature — watch the rise, not just the clock."; I18N.nl.sour_note="Zuurdesemtiming hangt af van je desem en de temperatuur — kijk naar de rijs, niet alleen de klok.";
+I18N.en.salt_note_sour="Salt {saltP} = {gkg} g/kg flour → {saltG}. Levain {levainP} at {levainH} hydration → {levainG}."; I18N.nl.salt_note_sour="Zout {saltP} = {gkg} g/kg bloem → {saltG}. Levain {levainP} op {levainH} hydratatie → {levainG}.";
+I18N.en.starter_strength="Starter strength"; I18N.nl.starter_strength="Kracht van je desem";
+I18N.en.starter_young="Young / just fed"; I18N.nl.starter_young="Jong / net gevoerd";
+I18N.en.starter_active="Active / peaking"; I18N.nl.starter_active="Actief / op piek";
+I18N.en.starter_ripe="Ripe / mature"; I18N.nl.starter_ripe="Rijp / volgroeid";
+I18N.en.pls_note1="Using {lp}% levain — more for a short day, less for a long, cool rise."; I18N.nl.pls_note1="{lp}% levain gekozen — meer voor een korte dag, minder voor een lange, koele rijs.";
+I18N.en.pls_cold="Long window: shaped balls cold-proof in the fridge."; I18N.nl.pls_cold="Lang venster: gevormde bollen koud narijzen in de koelkast.";
+I18N.en.pls_warm="Room-temperature proof — bake when the balls are puffy."; I18N.nl.pls_warm="Narijzen op kamertemperatuur — bak als de bollen gerezen zijn.";
+I18N.en.pls_watch="Rise-led: treat the times as a guide and watch the dough."; I18N.nl.pls_watch="Op de rijs gestuurd: gebruik de tijden als richtlijn en kijk naar het deeg.";
+I18N.en.pls_short_oven="This sourdough needs about {h} h — more than the time before your oven slot. Start now; earliest realistic oven time is {oven}."; I18N.nl.pls_short_oven="Dit zuurdesem heeft ongeveer {h} u nodig — meer dan de tijd tot je oventijd. Begin nu; vroegst haalbare oventijd is {oven}.";
+I18N.en.style_label="Style"; I18N.nl.style_label="Stijl";
+I18N.en.settings_theme="Theme"; I18N.nl.settings_theme="Thema";
+I18N.en.settings_intro="Intro"; I18N.nl.settings_intro="Intro";
+I18N.en.intro_on="On"; I18N.nl.intro_on="Aan";
+I18N.en.intro_off="Off"; I18N.nl.intro_off="Uit";
+I18N.en.theme_auto="Auto"; I18N.nl.theme_auto="Auto";
+I18N.en.theme_light="Light"; I18N.nl.theme_light="Licht";
+I18N.en.theme_dark="Dark"; I18N.nl.theme_dark="Donker";
+I18N.en.quick_btn="Do I have time?"; I18N.nl.quick_btn="Heb ik nog tijd?";
+I18N.en.quick_lead="Fastest possible pizza"; I18N.nl.quick_lead="Snelste pizza die kan";
+I18N.en.quick_ready="Dough ready"; I18N.nl.quick_ready="Deeg klaar";
+I18N.en.quick_dur="Direct dough, warm rise \u2014 about 2 h 30 of dough time."; I18N.nl.quick_dur="Direct deeg, warme rijs \u2014 ongeveer 2 u 30 aan deegtijd.";
+I18N.en.quick_verdict="Want pizza sooner? That\u2019s takeaway territory. Otherwise \u2014 you\u2019ve got time. Start now."; I18N.nl.quick_verdict="Sneller pizza willen? Dan is het bezorgen. Anders \u2014 je hebt tijd. Begin nu.";
+I18N.en.quick_build="Build this plan \u2192"; I18N.nl.quick_build="Bouw dit plan \u2192";
+I18N.en.quick_fine="Honest minimum \u2014 real dough needs ~2 h. Then stretch & bake."; I18N.nl.quick_fine="Eerlijk minimum \u2014 echt deeg heeft ~2 u nodig. Daarna uitrollen & bakken.";
+I18N.en.props="free \u00B7 offline \u00B7 no account \u00B7 every method"; I18N.nl.props="gratis \u00B7 offline \u00B7 geen account \u00B7 elke methode";
+I18N.en.plan_sig="Made with Doughdominion \u2014 plan your own dough, free & no account:\nhttps://sander-hazewinkel.github.io/Doughdominion/"; I18N.nl.plan_sig="Gemaakt met Doughdominion \u2014 plan gratis je eigen deeg, zonder account:\nhttps://sander-hazewinkel.github.io/Doughdominion/";
+I18N.en.pls_short_have="Heads up: this sourdough needs about {h} h, a bit more than the {avail} h you gave."; I18N.nl.pls_short_have="Let op: dit zuurdesem heeft ongeveer {h} u nodig, iets meer dan de {avail} u die je opgaf.";
+I18N.en.howto_summary="No starter yet? Make one (one-time, ~5–7 days)"; I18N.nl.howto_summary="Nog geen desem? Maak er een (eenmalig, ~5–7 dagen)";
+I18N.en.howto_intro="A starter is just flour and water that catches wild yeast from the air. You build it once, then keep it alive and reuse it forever."; I18N.nl.howto_intro="Een desem is niets meer dan bloem en water dat wilde gist uit de lucht vangt. Je maakt het één keer, houdt het daarna in leven en gebruikt het steeds opnieuw.";
+I18N.en.howto_d1="<strong>Day 1</strong> — Stir 50 g wholemeal or rye flour into 50 g lukewarm water in a jar. Cover loosely and leave at room temperature (~22–24°C)."; I18N.nl.howto_d1="<strong>Dag 1</strong> — Roer 50 g volkoren- of roggemeel door 50 g lauw water in een pot. Los afdekken en op kamertemperatuur laten staan (~22–24°C).";
+I18N.en.howto_d2="<strong>Day 2</strong> — Little may happen yet. Give it a stir and leave it another day."; I18N.nl.howto_d2="<strong>Dag 2</strong> — Er gebeurt misschien nog weinig. Even roeren en nog een dag laten staan.";
+I18N.en.howto_d3="<strong>Days 3–5</strong> — Once or twice a day: keep about 50 g, discard the rest, and feed 50 g flour + 50 g water. You'll see more bubbles each day."; I18N.nl.howto_d3="<strong>Dag 3–5</strong> — Eén à twee keer per dag: houd ongeveer 50 g over, gooi de rest weg en voer met 50 g bloem + 50 g water. Elke dag meer bubbels.";
+I18N.en.howto_d5="<strong>Days 5–7</strong> — When it reliably doubles within 4–8 h of a feed and smells pleasantly sour, it's ready to bake with."; I18N.nl.howto_d5="<strong>Dag 5–7</strong> — Als het na voeren betrouwbaar binnen 4–8 u verdubbelt en aangenaam zuur ruikt, is het klaar om mee te bakken.";
+I18N.en.howto_keep="Keeping it: feed daily at room temperature, or store it in the fridge and feed once a week. Before a bake, take it out and feed it once or twice until it peaks — that peaked starter is what you use in “Build the levain” above."; I18N.nl.howto_keep="Bewaren: dagelijks voeren op kamertemperatuur, of in de koelkast zetten en één keer per week voeren. Voor een bak eruit halen en één à twee keer voeren tot de piek — dat piekende desem gebruik je bij “Maak de levain” hierboven.";
+
+function clampR(x,a,b){ var r=Math.round(x*2)/2; return Math.max(a,Math.min(b,r)); }
+function makePlanSour(availH, roomC, ovenWarm, fridge, fridgeC, flour, size, strength, starter){
+  var notes=[], warmC=ovenWarm?28:roomC;
+  var sMult = starter==="young"?1.3 : starter==="ripe"?0.8 : 1.0;
+  var levainH = clampR(5*Math.pow(2,(23-warmC)/10)*sMult, 3, 14);
+  var lp = availH<9?28 : availH<15?20 : 12;
+  if(starter==="young") lp+=4; if(starter==="ripe") lp-=3;
+  if(warmC>=26) lp-=2; if(warmC<=18) lp+=3;
+  lp=Math.max(8,Math.min(35,Math.round(lp)));
+  var after=Math.max(3, availH-levainH);
+  var coldProof = fridge && after>10, bulkT=warmC, proofT, proofH, bulkH;
+  if(coldProof){ proofT=fridgeC; proofH=clampR(Math.min(after-2,14),2,14); bulkH=clampR(Math.max(2,after-proofH),1.5,10); }
+  else { proofT=roomC; proofH=clampR(after*0.35,1.5,4); bulkH=clampR(Math.max(2,after-proofH),1.5,10); }
+  var hyd = strength==="strong"?70 : strength==="plain"?62 : 65;
+  var salt=2.8, levainHyd=100, ballW=size||270;
+  var totalDough=flour*(1+hyd/100+salt/100);
+  var balls=Math.max(1,Math.floor(totalDough/ballW));
+  notes.push(tt("pls_note1",{lp:lp}));
+  notes.push(coldProof?t("pls_cold"):t("pls_warm"));
+  notes.push(t("pls_watch"));
+  return { method:"sourdough", hyd:Math.round(hyd), salt:salt, levainPct:lp, levainHyd:levainHyd, balls:balls, ballWeight:ballW,
+    stages:{ levain:{h:levainH,t:Math.round(warmC*10)/10}, bulk:{h:bulkH,t:Math.round(bulkT*10)/10}, proof:{h:proofH,t:Math.round(proofT*10)/10} }, notes:notes };
+}
+function buildPlan(){
+  var roomC=dispToC(V("planTemp")), fridgeC=dispToC(V("planFridgeTemp")), oven=V("planWarm")==="oven", flour=Math.max(0,num(V("planFlour"))), size=num(V("planSize")), strength=V("planStrength");
+  var sour=(method==="sourdough");
+  var ovenMode=(planMode==="oven"), now=new Date(), ov=null, ovenHM=null, avail;
+  if(ovenMode){ ovenHM=V("planOvenAt")||nowHM(); ov=startBase(ovenHM); if(ov.getTime()<=now.getTime()) ov=new Date(ov.getTime()+86400000); avail=(ov.getTime()-now.getTime())/3600000; }
+  else { avail=num(V("planHours")); }
+  var p;
+  if(sour){ var pm=planFridge?28:12; var dur=ovenMode?Math.min(avail,pm):avail; if(dur<3) dur=Math.max(3,avail); p=makePlanSour(dur, roomC, oven, planFridge, fridgeC, flour, size, strength, V("planStarter")); }
+  else { var pmy=planFridge?24:10; var durY=ovenMode?Math.min(avail,pmy):avail; if(durY<0.5) durY=Math.max(0.5,avail); p=makePlan(durY, roomC, oven, planFridge, fridgeC, flour, size, strength); }
+  var totalH=Object.keys(p.stages).reduce(function(a,k){ return a+(p.stages[k].h>0?p.stages[k].h:0); },0);
+  var startHM, extraNote=null, shortfall=(sour && totalH>avail+0.25);
+  if(ovenMode){
+    if(shortfall){ var earliest=new Date(now.getTime()+totalH*3600000); startHM=two(now.getHours())+":"+two(now.getMinutes()); extraNote=tt("pls_short_oven",{h:nf(totalH,1), oven:dayLabel(earliest)+" "+two(earliest.getHours())+":"+two(earliest.getMinutes())}); }
+    else { var startD=new Date(ov.getTime()-totalH*3600000); startHM=two(startD.getHours())+":"+two(startD.getMinutes()); extraNote=tt("pl_startat",{oven:dayLabel(ov)+" "+ovenHM, start:dayLabel(startD)+" "+startHM}); }
+  } else {
+    startHM=V("planStart");
+    if(shortfall) extraNote=tt("pls_short_have",{h:nf(totalH,1), avail:nf(avail,1)});
+  }
+  document.getElementById("hydration").value=p.hyd;
+  saltUnit="pct"; document.getElementById("saltUnitBtn").textContent="%"; document.getElementById("salt").step="0.1"; document.getElementById("salt").value=p.salt;
+  document.getElementById("oil").value="0"; document.getElementById("sugar").value="0"; document.getElementById("honey").value="0";
+  if(sour){ document.getElementById("levainPct").value=p.levainPct; document.getElementById("levainHyd").value=p.levainHyd; }
+  else { document.getElementById("yeastType").value="instant"; autoYeast=true; YEASTBY[p.method]=String(p.yeast); }
+  var T={}; Object.keys(p.stages).forEach(function(k){ T[k]={h:String(p.stages[k].h),t:String(round(p.stages[k].t,1))}; });
+  TIMING[p.method]=T;
+  document.getElementById("balls").value=p.balls; document.getElementById("ballWeight").value=p.ballWeight;
+  setMethod(p.method);
+  var notes = extraNote? [extraNote].concat(p.notes) : p.notes;
+  var el=document.getElementById("planNotes"); el.innerHTML="";
+  notes.forEach(function(n){ var d=document.createElement("div"); d.className="pdc-plan-note"; d.textContent=n; el.appendChild(d); });
+  setStart(startHM);
+}
+
+function stageList(){ return STAGE_DEFS[method].map(function(d){ var k=d[0]; return {k:k,label:t(d[1]),h:num(TIMING[method][k].h),t:num(TIMING[method][k].t)}; }); }
+
+function model(){
+  var ballsN=Math.max(0,Math.floor(num(V("balls")))), ballWN=Math.max(0,num(V("ballWeight"))), total=ballsN*ballWN;
+  var sPct=saltPctVal(), suggested=suggestFromSchedule(), yP=effYeast();
+  var h=num(V("hydration"))/100, s=sPct/100, y=(method==="sourdough")?0:yP/100, o=num(V("oil"))/100, su=num(V("sugar"))/100, ho=num(V("honey"))/100;
+  var type=V("yeastType")||"instant", sum=1+h+s+y+o+su+ho, flour=sum>0?total/sum:0;
+  var stg=stageList(), S={}; stg.forEach(function(x){S[x.k]=x;});
+  var m={ ballsN:ballsN,ballWN:ballWN,total:total,type:type,flour:flour,water:flour*h,salt:flour*s,yeast:flour*y,oil:flour*o,sugar:flour*su,honey:flour*ho,
+    hyd:num(V("hydration")),saltP:sPct,yeastP:yP,S:S,suggested:suggested };
+  m.instantEquiv=m.yeast/(YEAST_FACTOR[type]||1);
+  m.totalH=stg.reduce(function(a,x){ return a+(x.h>0?x.h:0); },0);
+  if(method==="sourdough"){ var lp=Math.max(0,num(V("levainPct")))/100, lh=Math.max(0,num(V("levainHyd")))/100; m.levainFlour=flour*lp; m.levainWater=m.levainFlour*lh; m.levain=m.levainFlour+m.levainWater; m.addedFlour=flour-m.levainFlour; m.addedWater=Math.max(0,m.water-m.levainWater); m.seed=Math.max(3,round(m.levain*0.15,0)); m.levainP=num(V("levainPct")); m.levainH=num(V("levainHyd")); }
+  else if(method==="biga"){ m.pfFlour=flour*0.50; m.pfWater=m.pfFlour*0.50; m.finalFlour=flour-m.pfFlour; m.finalWater=Math.max(0,m.water-m.pfWater); }
+  else { m.pfFlour=flour*0.30; m.pfWater=Math.min(flour*0.30,m.water); m.finalFlour=flour-m.pfFlour; m.finalWater=Math.max(0,m.water-m.pfWater); }
+  return m;
+}
+function modeName(){ return method==="poolish"?t("mode_poolish"):method==="biga"?t("mode_biga"):method==="sourdough"?t("mode_sour"):t("mode_trad"); }
+function hintName(){ return method==="poolish"?t("hint_poolish"):method==="biga"?t("hint_biga"):method==="sourdough"?t("hint_sour"):t("hint_trad"); }
+function ingWord(k){ return t("ing_"+k); }
+function yl(type){ return t("yl_"+type); }
+function buildSteps(m){
+  var S=m.S, ylw=yl(m.type), st=[], cur=0;
+  var oilStr=(m.oil>0?(", "+fmtW(m.oil,"oil")+" "+ingWord("oil")):"");
+  var honeyStr=(m.honey>0?(", "+fmtW(m.honey,"honey")+" "+ingWord("honey")):"");
+  if(method==="sourdough"){
+    st.push({t:0,title:t("s_build_levain"),detail:tt("s_build_levain_d",{flour:fmtW(m.levainFlour,"flour"),water:fmtW(m.levainWater,"water"),seed:fmtW(m.seed,"flour")})});
+    if(S.levain.h>0){ st.push({t:cur,title:tt("s_levain_ripen",{dur:fmtDur(S.levain.h),temp:fmtT(S.levain.t)}),detail:t("s_levain_d")}); cur+=S.levain.h; }
+    st.push({t:cur,title:t("s_sour_mix"),detail:tt("s_sour_mix_d",{flour:fmtW(m.addedFlour,"flour"),water:fmtW(m.addedWater,"water"),salt:fmtW(m.salt,"salt"),oil:oilStr})});
+    if(S.bulk.h>0){ st.push({t:cur,title:tt("s_sour_bulk",{dur:fmtDur(S.bulk.h),temp:fmtT(S.bulk.t)}),detail:t("s_sour_bulk_d")}); cur+=S.bulk.h; }
+    st.push({t:cur,title:t("s_divide"),detail:tt("s_divide_d",{n:m.ballsN,w:fmtW(m.ballWN,"flour")})});
+    if(S.proof.h>0){ st.push({t:cur,title:tt("s_final_proof",{dur:fmtDur(S.proof.h),temp:fmtT(S.proof.t)}),detail:S.proof.t<=8?t("s_proof_d_fridge"):t("s_sour_proof_d")}); cur+=S.proof.h; }
+    st.push({t:cur,title:t("s_shape"),detail:t("s_shape_d")});
+    return st;
+  }
+  if(method==="poolish"||method==="biga"){
+    var mkT=method==="biga"?t("s_make_biga"):t("s_make_poolish");
+    var mkKey=method==="biga"?"s_make_biga_d":"s_make_poolish_d";
+    st.push({t:0,title:mkT,detail:tt(mkKey,{flour:fmtW(m.pfFlour,"flour"),water:fmtW(m.pfWater,"water"),yeast:fmtW(m.yeast,"yeast"),yl:ylw,honey:honeyStr})});
+    if(S.pwarm.h>0){ st.push({t:cur,title:tt("s_warm_rest",{dur:fmtDur(S.pwarm.h),temp:fmtT(S.pwarm.t)}),detail:t("s_warm_rest_d")}); cur+=S.pwarm.h; }
+    if(S.pcold.h>0){ st.push({t:cur,title:tt("s_cold",{dur:fmtDur(S.pcold.h),temp:fmtT(S.pcold.t)}),detail:S.pcold.t<=8?t("s_cold_d_fridge"):t("s_cold_d_room")}); cur+=S.pcold.h; }
+    st.push({t:cur,title:t("s_mix_final"),detail:tt("s_mix_final_d",{flour:fmtW(m.finalFlour,"flour"),water:fmtW(m.finalWater,"water"),salt:fmtW(m.salt,"salt"),oil:oilStr,pre:(method==="biga"?t("pre_biga"):t("pre_poolish"))})});
+    if(S.dough.h>0){ st.push({t:cur,title:tt("s_bulk_ferment",{dur:fmtDur(S.dough.h),temp:fmtT(S.dough.t)}),detail:S.dough.t<=8?t("s_bulk_d_fridge"):t("s_bulk_d_room")}); cur+=S.dough.h; }
+    st.push({t:cur,title:t("s_divide"),detail:tt("s_divide_d",{n:m.ballsN,w:fmtW(m.ballWN,"flour")})});
+    if(S.proof.h>0){ st.push({t:cur,title:tt("s_final_proof",{dur:fmtDur(S.proof.h),temp:fmtT(S.proof.t)}),detail:S.proof.t<=8?t("s_proof_d_fridge"):t("s_proof_d_room")}); cur+=S.proof.h; }
+    st.push({t:cur,title:t("s_shape"),detail:t("s_shape_d")});
+  } else {
+    var extra=(m.oil>0?(", "+fmtW(m.oil,"oil")+" "+ingWord("oil")):"")+(m.honey>0?(", "+fmtW(m.honey,"honey")+" "+ingWord("honey")):"")+(m.sugar>0?(", "+fmtW(m.sugar,"sugar")+" "+ingWord("sugar")):"");
+    st.push({t:0,title:t("s_mix_knead"),detail:tt("s_mix_knead_d",{flour:fmtW(m.flour,"flour"),water:fmtW(m.water,"water"),salt:fmtW(m.salt,"salt"),yeast:fmtW(m.yeast,"yeast"),yl:ylw,extra:extra})});
+    if(S.bulk.h>0){ st.push({t:cur,title:tt("s_bulk_rise",{dur:fmtDur(S.bulk.h),temp:fmtT(S.bulk.t)}),detail:S.bulk.t<=8?t("s_bulk_rise_d_fridge"):t("s_bulk_rise_d_room")}); cur+=S.bulk.h; }
+    st.push({t:cur,title:t("s_divide"),detail:tt("s_divide2_d",{n:m.ballsN,w:fmtW(m.ballWN,"flour")})});
+    if(S.proof.h>0){ st.push({t:cur,title:tt("s_final_proof",{dur:fmtDur(S.proof.h),temp:fmtT(S.proof.t)}),detail:S.proof.t<=8?t("s_proof_d_fridge"):t("s_proof_d_room")}); cur+=S.proof.h; }
+    st.push({t:cur,title:t("s_shape"),detail:t("s_shape2_d")});
+  }
+  return st;
+}
+
+function rows(m){
+  var r=[{grams:m.flour,color:"#E7D7B0"},{grams:m.water,color:"#A6C3BE"},{grams:m.salt,color:"#D8D2C4"},{grams:m.yeast,color:"#C98A3B"}];
+  if(m.honey>0) r.push({grams:m.honey,color:"#E8B84B"});
+  if(m.oil>0) r.push({grams:m.oil,color:"#8F953F"});
+  if(m.sugar>0) r.push({grams:m.sugar,color:"#E0CDB4"});
+  return r;
+}
+function planText(m,steps){
+  var head=[ modeName(),
+    m.ballsN+" \u00D7 "+fmtW(m.ballWN,"flour")+" \u00B7 "+t("hydration").replace(" %","")+" "+nf(m.hyd,1)+"% \u00B7 "+(method==="sourdough"? (t("levain_pct").replace(" %","")+" "+nf(m.levainP,0)+"%") : (t("yeast").replace(" %","")+" "+nf(m.yeastP,2)+"%"))+" \u00B7 ~"+nf(m.totalH,1)+" h", t("start")+" "+startTime, "" ];
+  var body=[]; steps.forEach(function(sp,i){ body.push((i+1)+". ["+clockLabel(startTime,sp.t)+"] "+sp.title); body.push("   "+sp.detail); });
+  return head.concat(body).join("\n") + "\n\n" + t("plan_sig");
+}
+var CURRENT_PLAN="";
+function render(){
+  var m=model(), steps=buildSteps(m); CURRENT_PLAN=planText(m,steps);
+  var saltNoteHTML = (method==="sourdough")
+    ? tt("salt_note_sour",{saltP:nf(m.saltP,1)+"%",gkg:nf(m.saltP*10,1),saltG:fmtW(m.salt,"salt"),levainP:nf(m.levainP,0)+"%",levainH:nf(m.levainH,0)+"%",levainG:fmtW(m.levain,"flour")})
+    : tt("salt_note",{saltP:nf(m.saltP,1)+"%",gkg:nf(m.saltP*10,1),saltG:fmtW(m.salt,"salt"),yeastP:nf(m.yeastP,2)+"%",yeastG:fmtW(m.yeast,"yeast"),yl:yl(m.type)});
+  var _rl=document.getElementById("remLead"); if(_rl) remLead=_rl.value; var _rm=document.getElementById("remMode"); if(_rm) remMode=_rm.value;
+  var rs=rows(m), bar=""; rs.forEach(function(r){ var w=m.total>0?(r.grams/m.total*100):0; bar+="<div class='pdc-seg' style='width:"+w+"%;background:"+r.color+"'></div>"; });
+  var stepsHTML=""; steps.forEach(function(sp,i){ stepsHTML+="<li class='pdc-step'><div class='pdc-step-left'><span class='pdc-step-n'>"+(i+1)+"</span><span class='pdc-step-time'>"+clockLabel(startTime,sp.t)+"</span><span class='pdc-step-elapsed'>"+fmtElapsed(sp.t)+"</span></div><div class='pdc-step-body'><div class='pdc-step-title'>"+esc(sp.title)+"</div><div class='pdc-step-detail'>"+esc(sp.detail)+"</div></div></li>"; });
+  document.getElementById("resultsBody").innerHTML =
+    "<div class='pdc-mode'>"+modeName()+"<span class='pdc-mode-time'>"+tt("mode_time",{h:nf(m.totalH,1)+" h"})+"</span></div>"+
+    "<div class='pdc-totals'><div><div class='pdc-tnum'>"+fmtW(m.flour,"flour")+"</div><div class='pdc-tlabel'>"+t("flour")+"</div></div><div><div class='pdc-tnum2'>"+fmtW(m.total,"flour")+"</div><div class='pdc-tlabel'>"+t("total_dough")+"</div></div></div>"+
+    "<div class='pdc-bar'>"+bar+"</div><ol class='pdc-steps'>"+stepsHTML+"</ol>"+
+    "<div class='pdc-salt-note'>"+saltNoteHTML+"</div>"+
+    "<div class='pdc-actions'><button type='button' class='pdc-share' id='shareBtn'>"+t("share")+"</button><button type='button' class='pdc-copy' id='copyBtn'>"+t("copy")+"</button><button type='button' class='pdc-print' id='printBtn'>"+t("print")+"</button></div>"+
+    "<div class='pdc-remind'><div class='pdc-remind-title'>"+t("reminders")+"</div><div class='pdc-remind-row'>"+
+      "<label class='pdc-field'><span class='pdc-flabel'>"+t("alarm_lead")+"</span><select class='pdc-input' id='remLead'>"+
+        "<option value='0'>"+t("lead_0")+"</option><option value='5'>"+t("lead_5")+"</option><option value='10'>"+t("lead_10")+"</option><option value='15'>"+t("lead_15")+"</option><option value='30'>"+t("lead_30")+"</option></select></label>"+
+      "<label class='pdc-field'><span class='pdc-flabel'>"+t("which_steps")+"</span><select class='pdc-input' id='remMode'>"+
+        "<option value='every'>"+t("steps_every")+"</option><option value='active'>"+t("steps_active")+"</option><option value='big'>"+t("steps_big")+"</option></select></label>"+
+      "</div><button type='button' class='pdc-cal' id='calBtn'>"+t("add_calendar")+"</button><div class='pdc-remind-note'>"+t("remind_note")+"</div></div>";
+  var a=document.getElementById("remLead"); if(a) a.value=remLead; var b=document.getElementById("remMode"); if(b) b.value=remMode;
+  var cb=document.getElementById("calBtn"); if(cb) cb.addEventListener("click",downloadICS);
+  if(method!=="sourdough"){ var yf=document.getElementById("yeast"), ya=document.getElementById("yeastAuto");
+    if(autoYeast){ yf.value=nf(m.yeastP,2); yf.setAttribute("readonly","readonly"); ya.textContent=t("auto"); ya.classList.add("pdc-unit-on"); }
+    else { yf.removeAttribute("readonly"); ya.textContent=t("manual"); ya.classList.remove("pdc-unit-on"); if(document.activeElement!==yf) yf.value=YEASTBY[method]; } }
+  if(method==="sourdough"){ document.getElementById("schedYeast").innerHTML=t("sour_note"); }
+  else if(autoYeast){ document.getElementById("schedYeast").innerHTML=tt("sched_auto",{pct:"<strong>"+nf(m.suggested,2)+"%</strong>"}); }
+  else { document.getElementById("schedYeast").innerHTML=tt("sched_manual",{pct:"<strong>"+nf(m.suggested,2)+"%</strong>"})+" <button type='button' class='pdc-apply-sm' id='applyYeast'>"+t("apply")+"</button>";
+    document.getElementById("applyYeast").addEventListener("click",function(){ YEASTBY[method]=String(round(m.suggested,2)); document.getElementById("yeast").value=YEASTBY[method]; render(); }); }
+  document.getElementById("methodHint").textContent = hintName();
+  if(method==="sourdough") renderStarterHowto();
+  document.getElementById("foot").textContent = t("footer");
+}
+/* ICS */
+function icsStamp(d){ return d.getUTCFullYear()+two(d.getUTCMonth()+1)+two(d.getUTCDate())+"T"+two(d.getUTCHours())+two(d.getUTCMinutes())+two(d.getUTCSeconds())+"Z"; }
+function icsEsc(s){ return String(s).replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\n/g,"\\n"); }
+function isWaitStep(sp){ return sp.title.indexOf("\u2014")>-1 && /(\d)/.test(sp.title); }
+function isBigStep(sp){ return !isWaitStep(sp); }
+function stepGetsAlarm(sp,mode){ if(mode==="every") return true; if(mode==="big") return isBigStep(sp); return !isWaitStep(sp); }
+function buildICS(steps,hhmm,leadMin,mode){
+  var base=startBase(hhmm), now=new Date(), uid=now.getTime();
+  var L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Doughdominion//EN","CALSCALE:GREGORIAN","METHOD:PUBLISH"];
+  var chosen=steps.filter(function(sp){ return stepGetsAlarm(sp,mode); });
+  chosen.forEach(function(sp,i){ var s=new Date(base.getTime()+sp.t*3600000), e=new Date(s.getTime()+5*60000);
+    L.push("BEGIN:VEVENT","UID:doughjo-"+uid+"-"+i+"@doughjo","DTSTAMP:"+icsStamp(now),"DTSTART:"+icsStamp(s),"DTEND:"+icsStamp(e),"SUMMARY:"+icsEsc("\uD83C\uDF55 "+sp.title),"DESCRIPTION:"+icsEsc(sp.detail));
+    L.push("BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+icsEsc(sp.title),leadMin>0?"TRIGGER:-PT"+leadMin+"M":"TRIGGER:PT0M","END:VALARM","END:VEVENT"); });
+  L.push("END:VCALENDAR"); return { text:L.join("\r\n"), count:chosen.length };
+}
+function downloadICS(){
+  var m=model(), steps=buildSteps(m), lead=parseInt(V("remLead"),10)||0, mode=V("remMode")||"active";
+  var res=buildICS(steps,startTime,lead,mode);
+  if(res.count===0){ alert(t("no_steps_match")); return; }
+  var blob=new Blob([res.text],{type:"text/calendar;charset=utf-8"}), url=URL.createObjectURL(blob), a=document.createElement("a");
+  a.href=url; a.download="doughjo-plan.ics"; document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); },500);
+}
+function copyPlan(){
+  var txt=CURRENT_PLAN, btn=document.getElementById("copyBtn");
+  function done(){ if(btn){ btn.textContent=t("copied"); setTimeout(function(){ btn.textContent=t("copy"); },1600);} }
+  function fb(){ try{ var ta=document.createElement("textarea"); ta.value=txt; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand("copy"); document.body.removeChild(ta); done(); }catch(e){} }
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(done,fb); } else { fb(); }
+}
+function sharePlan(){
+  var txt=CURRENT_PLAN, btn=document.getElementById("shareBtn");
+  if(navigator.share){ navigator.share({title:"Doughdominion", text:txt}).catch(function(){}); return; }
+  function flash(){ if(btn){ btn.textContent=t("copied"); setTimeout(function(){ btn.textContent=t("share"); },1600);} }
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(flash,flash); } else { flash(); }
+}
+/* schedule */
+function srCell(k,field,val,unit){ return "<div class='pdc-sr-cell'><input class='pdc-input pdc-sr' type='number' inputmode='decimal' step='"+(field==="t"?"1":"0.5")+"' data-k='"+k+"' data-f='"+field+"' value='"+esc(val)+"'><span class='pdc-sr-unit'>"+unit+"</span></div>"; }
+function renderSchedule(){
+  var el=document.getElementById("schedule"), html="", tu=tempIsF()?"\u00B0F":"\u00B0C";
+  STAGE_DEFS[method].forEach(function(d){ var k=d[0], tm=TIMING[method][k], cold=num(tm.t)<=8, tdisp=String(cToDisp(num(tm.t)));
+    html+="<div class='pdc-stagerow'><div class='pdc-stagerow-top'><span class='pdc-stagerow-label'>"+esc(t(d[1]))+"</span><button type='button' class='pdc-fridge"+(cold?" on":"")+"' data-fridge='"+k+"'>"+(cold?t("fridge"):t("room"))+"</button></div><div class='pdc-sr-row'>"+srCell(k,"h",tm.h,LANG==="nl"?"u":"h")+srCell(k,"t",tdisp,tu)+"</div></div>"; });
+  el.innerHTML=html;
+  Array.prototype.forEach.call(el.querySelectorAll("input"),function(inp){ inp.addEventListener("input",function(){ var f=inp.getAttribute("data-f"), k=inp.getAttribute("data-k"); TIMING[method][k][f]= f==="t"? String(round(dispToC(inp.value),1)) : inp.value; render(); }); });
+  Array.prototype.forEach.call(el.querySelectorAll("[data-fridge]"),function(btn){ btn.addEventListener("click",function(){ var k=btn.getAttribute("data-fridge"); var cur=num(TIMING[method][k].t); TIMING[method][k].t=cur<=8?"20":"4"; renderSchedule(); render(); }); });
+}
+function setSaltUnit(u){ if(u===saltUnit) return; var cur=num(V("salt")); document.getElementById("salt").value=(u==="gkg")?String(round(cur*10,3)):String(round(cur/10,4)); document.getElementById("salt").step=(u==="gkg")?"1":"0.1"; saltUnit=u; document.getElementById("saltUnitBtn").textContent=(u==="gkg")?"g/kg":"%"; }
+function renderStarterHowto(){ var b=document.getElementById("howtoBody"); if(!b) return; document.getElementById("howtoSummary").textContent=t("howto_summary"); b.innerHTML="<p class=\"pdc-howto-intro\">"+t("howto_intro")+"</p><ol><li>"+t("howto_d1")+"</li><li>"+t("howto_d2")+"</li><li>"+t("howto_d3")+"</li><li>"+t("howto_d5")+"</li></ol><div class=\"pdc-howto-keep\">"+t("howto_keep")+"</div>"; }
+function applyMethodUI(){ var sour=method==="sourdough"; var ry=document.getElementById("rowYeast"), rl=document.getElementById("rowLevain"), rs=document.getElementById("rowStarter"); if(ry) ry.style.display=sour?"none":""; if(rl) rl.style.display=sour?"":"none"; if(rs) rs.style.display=sour?"":"none"; var hw=document.getElementById("starterHowto"); if(hw){ hw.style.display=sour?"":"none"; if(sour) renderStarterHowto(); } }
+function setMethod(m){ method=m; ["mPoolish","mBiga","mSour","mTrad"].forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove("on"); }); var map={poolish:"mPoolish",biga:"mBiga",sourdough:"mSour",traditional:"mTrad"}; var b=document.getElementById(map[m]); if(b) b.classList.add("on"); applyMethodUI(); renderSchedule(); }
+function toggleAuto(){ if(autoYeast){ YEASTBY[method]=String(round(suggestFromSchedule(),2)); autoYeast=false; } else { autoYeast=true; } render(); }
+function applyPreset(name){
+  var p=PRESETS[name]; if(!p) return;
+  ["balls","ballWeight","hydration","oil","sugar","honey"].forEach(function(k){ document.getElementById(k).value=p[k]; });
+  document.getElementById("yeastType").value="instant";
+  saltUnit="pct"; document.getElementById("saltUnitBtn").textContent="%"; document.getElementById("salt").step="0.1"; document.getElementById("salt").value=p.salt;
+  autoYeast=false; YEASTBY[p.method]=p.yeast; var d=defaultTiming(); TIMING[p.method]=d[p.method];
+  document.getElementById("planNotes").innerHTML="";
+  setMethod(p.method); render();
+}
+function setPlanMode(m){ planMode=m; document.getElementById("pmHave").classList.toggle("on",m==="have"); document.getElementById("pmOven").classList.toggle("on",m==="oven"); document.getElementById("rowHave").style.display=(m==="have")?"":"none"; document.getElementById("rowOven").style.display=(m==="oven")?"":"none"; }
+function setStart(v){ startTime=v; var a=document.getElementById("startTime"), b=document.getElementById("planStart"); if(a&&a.value!==v)a.value=v; if(b&&b.value!==v)b.value=v; render(); }
+
+/* ---------- i18n / units application ---------- */
+function applyI18n(){
+  document.documentElement.lang=LANG;
+  Array.prototype.forEach.call(document.querySelectorAll("[data-i18n]"),function(el){ el.textContent=t(el.getAttribute("data-i18n")); });
+  var tu=tempIsF()?"\u00B0F":"\u00B0C";
+  document.getElementById("lbl_planTemp").textContent=t("room_temp")+" ("+tu+")";
+  document.getElementById("lbl_planFridgeTemp").textContent=t("fridge_temp")+" ("+tu+")";
+  document.getElementById("hdr_temp").textContent=tu;
+  document.getElementById("planFridge").textContent = planFridge? t("yes"):t("no");
+}
+function applyUnitsToInputs(prevTempF){
+  var nowF=tempIsF();
+  if(prevTempF!==nowF){
+    ["planTemp","planFridgeTemp"].forEach(function(id){ var el=document.getElementById(id); var v=num(el.value); var c=prevTempF?(v-32)*5/9:v; el.value= nowF? Math.round(c*9/5+32) : Math.round(c); });
+  }
+  // cups warning under the units selector
+  var warn=document.getElementById("cupsWarn");
+  if(UNITS==="cups"){ if(!warn){ warn=document.createElement("div"); warn.id="cupsWarn"; warn.className="pdc-cups-warn"; document.querySelector(".pdc-settings").appendChild(warn);} warn.textContent=t("cups_warning"); }
+  else if(warn){ warn.parentNode.removeChild(warn); }
+}
+function setLang(code){ if(!I18N[code]) code="en"; LANG=code; try{localStorage.setItem("doughjo_lang",code);}catch(e){} document.getElementById("langSel").value=code; applyI18n(); renderSchedule(); render(); }
+function setUnits(u){ var prev=tempIsF(); UNITS=u; try{localStorage.setItem("doughjo_units",u);}catch(e){} document.getElementById("unitSel").value=u; applyI18n(); applyUnitsToInputs(prev); renderSchedule(); render(); }
+function resolveTheme(p){ if(p==="dark"||p==="light") return p; return (window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light"; }
+function applyTheme(){ var r=resolveTheme(THEME); document.documentElement.setAttribute("data-theme",r); var mc=document.querySelector('meta[name="theme-color"]'); if(mc) mc.setAttribute("content", r==="dark"?"#1B1A17":"#FBFAF5"); }
+function setTheme(p){ THEME=p; try{localStorage.setItem("doughjo_theme",p);}catch(e){} var s=document.getElementById("themeSel"); if(s) s.value=p; applyTheme(); }
+function detectTheme(){ try{ var s=localStorage.getItem("doughjo_theme"); if(s) return s; }catch(e){} return "auto"; }
+function setIntro(v){ try{ localStorage.setItem("doughjo_intro", v==="off"?"off":"show"); }catch(e){} var s=document.getElementById("introSel"); if(s) s.value=v; }
+function detectIntro(){ try{ return localStorage.getItem("doughjo_intro")==="off"?"off":"on"; }catch(e){} return "on"; }
+function detectLang(){ try{ var s=localStorage.getItem("doughjo_lang"); if(s&&I18N[s]) return s; }catch(e){} var ls=(navigator.languages||[navigator.language||"en"]); for(var i=0;i<ls.length;i++){ var c=(ls[i]||"").slice(0,2).toLowerCase(); if(I18N[c]) return c; } return "en"; }
+function detectUnits(){ try{ var s=localStorage.getItem("doughjo_units"); if(s) return s; }catch(e){} var loc=(navigator.language||"en-US"); if(/[-_](US|LR|MM)$/i.test(loc)) return "imperial"; return "metric"; }
+
+(function init(){
+  var sel=document.getElementById("langSel");
+  LANG_ORDER.forEach(function(c){ var o=document.createElement("option"); o.value=c; o.textContent=I18N[c]._name; sel.appendChild(o); });
+  LANG=detectLang(); UNITS=detectUnits();
+  document.getElementById("langSel").value=LANG; document.getElementById("unitSel").value=UNITS;
+  THEME=detectTheme(); var ts=document.getElementById("themeSel"); if(ts) ts.value=THEME; applyTheme();
+  var is=document.getElementById("introSel"); if(is) is.value=detectIntro();
+  if(window.matchMedia){ try{ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(){ if(THEME==="auto") applyTheme(); }); }catch(e){} }
+  var pc=document.getElementById("presets");
+  Object.keys(PRESETS).forEach(function(name){ var mk=PRESETS[name].method; var b=document.createElement("button"); b.type="button"; b.className="pdc-chip"; b.innerHTML="<span class=\"pdc-chip-name\">"+name+"</span><span class=\"pdc-chip-meth\" data-i18n=\""+mk+"\">"+t(mk)+"</span>"; b.addEventListener("click",function(){ applyPreset(name); }); pc.appendChild(b); });
+  ["balls","ballWeight","hydration","salt","yeastType","oil","sugar","honey"].forEach(function(id){ var e=document.getElementById(id); e.addEventListener("input",render); e.addEventListener("change",render); });
+  document.getElementById("yeast").addEventListener("input",function(){ if(!autoYeast){ YEASTBY[method]=this.value; render(); } });
+  document.getElementById("levainPct").addEventListener("input",render);
+  document.getElementById("levainHyd").addEventListener("input",render);
+  document.getElementById("yeastAuto").addEventListener("click",toggleAuto);
+  document.getElementById("saltUnitBtn").addEventListener("click",function(){ setSaltUnit(saltUnit==="pct"?"gkg":"pct"); render(); });
+  document.getElementById("mPoolish").addEventListener("click",function(){ setMethod("poolish"); render(); });
+  document.getElementById("mBiga").addEventListener("click",function(){ setMethod("biga"); render(); });
+  document.getElementById("mSour").addEventListener("click",function(){ setMethod("sourdough"); render(); });
+  document.getElementById("mTrad").addEventListener("click",function(){ setMethod("traditional"); render(); });
+  document.getElementById("planFridge").addEventListener("click",function(){ planFridge=!planFridge; this.classList.toggle("on",planFridge); this.textContent=planFridge?t("yes"):t("no"); document.getElementById("planFridgeTemp").disabled=!planFridge; });
+  document.getElementById("pmHave").addEventListener("click",function(){ setPlanMode("have"); });
+  document.getElementById("pmOven").addEventListener("click",function(){ setPlanMode("oven"); });
+  document.getElementById("planGo").addEventListener("click",buildPlan);
+  (function(){
+    var qb=document.getElementById("quickBtn"), qo=document.getElementById("quickOut");
+    if(qb&&qo){ qb.addEventListener("click",function(){
+      var d=new Date(Date.now()+150*60000);
+      document.getElementById("quickTime").textContent=two(d.getHours())+":"+two(d.getMinutes());
+      qo.hidden=false; qo.scrollIntoView({behavior:"smooth",block:"nearest"});
+    }); }
+    var qbld=document.getElementById("quickBuild");
+    if(qbld){ qbld.addEventListener("click",function(){
+      var pw=document.getElementById("planWarm"); if(pw) pw.value="oven";
+      var ph=document.getElementById("planHours"); if(ph) ph.value="2.5";
+      var pmH=document.getElementById("pmHave"); if(pmH && pmH.classList.contains("on")===false) pmH.click();
+      var ps=document.getElementById("planStart"); if(ps && !ps.value) ps.value=nowHM();
+      buildPlan();
+    }); }
+  })();
+  document.getElementById("results").addEventListener("click",function(ev){ var el=ev.target; while(el&&el!==this){ if(el.id==="printBtn"){ try{window.print();}catch(e){} return; } if(el.id==="shareBtn"){ sharePlan(); return; } if(el.id==="copyBtn"){ copyPlan(); return; } el=el.parentNode; } });
+  document.getElementById("langSel").addEventListener("change",function(){ setLang(this.value); });
+  document.getElementById("unitSel").addEventListener("change",function(){ setUnits(this.value); });
+  document.getElementById("themeSel").addEventListener("change",function(){ setTheme(this.value); });
+  document.getElementById("introSel").addEventListener("change",function(){ setIntro(this.value); });
+  // initial temp input values in display unit
+  document.getElementById("planTemp").value = cToDisp(20);
+  document.getElementById("planFridgeTemp").value = cToDisp(4);
+  startTime=nowHM();
+  document.getElementById("startTime").value=startTime; document.getElementById("planStart").value=startTime; document.getElementById("planOvenAt").value=startTime;
+  document.getElementById("startTime").addEventListener("input",function(){ setStart(this.value); });
+  document.getElementById("planStart").addEventListener("input",function(){ setStart(this.value); });
+  applyI18n(); applyUnitsToInputs(tempIsF()); renderSchedule(); render();
+})();
+if("serviceWorker" in navigator){ window.addEventListener("load",function(){ navigator.serviceWorker.register("sw.js").catch(function(){}); }); }
+</script>
+</body>
+</html>

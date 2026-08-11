@@ -1,0 +1,30 @@
+{
+  "name": "Doughdominion — master your dough",
+  "short_name": "Doughdominion",
+  "description": "Master your dough. Plan pizza dough from your time and temperature — poolish, biga, sourdough or direct. Tune it yourself or let it plan for you. Free, offline, no account.",
+  "start_url": "./app.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FBFAF5",
+  "theme_color": "#FBFAF5",
+  "icons": [
+    {
+      "src": "icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
