@@ -38,15 +38,15 @@
     color:var(--ink); font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
     overflow:hidden; -webkit-font-smoothing:antialiased;
   }
-  .stage{ position:fixed; inset:0; display:grid; place-items:center; }
+  #dust{ position:fixed; inset:0; width:100%; height:100%; z-index:5; pointer-events:none; }
+  .stage{ position:fixed; inset:0; display:grid; place-items:center; z-index:1; }
   .scene{ position:relative; width:min(560px,94vw); height:min(620px,94vh); }
   .skip{ position:fixed; top:14px; right:16px; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
-    color:var(--muted); text-decoration:none; opacity:.65; z-index:5; }
+    color:var(--muted); text-decoration:none; opacity:.65; z-index:6; }
   .skip:hover{ opacity:1; }
 
   /* ============ STORY LAYER ============ */
-  .story{ position:absolute; inset:0; animation:storyOut .9s ease 4.05s forwards; }
-
+  .story{ position:absolute; inset:0; animation:storyOut .55s ease 2.15s forwards; }
   .bench{ position:absolute; left:-8%; right:-8%; bottom:15%; height:56px;
     background:linear-gradient(180deg,#7A5636 0%, var(--bench) 42%, var(--bench-dark) 100%);
     border-radius:5px; box-shadow:0 16px 36px rgba(60,40,20,.26);
@@ -56,7 +56,6 @@
   .bench-edge{ position:absolute; left:-8%; right:-8%; bottom:calc(15% - 11px); height:13px;
     background:linear-gradient(180deg,var(--bench-dark),#3f2a18); border-radius:0 0 5px 5px;
     opacity:0; animation:benchIn 1s ease .1s forwards; }
-
   .wheat{ position:absolute; left:50%; bottom:calc(15% + 38px); width:290px; height:110px;
     transform:translateX(-50%); opacity:0; animation:wheatIn 1s ease .5s forwards; }
   .mound{ position:absolute; bottom:0; left:50%; transform:translateX(-50%);
@@ -67,45 +66,25 @@
   .grain{ position:absolute; width:14px; height:5px; border-radius:5px;
     background:linear-gradient(90deg,var(--wheat-deep),var(--wheat)); }
 
-  /* the solid wordmark that DROPS into the wheat */
-  .drop{ position:absolute; left:50%; top:-16%; transform:translateX(-50%);
+  /* the SOLID wordmark that drops from the sky */
+  .drop{ position:absolute; left:50%; top:-22%; transform:translateX(-50%) scale(1);
     font-family:Georgia,"Times New Roman",serif; font-weight:700; letter-spacing:-.02em;
     font-size:clamp(30px,7vw,50px); line-height:1; white-space:nowrap;
-    text-shadow:0 3px 0 rgba(0,0,0,.10), 0 12px 24px rgba(44,60,40,.22);
-    animation:drop 1.0s cubic-bezier(.5,.05,.7,.2) 1.6s forwards, dropFade 1s ease 2.75s forwards; }
+    text-shadow:0 3px 0 rgba(0,0,0,.10), 0 14px 26px rgba(44,60,40,.24);
+    animation:drop 1.05s cubic-bezier(.55,.02,.78,.16) 1.25s forwards, dropFade .45s ease 2.18s forwards; }
   .drop .a{ color:var(--green-deep); } .drop .b{ color:var(--leaf); }
 
-  /* impact cloud */
-  .bloom{ position:absolute; left:50%; bottom:calc(15% + 30px); transform:translate(-50%,50%) scale(.2);
-    width:420px; height:420px; border-radius:50%; opacity:0; pointer-events:none;
-    background:radial-gradient(circle, rgba(255,255,255,.98) 0%, rgba(255,255,255,.7) 32%, rgba(255,255,255,0) 66%);
-    animation:bloom 1.7s ease 2.55s forwards; }
-  .cloud{ position:absolute; left:50%; bottom:calc(15% + 40px); transform:translateX(-50%);
-    width:10px; height:10px; pointer-events:none; }
-  .puff{ position:absolute; left:0; top:0; border-radius:50%;
-    background:radial-gradient(circle at 50% 40%, #ffffff 0%, #fbf7ee 55%, rgba(251,247,238,0) 72%); }
-
-  /* golden ensO emerging from the cloud */
-  .senso{ position:absolute; left:50%; bottom:calc(15% + 70px); transform:translate(-50%,24px) scale(.55);
-    width:170px; height:170px; opacity:0; animation:sensoIn 1.5s cubic-bezier(.2,.7,.3,1) 3.0s forwards; }
-  .senso svg{ width:100%; height:100%; display:block;
-    filter:drop-shadow(0 0 10px rgba(231,169,60,.6)) drop-shadow(0 0 26px rgba(231,169,60,.4)); }
-  .ring{ stroke:url(#ember); stroke-width:9; stroke-linecap:round; fill:none; }
-  .senso .ring{ stroke-dasharray:240 40; stroke-dashoffset:280; animation:draw 1.4s ease 3.15s forwards; }
-  .ember{ position:absolute; left:50%; bottom:calc(15% + 120px); width:6px; height:6px; border-radius:50%;
-    background:radial-gradient(circle,var(--ember-hot),var(--ember)); box-shadow:0 0 8px rgba(246,199,101,.9); }
-
-  /* ============ FINAL BRAND LOCKUP ============ */
+  /* ============ FINAL BRAND LOCKUP — rises like a phoenix ============ */
   .final{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center;
-    justify-content:center; gap:0; text-align:center; opacity:0; transform:translateY(10px);
-    animation:finalIn 1s ease 4.25s forwards; }
+    justify-content:center; text-align:center; opacity:0; z-index:2;
+    transform:translateY(70px) scale(.92); animation:riseUp 1.6s cubic-bezier(.16,.84,.3,1) 2.5s forwards; }
   .fmark{ width:104px; height:104px; margin-bottom:14px; position:relative; }
   .fmark svg{ width:100%; height:100%; display:block;
     filter:drop-shadow(0 0 9px rgba(231,169,60,.55)) drop-shadow(0 0 22px rgba(231,169,60,.32)); }
-  .fmark .ring{ stroke-dasharray:240 40; stroke-dashoffset:280; animation:draw 1.5s ease 4.5s forwards; }
-  .fglow{ position:absolute; inset:-14%; border-radius:50%; pointer-events:none;
-    background:radial-gradient(circle, rgba(246,199,101,.4) 0%, rgba(231,169,60,0) 62%);
-    animation:pulse 2.8s ease-in-out 5.4s infinite; }
+  .fmark .ring{ stroke-dasharray:240 40; stroke-dashoffset:280; animation:draw 1.5s ease 3.4s forwards; }
+  .fglow{ position:absolute; inset:-16%; border-radius:50%; pointer-events:none;
+    background:radial-gradient(circle, rgba(246,199,101,.5) 0%, rgba(231,169,60,0) 62%);
+    opacity:0; animation:glowIn 1.1s ease 2.9s forwards, pulse 2.8s ease-in-out 4.8s infinite; }
   .fword{ font-family:Georgia,"Times New Roman",serif; font-weight:700; letter-spacing:-.025em;
     font-size:clamp(38px,10vw,58px); line-height:.95; }
   .fword .a{ color:var(--green-deep); } .fword .b{ color:var(--leaf); }
@@ -115,69 +94,59 @@
     background:var(--green-deep); padding:14px 28px; border-radius:12px; letter-spacing:.02em;
     box-shadow:0 3px 16px rgba(44,98,56,.34); }
   .fcta:hover{ background:var(--green); }
-
-  /* ============ keyframes ============ */
-  @keyframes benchIn{ to{ transform:translateY(0); opacity:1; } }
-  @keyframes wheatIn{ from{ opacity:0; transform:translateX(-50%) translateY(12px);} to{ opacity:1; transform:translateX(-50%) translateY(0);} }
-  @keyframes drop{ 0%{ top:-16%; } 80%{ top:64%; } 92%{ top:59%; } 100%{ top:62%; } }
-  @keyframes dropFade{ 0%{ opacity:1; } 100%{ opacity:0; } }
-  @keyframes bloom{ 0%{ opacity:0; transform:translate(-50%,50%) scale(.2);} 16%{ opacity:.98;} 100%{ opacity:0; transform:translate(-50%,26%) scale(1.7);} }
-  @keyframes sensoIn{ 0%{ opacity:0; transform:translate(-50%,24px) scale(.55);} 45%{ opacity:1;} 100%{ opacity:1; transform:translate(-50%,0) scale(1);} }
-  @keyframes draw{ to{ stroke-dashoffset:0; } }
-  @keyframes storyOut{ to{ opacity:0; } }
-  @keyframes finalIn{ from{ opacity:0; transform:translateY(10px);} to{ opacity:1; transform:translateY(0);} }
-  @keyframes pulse{ 0%,100%{ opacity:.3; transform:scale(.94);} 50%{ opacity:.6; transform:scale(1.06);} }
-
-  @media (prefers-reduced-motion: reduce){
-    .story{ display:none; }
-    .final{ animation:none; opacity:1; transform:none; }
-    .fmark .ring{ animation:none; stroke-dashoffset:0; } .fglow{ animation:none; opacity:.4; }
-  }
-html[data-theme="dark"]{ --paper:#141310; --ink:#ECE9E0; --muted:#A29C90; --green:#5FB56B; --green-deep:#7FCE88; --leaf:#8AD694; --on-accent:#141310; --bench:#4A3220; --bench-dark:#33220F; }
-  html[data-theme="dark"] body{ background:radial-gradient(120% 90% at 50% 20%, #201E19 0%, #141310 55%, #0C0B09 100%); }
   .fnoshow{ margin-top:18px; font-size:12.5px; color:var(--muted); display:inline-flex; align-items:center; gap:7px; cursor:pointer; }
   .fnoshow input{ width:15px; height:15px; accent-color:var(--green); }
+
+  @keyframes benchIn{ to{ transform:translateY(0); opacity:1; } }
+  @keyframes wheatIn{ from{ opacity:0; transform:translateX(-50%) translateY(12px);} to{ opacity:1; transform:translateX(-50%) translateY(0);} }
+  @keyframes drop{ 0%{ top:-22%; transform:translateX(-50%) scale(1);} 78%{ top:63%; transform:translateX(-50%) scale(1.04);} 100%{ top:60%; transform:translateX(-50%) scale(1.02);} }
+  @keyframes dropFade{ to{ opacity:0; } }
+  @keyframes storyOut{ to{ opacity:0; } }
+  @keyframes riseUp{ 0%{ opacity:0; transform:translateY(70px) scale(.92);} 55%{ opacity:1; } 100%{ opacity:1; transform:translateY(0) scale(1);} }
+  @keyframes glowIn{ to{ opacity:1; } }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  @keyframes pulse{ 0%,100%{ opacity:.4; transform:scale(.94);} 50%{ opacity:.72; transform:scale(1.06);} }
+
+  @media (prefers-reduced-motion: reduce){
+    #dust{ display:none; }
+    .story{ display:none; }
+    .final{ animation:none; opacity:1; transform:none; }
+    .fmark .ring{ animation:none; stroke-dashoffset:0; } .fglow{ animation:none; opacity:.5; }
+  }
+  html[data-theme="dark"]{ --paper:#141310; --ink:#ECE9E0; --muted:#A29C90; --green:#5FB56B; --green-deep:#7FCE88; --leaf:#8AD694; --on-accent:#141310; --bench:#4A3220; --bench-dark:#33220F; }
+  html[data-theme="dark"] body{ background:radial-gradient(120% 90% at 50% 20%, #201E19 0%, #141310 55%, #0C0B09 100%); }
 </style>
 </head>
 <body>
 <a class="skip" id="skipLink" href="./app.html">Skip &rarr;</a>
 
-<!-- shared gradient def -->
 <svg width="0" height="0" style="position:absolute"><defs>
   <linearGradient id="ember" x1="0" y1="0" x2="1" y2="1">
     <stop offset="0" stop-color="#F6C765"/><stop offset="0.5" stop-color="#E7A93C"/><stop offset="1" stop-color="#C97A22"/>
   </linearGradient>
 </defs></svg>
 
-<div class="stage"><div class="scene">
+<canvas id="dust"></canvas>
 
+<div class="stage"><div class="scene">
   <div class="story" id="story">
     <div class="bench"></div>
     <div class="bench-edge"></div>
     <div class="wheat" id="wheat"><div class="mound"></div></div>
     <div class="drop"><span class="a">Dough</span><span class="b">dominion</span></div>
-    <div class="bloom"></div>
-    <div class="cloud" id="cloud"></div>
-    <div class="senso">
-      <svg viewBox="0 0 120 120" aria-hidden="true">
-        <circle class="ring" cx="60" cy="60" r="42" transform="rotate(-32 60 60)"/>
-      </svg>
-    </div>
   </div>
-
   <div class="final">
     <div class="fmark">
       <svg viewBox="0 0 120 120" aria-hidden="true">
-        <circle class="ring" cx="60" cy="60" r="42" transform="rotate(-32 60 60)"/>
+        <circle class="ring" cx="60" cy="60" r="42" transform="rotate(-32 60 60)" stroke="url(#ember)" stroke-width="9" stroke-linecap="round" fill="none"/>
       </svg>
       <div class="fglow"></div>
     </div>
     <div class="fword"><span class="a">Dough</span><span class="b">dominion</span></div>
-    <div class="ftag">Bring <em>zen</em> to your pizza workflow</div>
+    <div class="ftag">Brings <em>zen</em> to your dough</div>
     <a class="fcta" id="ctaLink" href="./app.html">Start planning &rarr;</a>
-    <label class="fnoshow"><input type="checkbox" id="noIntro"> <span id="noIntroLabel">Don’t show this intro again</span></label>
+    <label class="fnoshow"><input type="checkbox" id="noIntro"> <span id="noIntroLabel">Don&rsquo;t show this intro again</span></label>
   </div>
-
 </div></div>
 
 <script>
@@ -187,41 +156,52 @@ html[data-theme="dark"]{ --paper:#141310; --ink:#ECE9E0; --muted:#A29C90; --gree
     if(isNL){ document.documentElement.lang='nl';
       var sl=document.getElementById('skipLink'); if(sl) sl.innerHTML='Overslaan &rarr;';
       var cl=document.getElementById('ctaLink'); if(cl) cl.innerHTML='Begin met plannen &rarr;';
-      var tg=document.querySelector('.ftag'); if(tg) tg.innerHTML='Breng <em>zen</em> in je pizza-workflow';
+      var tg=document.querySelector('.ftag'); if(tg) tg.innerHTML='Brengt <em>Zen</em> in je deeg';
       var nlab=document.getElementById('noIntroLabel'); if(nlab) nlab.textContent='Toon deze intro niet meer'; } })();
   // scatter wheat grains
-  (function(){
-    var w=document.getElementById('wheat'); if(!w) return;
+  (function(){ var w=document.getElementById('wheat'); if(!w) return;
     for(var i=0;i<26;i++){ var g=document.createElement('div'); g.className='grain';
       g.style.left=(20+Math.random()*240)+'px'; g.style.top=(4+Math.random()*52)+'px';
       g.style.transform='rotate('+(Math.random()*180-90)+'deg)'; g.style.opacity=(0.55+Math.random()*0.4).toFixed(2);
-      w.appendChild(g);
-    }
-  })();
-  function spawnPuffs(){
-    var c=document.getElementById('cloud'); if(!c) return;
-    for(var i=0;i<16;i++){ var p=document.createElement('div'); p.className='puff';
-      var s=44+Math.random()*72; p.style.width=s+'px'; p.style.height=s+'px';
-      var ang=Math.PI*(0.15+Math.random()*0.7)*-1, dist=60+Math.random()*150;
-      var dx=Math.cos(ang)*dist*(Math.random()<.5?-1:1), dy=Math.sin(ang)*dist;
-      p.animate([{opacity:0,transform:'translate(-50%,-50%) scale(.2)'},
-                 {opacity:.9,offset:.2},
-                 {opacity:0,transform:'translate(calc(-50% + '+dx+'px),calc(-50% + '+dy+'px)) scale(1.6)'}],
-                 {duration:1000+Math.random()*700,delay:Math.random()*160,easing:'cubic-bezier(.2,.6,.3,1)',fill:'forwards'});
-      c.appendChild(p);
-    }
+      w.appendChild(g); } })();
+
+  /* ---- canvas: full white-out dust + phoenix reveal (time-based, vanilla) ---- */
+  var cv=document.getElementById('dust'), cx=cv.getContext('2d'), DPR=Math.min(2,window.devicePixelRatio||1);
+  var parts=[], white=0, raf=null, lastT=0, startT=0, holdMs=260;
+  function sz(){ cv.width=Math.floor(innerWidth*DPR); cv.height=Math.floor(innerHeight*DPR); cx.setTransform(DPR,0,0,DPR,0,0); }
+  sz(); addEventListener('resize',sz);
+  function impact(){ var m=document.querySelector('.mound'); if(m){ var r=m.getBoundingClientRect(); return {x:r.left+r.width/2, y:r.top+r.height*0.26}; } return {x:innerWidth/2,y:innerHeight*0.72}; }
+  function spawnDust(p){
+    for(var i=0;i<180;i++){ var a=Math.random()*Math.PI*2, sp=2+Math.random()*12;
+      parts.push({ x:p.x+(Math.random()-.5)*70, y:p.y+(Math.random()-.5)*30, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp*0.55-(1.6+Math.random()*4.2),
+        r:36+Math.random()*120, life:1, dr:0.5+Math.random()*0.35, ph:Math.random()*6.28, drift:0.35+Math.random()*0.7, k:1 }); }
+    for(var j=0;j<8;j++){ parts.push({ x:innerWidth*Math.random(), y:innerHeight*(0.3+Math.random()*0.5), vx:(Math.random()-.5)*0.7, vy:-(0.3+Math.random()*0.7),
+        r:170+Math.random()*190, life:1, dr:0.78+Math.random()*0.3, ph:Math.random()*6.28, drift:0.15+Math.random()*0.3, k:1 }); }
   }
-  function spawnEmbers(){
-    var st=document.getElementById('story'); if(!st) return;
-    for(var i=0;i<10;i++){ var e=document.createElement('div'); e.className='ember';
-      e.style.left=(44+Math.random()*12)+'%';
-      e.animate([{opacity:0,transform:'translate(0,0) scale(1)'},{opacity:1,offset:.15},
-                 {opacity:0,transform:'translate('+(Math.random()*60-30)+'px,-130px) scale(.35)'}],
-                 {duration:1600+Math.random()*900,delay:Math.random()*600,easing:'ease-out',fill:'forwards'});
-      st.appendChild(e);
+  function spawnEmbers(p){ for(var i=0;i<32;i++){ parts.push({ x:p.x+(Math.random()-.5)*160, y:p.y+(Math.random()-.5)*30, vx:(Math.random()-.5)*0.8, vy:-(1.5+Math.random()*3.2), r:1.6+Math.random()*3, life:1, dr:0.62+Math.random()*0.35, ph:0, drift:0, k:2 }); } }
+  function loop(now){
+    if(!lastT) lastT=now; var dt=Math.min(0.05,(now-lastT)/1000); lastT=now; var f=dt*60; var el=(now-startT)/1000;
+    cx.clearRect(0,0,innerWidth,innerHeight);
+    if(white>0.004){
+      cx.globalAlpha=1; cx.fillStyle='rgba(255,255,255,'+Math.min(1,white)+')'; cx.fillRect(0,0,innerWidth,innerHeight);
+      var ip=impact(), wg=cx.createRadialGradient(ip.x,ip.y-24,0,ip.x,ip.y-24,Math.max(innerWidth,innerHeight)*0.55);
+      wg.addColorStop(0,'rgba(246,199,101,'+(Math.min(1,white)*0.16)+')'); wg.addColorStop(1,'rgba(246,199,101,0)');
+      cx.fillStyle=wg; cx.fillRect(0,0,innerWidth,innerHeight);
+      if(now-startT>holdMs){ white -= (white>0.55?3.0:0.7)*dt; }
     }
+    for(var i=parts.length-1;i>=0;i--){ var q=parts[i];
+      q.x += (q.vx + (q.k===1? Math.sin(el*1.8+q.ph)*q.drift : 0))*f; q.y += q.vy*f;
+      if(q.k===1){ q.vy+=0.85*f*0.016; q.vx*=Math.pow(0.992,f); q.r+=0.5*f; } else { q.vy-=0.6*f*0.016; q.vx*=Math.pow(0.99,f); }
+      q.life-=q.dr*dt; if(q.life<=0){ parts.splice(i,1); continue; }
+      if(q.k===1){ var a=Math.max(0,q.life)*0.4, g=cx.createRadialGradient(q.x,q.y,0,q.x,q.y,q.r);
+        g.addColorStop(0,'rgba(255,255,255,'+a+')'); g.addColorStop(.5,'rgba(248,243,231,'+(a*0.72)+')'); g.addColorStop(1,'rgba(248,243,231,0)');
+        cx.globalAlpha=1; cx.fillStyle=g; cx.beginPath(); cx.arc(q.x,q.y,q.r,0,6.2832); cx.fill();
+      } else { cx.globalAlpha=Math.max(0,q.life); cx.shadowColor='rgba(246,199,101,.9)'; cx.shadowBlur=10; cx.fillStyle='rgba(246,199,101,1)'; cx.beginPath(); cx.arc(q.x,q.y,q.r,0,6.2832); cx.fill(); cx.shadowBlur=0; cx.globalAlpha=1; }
+    }
+    if(parts.length||white>0.004){ raf=requestAnimationFrame(loop); } else { cx.clearRect(0,0,innerWidth,innerHeight); raf=null; }
   }
-  if(!reduce){ setTimeout(spawnPuffs,2560); setTimeout(spawnEmbers,3200); }
+  function go(){ var p=impact(); white=1.18; startT=performance.now(); lastT=0; spawnDust(p); if(!raf) raf=requestAnimationFrame(loop); setTimeout(function(){ spawnEmbers(impact()); if(!raf) raf=requestAnimationFrame(loop); },640); }
+  if(!reduce){ setTimeout(go,2180); }
 </script>
 </body>
 </html>
