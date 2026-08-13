@@ -185,6 +185,76 @@ body{ --paper:#FBFAF5; --panel:#F1EFE6; --ink:#2C2B26; --muted:#6E6B62; --brick:
   .pdc-step-title{ color:#111 !important; }
   #results::after{ content:"Doughdominion \00B7 beheers je deeg \00B7 sander-hazewinkel.github.io/Doughdominion"; display:block; margin-top:18px; padding-top:8px; border-top:1px solid #ddd; font-size:10px; color:#999 !important; }
 }
+
+/* Journal */
+.pdc-journal-open{ margin-top:14px; font:inherit; font-size:13px; font-weight:600; letter-spacing:.02em; color:var(--brick-deep); background:var(--panel); border:1px solid var(--line); border-radius:999px; padding:8px 16px 8px 14px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; }
+.pdc-journal-open::before{ content:""; width:12px; height:15px; border:1.5px solid var(--brick); border-bottom:none; clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%); }
+.pdc-journal-open:hover{ border-color:var(--brick); }
+.pdc-savebake{ font:inherit; font-size:14px; font-weight:700; padding:10px 16px; border-radius:9px; cursor:pointer; background:var(--brick-deep); color:var(--on-accent); border:1px solid var(--brick-deep); box-shadow:0 2px 8px rgba(36,78,46,.18); }
+.pdc-savebake.on{ background:var(--basil); border-color:var(--basil); }
+.jr[hidden]{ display:none; }
+.jr{ position:fixed; inset:0; z-index:1000; display:flex; align-items:flex-end; justify-content:center; background:rgba(20,18,15,.46); -webkit-backdrop-filter:blur(2px); backdrop-filter:blur(2px); }
+body.jr-lock{ overflow:hidden; }
+.jr-sheet{ width:100%; max-width:640px; max-height:92vh; display:flex; flex-direction:column; background:var(--paper); border:1px solid var(--line); border-radius:18px 18px 0 0; box-shadow:0 -8px 40px rgba(0,0,0,.28); overflow:hidden; }
+@media (min-width:700px){ .jr{ align-items:center; } .jr-sheet{ border-radius:18px; max-height:86vh; } }
+.jr-head{ display:flex; align-items:center; justify-content:space-between; padding:9px 12px; border-bottom:1px solid var(--line); background:var(--panel); }
+.jr-tabs{ display:flex; gap:4px; }
+.jr-tab{ font:inherit; font-size:14px; font-weight:600; color:var(--muted); background:transparent; border:none; border-radius:8px; padding:9px 14px; cursor:pointer; }
+.jr-tab.on{ color:var(--brick-deep); background:rgba(59,122,69,.10); }
+.jr-close{ font:inherit; font-size:20px; line-height:1; color:var(--muted); background:transparent; border:none; cursor:pointer; padding:8px 11px; border-radius:8px; }
+.jr-close:hover{ color:var(--ink); }
+.jr-body{ overflow-y:auto; -webkit-overflow-scrolling:touch; padding:14px 16px 26px; }
+.jr-empty{ text-align:center; color:var(--muted); font-size:14.5px; line-height:1.55; padding:46px 22px; }
+.jr-list{ list-style:none; margin:0; padding:0; }
+.jr-row{ display:flex; align-items:center; gap:12px; padding:12px 4px; border-bottom:1px solid var(--line); cursor:pointer; min-height:64px; }
+.jr-row:hover{ background:rgba(59,122,69,.05); }
+.jr-thumb{ flex:0 0 auto; width:52px; height:52px; border-radius:10px; background-size:cover; background-position:center; background-color:var(--panel); display:flex; align-items:center; justify-content:center; color:var(--brick); font-size:11px; }
+.jr-thumb-empty{ border:1px solid var(--line); }
+.jr-row-main{ flex:1 1 auto; min-width:0; }
+.jr-row-name{ font-family:Georgia,"Times New Roman",serif; font-weight:700; font-size:15.5px; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.jr-row-meta{ font-size:12.5px; color:var(--muted); margin:2px 0 4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.jr-row-date{ flex:0 0 auto; font-size:11.5px; color:var(--muted); align-self:flex-start; padding-top:3px; }
+.jr-stars{ display:inline-flex; gap:2px; }
+.jr-star{ font-size:14px; line-height:1; color:var(--line); background:transparent; border:none; padding:0; cursor:default; }
+.jr-star.on{ color:#E3A81F; }
+.jr-stars-lg .jr-star{ font-size:27px; cursor:pointer; padding:2px 3px; }
+.jr-detail{ display:flex; flex-direction:column; gap:12px; }
+.jr-back{ align-self:flex-start; font:inherit; font-size:13px; color:var(--muted); background:transparent; border:none; cursor:pointer; padding:4px 0; }
+.jr-name{ font-family:Georgia,"Times New Roman",serif; font-weight:700; font-size:18px; }
+.jr-card{ background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px 14px; }
+.jr-card-meth{ font-weight:700; color:var(--brick-deep); font-size:14px; }
+.jr-card-sum{ font-size:13.5px; color:var(--ink); margin-top:3px; }
+.jr-card-date{ font-size:11.5px; color:var(--muted); margin-top:5px; }
+.jr-again{ width:100%; margin:2px 0 2px; }
+.jr-after-h{ font-family:Georgia,"Times New Roman",serif; font-weight:700; font-size:15px; color:var(--ink); margin-top:4px; }
+.jr-after-note{ font-size:12.5px; color:var(--muted); margin-top:2px; }
+.jr-field{ display:flex; flex-direction:column; gap:5px; }
+.jr-flabel{ font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+.jr-ta{ resize:vertical; min-height:44px; font:inherit; line-height:1.5; }
+.jr-addphoto{ display:inline-flex; align-items:center; gap:8px; align-self:flex-start; font:inherit; font-size:13px; font-weight:600; color:var(--brick-deep); background:transparent; border:1px dashed var(--brick); border-radius:9px; padding:9px 14px; cursor:pointer; }
+.jr-photo{ position:relative; }
+.jr-photo img{ width:100%; max-height:260px; object-fit:cover; border-radius:12px; border:1px solid var(--line); display:block; }
+.jr-photo-x{ position:absolute; top:8px; right:8px; font:inherit; font-size:12px; color:#fff; background:rgba(0,0,0,.55); border:none; border-radius:7px; padding:5px 9px; cursor:pointer; }
+.jr-del{ align-self:flex-start; margin-top:4px; font:inherit; font-size:13px; color:#B0442E; background:transparent; border:1px solid var(--line); border-radius:8px; padding:8px 14px; cursor:pointer; }
+.jr-del:hover{ border-color:#B0442E; }
+.jr-stform{ display:flex; flex-direction:column; gap:10px; padding-bottom:14px; margin-bottom:6px; border-bottom:1px solid var(--line); }
+.jr-stadd{ width:auto; align-self:flex-start; }
+.jr-strow{ padding:10px 4px; border-bottom:1px solid var(--line); }
+.jr-strow-top{ display:flex; align-items:center; justify-content:space-between; }
+.jr-strow-date{ font-weight:700; font-size:13.5px; color:var(--ink); }
+.jr-strow-x{ font:inherit; font-size:17px; color:var(--muted); background:transparent; border:none; cursor:pointer; padding:2px 8px; line-height:1; }
+.jr-strow-meta{ font-size:13px; color:var(--brick-deep); margin-top:2px; }
+.jr-strow-note{ font-size:13px; color:var(--muted); margin-top:3px; line-height:1.45; }
+
+.pdc-quickstart-lbl{ font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin:0 0 8px; }
+.jr-share{ display:flex; flex-direction:column; gap:8px; margin-top:6px; padding-top:12px; border-top:1px solid var(--line); }
+.jr-shbtn{ width:100%; }
+.jr-shsave{ align-self:flex-start; font:inherit; font-size:13px; font-weight:600; color:var(--brick-deep); background:transparent; border:1px solid var(--line); border-radius:9px; padding:9px 14px; cursor:pointer; }
+.jr-soc-lbl{ font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-top:4px; }
+.jr-soc-row{ display:flex; flex-wrap:wrap; gap:7px; }
+.jr-soc{ font:inherit; font-size:13px; font-weight:600; text-decoration:none; color:var(--brick-deep); background:var(--panel); border:1px solid var(--line); border-radius:999px; padding:7px 14px; }
+.jr-soc:hover{ border-color:var(--brick); }
+.jr-soc-note{ font-size:12px; color:var(--muted); line-height:1.45; margin-top:2px; }
 </style>
 </head>
 <body>
@@ -216,6 +286,7 @@ body{ --paper:#FBFAF5; --panel:#F1EFE6; --ink:#2C2B26; --muted:#6E6B62; --brick:
   <p class="pdc-tagline" data-i18n="sub">Master your dough</p>
   <p class="pdc-zen" data-i18n="eyebrow">bringing the zen into pizza making</p>
   <p class="pdc-props" data-i18n="props">free · offline · no account · every method</p>
+  <button type="button" class="pdc-journal-open" id="openJournal" data-i18n="journal">Journal</button>
 </header>
 
 <div class="pdc-grid">
@@ -284,7 +355,7 @@ body{ --paper:#FBFAF5; --panel:#F1EFE6; --ink:#2C2B26; --muted:#6E6B62; --brick:
 
     <div class="pdc-plan-divider" data-i18n="or_by_hand">or set it by hand</div>
 
-    <div class="pdc-glabel" data-i18n="style_label">Style</div>
+    <div class="pdc-quickstart-lbl" data-i18n="quickstarts">Quick starts</div>
     <div class="pdc-presets" id="presets"></div>
 
     <div class="pdc-group">
@@ -654,6 +725,50 @@ I18N.en.howto_d3="<strong>Days 3–5</strong> — Once or twice a day: keep abou
 I18N.en.howto_d5="<strong>Days 5–7</strong> — When it reliably doubles within 4–8 h of a feed and smells pleasantly sour, it's ready to bake with."; I18N.nl.howto_d5="<strong>Dag 5–7</strong> — Als het na voeren betrouwbaar binnen 4–8 u verdubbelt en aangenaam zuur ruikt, is het klaar om mee te bakken.";
 I18N.en.howto_keep="Keeping it: feed daily at room temperature, or store it in the fridge and feed once a week. Before a bake, take it out and feed it once or twice until it peaks — that peaked starter is what you use in “Build the levain” above."; I18N.nl.howto_keep="Bewaren: dagelijks voeren op kamertemperatuur, of in de koelkast zetten en één keer per week voeren. Voor een bak eruit halen en één à twee keer voeren tot de piek — dat piekende desem gebruik je bij “Maak de levain” hierboven.";
 
+I18N.en.journal="Journal"; I18N.nl.journal="Logboek";
+I18N.en.jr_title="Bake journal"; I18N.nl.jr_title="Baklogboek";
+I18N.en.jr_tab_bakes="Bakes"; I18N.nl.jr_tab_bakes="Baksels";
+I18N.en.jr_tab_starter="Starter"; I18N.nl.jr_tab_starter="Desem";
+I18N.en.jr_save="Save this bake"; I18N.nl.jr_save="Bewaar dit baksel";
+I18N.en.jr_saved="Saved \u2713"; I18N.nl.jr_saved="Bewaard \u2713";
+I18N.en.jr_empty="No bakes saved yet. Build a plan, then tap \u201cSave this bake\u201d \u2014 every number is filled in for you. After baking, come back to add a rating, notes and a photo."; I18N.nl.jr_empty="Nog geen baksels bewaard. Bouw een plan en tik op \u201cBewaar dit baksel\u201d \u2014 alle getallen staan al voor je ingevuld. Kom na het bakken terug voor een beoordeling, notities en een foto.";
+I18N.en.jr_empty_starter="No feedings logged yet. Add one after you feed your starter \u2014 date, flour, ratio, and how it smells and rises."; I18N.nl.jr_empty_starter="Nog geen voedingen genoteerd. Voeg er een toe nadat je je desem hebt gevoerd \u2014 datum, meel, verhouding en hoe het ruikt en rijst.";
+I18N.en.jr_bake_again="Bake this again"; I18N.nl.jr_bake_again="Bak dit opnieuw";
+I18N.en.jr_delete="Delete this bake"; I18N.nl.jr_delete="Baksel verwijderen";
+I18N.en.jr_delete_confirm="Delete this bake for good?"; I18N.nl.jr_delete_confirm="Dit baksel definitief verwijderen?";
+I18N.en.jr_rating="Rating"; I18N.nl.jr_rating="Beoordeling";
+I18N.en.jr_notes="How it turned out"; I18N.nl.jr_notes="Hoe het werd";
+I18N.en.jr_notes_ph="Crumb, crust, taste \u2014 what you noticed."; I18N.nl.jr_notes_ph="Kruim, korst, smaak \u2014 wat je opviel.";
+I18N.en.jr_change="What I\u2019d change next time"; I18N.nl.jr_change="Wat ik de volgende keer anders doe";
+I18N.en.jr_change_ph="One thing to try differently."; I18N.nl.jr_change_ph="\u00c9\u00e9n ding om anders te proberen.";
+I18N.en.jr_photo="Photo"; I18N.nl.jr_photo="Foto";
+I18N.en.jr_add_photo="Add photo"; I18N.nl.jr_add_photo="Foto toevoegen";
+I18N.en.jr_replace_photo="Replace photo"; I18N.nl.jr_replace_photo="Foto vervangen";
+I18N.en.jr_remove_photo="Remove"; I18N.nl.jr_remove_photo="Verwijderen";
+I18N.en.jr_after_bake="After baking"; I18N.nl.jr_after_bake="Na het bakken";
+I18N.en.jr_after_note="All optional \u2014 add whatever helps you repeat it."; I18N.nl.jr_after_note="Alles optioneel \u2014 voeg toe wat helpt om het te herhalen.";
+I18N.en.jr_saved_on="Saved {d}"; I18N.nl.jr_saved_on="Bewaard op {d}";
+I18N.en.jr_untitled="Untitled bake"; I18N.nl.jr_untitled="Naamloos baksel";
+I18N.en.jr_full="Storage is full. Remove a photo or an old bake to save more."; I18N.nl.jr_full="De opslag is vol. Verwijder een foto of een oud baksel om meer te bewaren.";
+I18N.en.jr_photo_big="That image is too large to store on-device. Try a smaller photo."; I18N.nl.jr_photo_big="Die afbeelding is te groot om op het apparaat te bewaren. Probeer een kleinere foto.";
+I18N.en.jr_add_feeding="Log a feeding"; I18N.nl.jr_add_feeding="Voeding noteren";
+I18N.en.jr_st_date="Date"; I18N.nl.jr_st_date="Datum";
+I18N.en.jr_st_flour="Flour"; I18N.nl.jr_st_flour="Meel";
+I18N.en.jr_st_flour_ph="Rye, wholemeal, white\u2026"; I18N.nl.jr_st_flour_ph="Rogge, volkoren, wit\u2026";
+I18N.en.jr_st_ratio="Feed ratio"; I18N.nl.jr_st_ratio="Voerverhouding";
+I18N.en.jr_st_ratio_ph="e.g. 1:2:2 (starter:flour:water)"; I18N.nl.jr_st_ratio_ph="bijv. 1:2:2 (desem:meel:water)";
+I18N.en.jr_st_note="Activity & aroma"; I18N.nl.jr_st_note="Activiteit & geur";
+I18N.en.jr_st_note_ph="How much it rose, how it smells."; I18N.nl.jr_st_note_ph="Hoeveel het rees, hoe het ruikt.";
+I18N.en.jr_st_add="Add feeding"; I18N.nl.jr_st_add="Voeding toevoegen";
+I18N.en.quickstarts="Quick starts"; I18N.nl.quickstarts="Snelstart";
+I18N.en.jr_share_h="Share"; I18N.nl.jr_share_h="Delen";
+I18N.en.jr_share="Share\u2026"; I18N.nl.jr_share="Deel\u2026";
+I18N.en.jr_save_card="Save card"; I18N.nl.jr_save_card="Bewaar kaart";
+I18N.en.jr_share_to="Or post straight to:"; I18N.nl.jr_share_to="Of post direct naar:";
+I18N.en.jr_share_note="Instagram, TikTok & Snapchat have no web post-link \u2014 use \u201cShare\u2026\u201d and pick them in your phone\u2019s share sheet, or save the card and post it there."; I18N.nl.jr_share_note="Instagram, TikTok en Snapchat hebben geen web-postlink \u2014 gebruik \u201cDeel\u2026\u201d en kies ze in het deelvenster van je telefoon, of bewaar de kaart en post 'm daar.";
+I18N.en.jr_share_tag="Planned with Doughdominion \ud83c\udf55"; I18N.nl.jr_share_tag="Gepland met Doughdominion \ud83c\udf55";
+I18N.en.jr_card_footer="Planned with Doughdominion \u00b7 master your dough"; I18N.nl.jr_card_footer="Gepland met Doughdominion \u00b7 beheers je deeg";
+
 function clampR(x,a,b){ var r=Math.round(x*2)/2; return Math.max(a,Math.min(b,r)); }
 function makePlanSour(availH, roomC, ovenWarm, fridge, fridgeC, flour, size, strength, starter){
   var notes=[], warmC=ovenWarm?28:roomC;
@@ -727,7 +842,8 @@ function model(){
   else { m.pfFlour=flour*0.30; m.pfWater=Math.min(flour*0.30,m.water); m.finalFlour=flour-m.pfFlour; m.finalWater=Math.max(0,m.water-m.pfWater); }
   return m;
 }
-function modeName(){ return method==="poolish"?t("mode_poolish"):method==="biga"?t("mode_biga"):method==="sourdough"?t("mode_sour"):t("mode_trad"); }
+function modeNameOf(mth){ return mth==="poolish"?t("mode_poolish"):mth==="biga"?t("mode_biga"):mth==="sourdough"?t("mode_sour"):t("mode_trad"); }
+function modeName(){ return modeNameOf(method); }
 function hintName(){ return method==="poolish"?t("hint_poolish"):method==="biga"?t("hint_biga"):method==="sourdough"?t("hint_sour"):t("hint_trad"); }
 function ingWord(k){ return t("ing_"+k); }
 function yl(type){ return t("yl_"+type); }
@@ -794,7 +910,7 @@ function render(){
     "<div class='pdc-totals'><div><div class='pdc-tnum'>"+fmtW(m.flour,"flour")+"</div><div class='pdc-tlabel'>"+t("flour")+"</div></div><div><div class='pdc-tnum2'>"+fmtW(m.total,"flour")+"</div><div class='pdc-tlabel'>"+t("total_dough")+"</div></div></div>"+
     "<div class='pdc-bar'>"+bar+"</div><ol class='pdc-steps'>"+stepsHTML+"</ol>"+
     "<div class='pdc-salt-note'>"+saltNoteHTML+"</div>"+
-    "<div class='pdc-actions'><button type='button' class='pdc-share' id='shareBtn'>"+t("share")+"</button><button type='button' class='pdc-copy' id='copyBtn'>"+t("copy")+"</button><button type='button' class='pdc-print' id='printBtn'>"+t("print")+"</button></div>"+
+    "<div class='pdc-actions'><button type='button' class='pdc-savebake' id='saveBakeBtn'>"+t("jr_save")+"</button><button type='button' class='pdc-share' id='shareBtn'>"+t("share")+"</button><button type='button' class='pdc-copy' id='copyBtn'>"+t("copy")+"</button><button type='button' class='pdc-print' id='printBtn'>"+t("print")+"</button></div>"+
     "<div class='pdc-remind'><div class='pdc-remind-title'>"+t("reminders")+"</div><div class='pdc-remind-row'>"+
       "<label class='pdc-field'><span class='pdc-flabel'>"+t("alarm_lead")+"</span><select class='pdc-input' id='remLead'>"+
         "<option value='0'>"+t("lead_0")+"</option><option value='5'>"+t("lead_5")+"</option><option value='10'>"+t("lead_10")+"</option><option value='15'>"+t("lead_15")+"</option><option value='30'>"+t("lead_30")+"</option></select></label>"+
@@ -862,7 +978,7 @@ function renderSchedule(){
 function setSaltUnit(u){ if(u===saltUnit) return; var cur=num(V("salt")); document.getElementById("salt").value=(u==="gkg")?String(round(cur*10,3)):String(round(cur/10,4)); document.getElementById("salt").step=(u==="gkg")?"1":"0.1"; saltUnit=u; document.getElementById("saltUnitBtn").textContent=(u==="gkg")?"g/kg":"%"; }
 function renderStarterHowto(){ var b=document.getElementById("howtoBody"); if(!b) return; document.getElementById("howtoSummary").textContent=t("howto_summary"); b.innerHTML="<p class=\"pdc-howto-intro\">"+t("howto_intro")+"</p><ol><li>"+t("howto_d1")+"</li><li>"+t("howto_d2")+"</li><li>"+t("howto_d3")+"</li><li>"+t("howto_d5")+"</li></ol><div class=\"pdc-howto-keep\">"+t("howto_keep")+"</div>"; }
 function applyMethodUI(){ var sour=method==="sourdough"; var ry=document.getElementById("rowYeast"), rl=document.getElementById("rowLevain"), rs=document.getElementById("rowStarter"); if(ry) ry.style.display=sour?"none":""; if(rl) rl.style.display=sour?"":"none"; if(rs) rs.style.display=sour?"":"none"; var hw=document.getElementById("starterHowto"); if(hw){ hw.style.display=sour?"":"none"; if(sour) renderStarterHowto(); } }
-function setMethod(m){ method=m; ["mPoolish","mBiga","mSour","mTrad"].forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove("on"); }); var map={poolish:"mPoolish",biga:"mBiga",sourdough:"mSour",traditional:"mTrad"}; var b=document.getElementById(map[m]); if(b) b.classList.add("on"); applyMethodUI(); renderSchedule(); }
+function setMethod(m){ method=m; ["mPoolish","mBiga","mSour","mTrad"].forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove("on"); }); var map={poolish:"mPoolish",biga:"mBiga",sourdough:"mSour",traditional:"mTrad"}; var b=document.getElementById(map[m]); if(b) b.classList.add("on"); applyMethodUI(); renderSchedule(); var mh=document.getElementById("methodHint"); if(mh) mh.textContent=hintName(); }
 function toggleAuto(){ if(autoYeast){ YEASTBY[method]=String(round(suggestFromSchedule(),2)); autoYeast=false; } else { autoYeast=true; } render(); }
 function applyPreset(name){
   var p=PRESETS[name]; if(!p) return;
@@ -907,6 +1023,52 @@ function detectIntro(){ try{ return localStorage.getItem("doughjo_intro")==="off
 function detectLang(){ try{ var s=localStorage.getItem("doughjo_lang"); if(s&&I18N[s]) return s; }catch(e){} var ls=(navigator.languages||[navigator.language||"en"]); for(var i=0;i<ls.length;i++){ var c=(ls[i]||"").slice(0,2).toLowerCase(); if(I18N[c]) return c; } return "en"; }
 function detectUnits(){ try{ var s=localStorage.getItem("doughjo_units"); if(s) return s; }catch(e){} var loc=(navigator.language||"en-US"); if(/[-_](US|LR|MM)$/i.test(loc)) return "imperial"; return "metric"; }
 
+
+/* ============ JOURNAL ============ */
+function jrLoad(){ try{ return JSON.parse(localStorage.getItem("doughjo_journal")||"[]")||[]; }catch(e){ return []; } }
+function jrPersist(list){ try{ localStorage.setItem("doughjo_journal", JSON.stringify(list)); return true; }catch(e){ alert(t("jr_full")); return false; } }
+function stLoad(){ try{ return JSON.parse(localStorage.getItem("doughjo_starterlog")||"[]")||[]; }catch(e){ return []; } }
+function stPersist(list){ try{ localStorage.setItem("doughjo_starterlog", JSON.stringify(list)); return true; }catch(e){ alert(t("jr_full")); return false; } }
+var JR_TAB="bakes", JR_OPEN=null;
+function jrDateShort(ms){ return new Date(ms).toLocaleDateString(LANG==="nl"?"nl-NL":"en-US",{day:"numeric",month:"short"}); }
+function jrDateLong(ms){ return new Date(ms).toLocaleDateString(LANG==="nl"?"nl-NL":"en-US",{day:"numeric",month:"short",year:"numeric"}); }
+function stDateDisp(f){ if(f.date){ var d=new Date(f.date+"T00:00:00"); if(!isNaN(d)) return d.toLocaleDateString(LANG==="nl"?"nl-NL":"en-US",{day:"numeric",month:"short",year:"numeric"}); } return jrDateShort(f.id); }
+function jrSummary(s){ return { meth:modeNameOf(s.method), line:nf(s.ballsN,0)+" \u00D7 "+fmtW(s.ballWN,"flour")+" \u00B7 "+nf(s.hyd,0)+"% \u00B7 ~"+fmtDur(s.totalH) }; }
+function jrStarsHTML(rating, interactive){ var h="<div class='jr-stars"+(interactive?" jr-stars-lg":"")+"'>"; for(var i=1;i<=5;i++){ h+="<button type='button' class='jr-star"+(i<=rating?" on":"")+"'"+(interactive?" data-star='"+i+"'":" tabindex='-1' aria-hidden='true'")+">\u2605</button>"; } return h+"</div>"; }
+function captureBake(){ var m=model(), inputs={}; ["balls","ballWeight","hydration","salt","yeastType","oil","sugar","honey","levainPct","levainHyd","yeast"].forEach(function(id){ inputs[id]=V(id); }); return { id:Date.now(), createdAt:Date.now(), name:modeNameOf(method)+" \u00B7 "+jrDateShort(Date.now()), inputs:inputs, state:{ method:method, saltUnit:saltUnit, autoYeast:autoYeast, yeastBy:YEASTBY[method], timing:JSON.parse(JSON.stringify(TIMING[method])), startTime:startTime }, summary:{ method:method, ballsN:m.ballsN, ballWN:m.ballWN, hyd:m.hyd, yeastP:m.yeastP, levainP:(method==="sourdough"?m.levainP:null), totalH:m.totalH }, rating:0, notes:"", change:"", photo:null }; }
+function saveCurrentBake(){ var list=jrLoad(); list.unshift(captureBake()); if(jrPersist(list)){ var b=document.getElementById("saveBakeBtn"); if(b){ b.textContent=t("jr_saved"); b.classList.add("on"); setTimeout(function(){ b.textContent=t("jr_save"); b.classList.remove("on"); },1600); } } }
+function jrReadPhoto(file, cb){ var r=new FileReader(); r.onload=function(){ var img=new Image(); img.onload=function(){ var max=1200, w=img.width, h=img.height, sc=Math.min(1,max/Math.max(w,h)); var cw=Math.max(1,Math.round(w*sc)), ch=Math.max(1,Math.round(h*sc)); var c=document.createElement("canvas"); c.width=cw; c.height=ch; c.getContext("2d").drawImage(img,0,0,cw,ch); try{ cb(c.toDataURL("image/jpeg",0.82)); }catch(err){ cb(null); } }; img.onerror=function(){ cb(null); }; img.src=r.result; }; r.onerror=function(){ cb(null); }; r.readAsDataURL(file); }
+function openJournal(){ JR_OPEN=null; JR_TAB="bakes"; var j=document.getElementById("journal"); j.hidden=false; j.setAttribute("aria-hidden","false"); document.body.classList.add("jr-lock"); renderJournal(); }
+function closeJournal(){ var j=document.getElementById("journal"); j.hidden=true; j.setAttribute("aria-hidden","true"); document.body.classList.remove("jr-lock"); }
+function renderJournal(){ var a=document.getElementById("jrTabBakes"), b=document.getElementById("jrTabStarter"); if(a) a.classList.toggle("on",JR_TAB==="bakes"); if(b) b.classList.toggle("on",JR_TAB==="starter"); var body=document.getElementById("jrBody"); if(!body) return; if(JR_TAB==="starter"){ renderStarter(body); } else if(JR_OPEN!=null){ renderBakeDetail(body,JR_OPEN); } else { renderBakeList(body); } }
+function renderBakeList(body){ var list=jrLoad(); if(!list.length){ body.innerHTML="<div class='jr-empty'>"+esc(t("jr_empty"))+"</div>"; return; } var h="<ul class='jr-list'>"; list.forEach(function(e){ var s=jrSummary(e.summary); var thumb=e.photo?("<span class='jr-thumb' style=\"background-image:url('"+e.photo+"')\"></span>"):("<span class='jr-thumb jr-thumb-empty'>\u25CB</span>"); h+="<li class='jr-row' data-open='"+e.id+"'>"+thumb+"<div class='jr-row-main'><div class='jr-row-name'>"+esc(e.name)+"</div><div class='jr-row-meta'>"+esc(s.line)+"</div>"+jrStarsHTML(e.rating,false)+"</div></li>"; }); body.innerHTML=h+"</ul>"; Array.prototype.forEach.call(body.querySelectorAll("[data-open]"),function(li){ li.addEventListener("click",function(){ JR_OPEN=parseInt(li.getAttribute("data-open"),10); renderJournal(); }); }); }
+function jrPatch(id,field,val){ var l=jrLoad(); for(var i=0;i<l.length;i++){ if(l[i].id===id){ l[i][field]=val; break; } } jrPersist(l); }
+function renderBakeDetail(body,id){ var list=jrLoad(), e=null,i; for(i=0;i<list.length;i++){ if(list[i].id===id){ e=list[i]; break; } } if(!e){ JR_OPEN=null; renderBakeList(body); return; } var s=jrSummary(e.summary); var photo=e.photo?("<div class='jr-photo'><img src='"+e.photo+"' alt=''><button type='button' class='jr-photo-x' id='jrPhotoRemove'>"+esc(t("jr_remove_photo"))+"</button></div>"):""; var addLabel=e.photo?t("jr_replace_photo"):t("jr_add_photo"); var _u=encodeURIComponent(ddShareUrl()),_t=encodeURIComponent(shareText(e)),_og=encodeURIComponent(ddOg()); var _L=[["Reddit","https://www.reddit.com/submit?url="+_u+"&title="+_t],["X","https://twitter.com/intent/tweet?text="+_t+"&url="+_u],["Facebook","https://www.facebook.com/sharer/sharer.php?u="+_u],["WhatsApp","https://wa.me/?text="+encodeURIComponent(shareText(e)+" "+ddShareUrl())],["Telegram","https://t.me/share/url?url="+_u+"&text="+_t],["Pinterest","https://www.pinterest.com/pin/create/button/?url="+_u+"&media="+_og+"&description="+_t]]; var soc="<div class='jr-share'><div class='jr-after-h'>"+esc(t("jr_share_h"))+"</div><button type='button' class='pdc-plan-go jr-shbtn' id='jrShare'>"+esc(t("jr_share"))+"</button><button type='button' class='jr-shsave' id='jrShareSave'>"+esc(t("jr_save_card"))+"</button><div class='jr-soc-lbl'>"+esc(t("jr_share_to"))+"</div><div class='jr-soc-row'>"+_L.map(function(pp){return "<a class='jr-soc' href='"+pp[1]+"' target='_blank' rel='noopener'>"+pp[0]+"</a>";}).join("")+"</div><div class='jr-soc-note'>"+esc(t("jr_share_note"))+"</div></div>"; body.innerHTML="<div class='jr-detail'>"+"<button type='button' class='jr-back' id='jrBack'>\u2190 "+esc(t("jr_tab_bakes"))+"</button>"+"<input class='pdc-input jr-name' id='jrName'>"+"<div class='jr-card'><div class='jr-card-meth'>"+esc(s.meth)+"</div><div class='jr-card-sum'>"+esc(s.line)+"</div><div class='jr-card-date'>"+esc(tt("jr_saved_on",{d:jrDateLong(e.createdAt)}))+"</div></div>"+"<button type='button' class='pdc-plan-go jr-again' id='jrAgain'>"+esc(t("jr_bake_again"))+"</button>"+"<div class='jr-after-h'>"+esc(t("jr_after_bake"))+"</div><div class='jr-after-note'>"+esc(t("jr_after_note"))+"</div>"+"<div class='jr-field'><span class='jr-flabel'>"+esc(t("jr_rating"))+"</span>"+jrStarsHTML(e.rating,true)+"</div>"+"<label class='jr-field'><span class='jr-flabel'>"+esc(t("jr_notes"))+"</span><textarea class='pdc-input jr-ta' id='jrNotes' rows='3' placeholder='"+esc(t("jr_notes_ph"))+"'></textarea></label>"+"<label class='jr-field'><span class='jr-flabel'>"+esc(t("jr_change"))+"</span><textarea class='pdc-input jr-ta' id='jrChange' rows='2' placeholder='"+esc(t("jr_change_ph"))+"'></textarea></label>"+"<div class='jr-field'><span class='jr-flabel'>"+esc(t("jr_photo"))+"</span>"+photo+"<label class='jr-addphoto'><input type='file' accept='image/*' id='jrPhoto' hidden>"+esc(addLabel)+"</label></div>"+soc+"<button type='button' class='jr-del' id='jrDel'>"+esc(t("jr_delete"))+"</button>"+"</div>"; document.getElementById("jrName").value=e.name; document.getElementById("jrNotes").value=e.notes||""; document.getElementById("jrChange").value=e.change||""; document.getElementById("jrBack").addEventListener("click",function(){ JR_OPEN=null; renderJournal(); }); document.getElementById("jrAgain").addEventListener("click",function(){ restoreBake(e); }); document.getElementById("jrDel").addEventListener("click",function(){ if(confirm(t("jr_delete_confirm"))){ var l=jrLoad().filter(function(x){return x.id!==id;}); jrPersist(l); JR_OPEN=null; renderJournal(); } }); document.getElementById("jrName").addEventListener("change",function(){ var v=this.value.trim()||t("jr_untitled"); this.value=v; jrPatch(id,"name",v); }); document.getElementById("jrNotes").addEventListener("change",function(){ jrPatch(id,"notes",this.value); }); document.getElementById("jrChange").addEventListener("change",function(){ jrPatch(id,"change",this.value); }); Array.prototype.forEach.call(body.querySelectorAll(".jr-star[data-star]"),function(btn){ btn.addEventListener("click",function(){ var r=parseInt(btn.getAttribute("data-star"),10); var val=(e.rating===r)?0:r; jrPatch(id,"rating",val); e.rating=val; renderBakeDetail(body,id); }); }); document.getElementById("jrPhoto").addEventListener("change",function(){ var f=this.files&&this.files[0]; if(!f) return; jrReadPhoto(f,function(dat){ if(!dat){ alert(t("jr_photo_big")); return; } var l=jrLoad(),idx=-1,k; for(k=0;k<l.length;k++){ if(l[k].id===id){ idx=k; break; } } if(idx<0) return; var prev=l[idx].photo; l[idx].photo=dat; if(jrPersist(l)){ e.photo=dat; renderBakeDetail(body,id); } else { l[idx].photo=prev; } }); }); var shb=document.getElementById("jrShare"); if(shb) shb.addEventListener("click",function(){ shareBake(e); }); var shs=document.getElementById("jrShareSave"); if(shs) shs.addEventListener("click",function(){ downloadCard(e); }); var rm=document.getElementById("jrPhotoRemove"); if(rm){ rm.addEventListener("click",function(){ jrPatch(id,"photo",null); e.photo=null; renderBakeDetail(body,id); }); } }
+function restoreBake(e){ var st=e.state, inp=e.inputs; TIMING[st.method]=JSON.parse(JSON.stringify(st.timing)); YEASTBY[st.method]=st.yeastBy; autoYeast=!!st.autoYeast; saltUnit=st.saltUnit||"pct"; var sb=document.getElementById("saltUnitBtn"); if(sb) sb.textContent=(saltUnit==="gkg")?"g/kg":"%"; var si=document.getElementById("salt"); if(si) si.step=(saltUnit==="gkg")?"1":"0.1"; Object.keys(inp).forEach(function(id){ var el=document.getElementById(id); if(el) el.value=inp[id]; }); setMethod(st.method); setStart(st.startTime||nowHM()); render(); closeJournal(); var r=document.getElementById("results"); if(r) r.scrollIntoView({behavior:"smooth",block:"start"}); }
+function ddBase(){ return location.href.replace(/[?#].*$/,"").replace(/[^\/]*$/,""); }
+function ddShareUrl(){ return ddBase()+"?ref=share"; }
+function ddOg(){ return ddBase()+"og-image.png"; }
+function ddStars(n){ var o=""; for(var i=0;i<5;i++) o+=(i<n?"\u2605":"\u2606"); return o; }
+function shareText(e){ var s=jrSummary(e.summary); return e.name+(e.rating?(" "+ddStars(e.rating)):"")+" \u00b7 "+s.line+" \u00b7 "+t("jr_share_tag"); }
+function ddWrap(x,txt,px,py,maxw,lh){ var w=(txt||"").split(" "),line="",yy=py,i; for(i=0;i<w.length;i++){ var tst=line+w[i]+" "; if(x.measureText(tst).width>maxw&&line){ x.fillText(line.trim(),px,yy); line=w[i]+" "; yy+=lh; } else line=tst; } x.fillText(line.trim(),px,yy); return yy; }
+function makeShareCard(e,cb){ var W=1080,H=1080,c=document.createElement("canvas"); c.width=W; c.height=H; var x=c.getContext("2d"); var s=jrSummary(e.summary);
+  function draw(img){ x.fillStyle="#F7F3EA"; x.fillRect(0,0,W,H); var top=0;
+    if(img){ var hy=560,iw=img.width,ih=img.height,ar=iw/ih,tar=W/hy,sw,sh,sx,sy; if(ar>tar){ sh=ih; sw=ih*tar; sx=(iw-sw)/2; sy=0; } else { sw=iw; sh=iw/tar; sx=0; sy=(ih-sh)/2; } x.drawImage(img,sx,sy,sw,sh,0,0,W,hy); top=hy; }
+    var pad=76,y=top+(img?96:170);
+    x.textBaseline="alphabetic"; x.font="bold 60px Georgia,serif"; x.fillStyle="#2A2622"; x.fillText("Dough",pad,y); var w1=x.measureText("Dough").width; x.fillStyle="#3B7A45"; x.fillText("dominion",pad+w1,y); y+=96;
+    x.fillStyle="#2A2622"; x.font="bold 54px Georgia,serif"; y=ddWrap(x,e.name,pad,y,W-2*pad,62)+58;
+    x.fillStyle="#3B7A45"; x.font="600 32px -apple-system,Segoe UI,Roboto,sans-serif"; x.fillText(s.meth,pad,y); y+=58;
+    if(e.rating){ x.fillStyle="#E3A81F"; x.font="42px serif"; x.fillText(ddStars(e.rating),pad,y); y+=62; }
+    x.fillStyle="#4A453E"; x.font="34px -apple-system,Segoe UI,Roboto,sans-serif"; x.fillText(s.line,pad,y);
+    x.fillStyle="#8A8377"; x.font="26px -apple-system,Segoe UI,Roboto,sans-serif"; x.fillText(t("jr_card_footer"),pad,H-58);
+    cb(c); }
+  if(e.photo){ var im=new Image(); im.onload=function(){ draw(im); }; im.onerror=function(){ draw(null); }; im.src=e.photo; } else draw(null); }
+function shareBake(e){ makeShareCard(e,function(c){ var url=ddShareUrl(),txt=shareText(e); if(c.toBlob){ c.toBlob(function(blob){ var f=blob?new File([blob],"doughdominion.png",{type:"image/png"}):null; if(navigator.share&&f&&navigator.canShare&&navigator.canShare({files:[f]})){ navigator.share({files:[f],text:txt+" "+url}).catch(function(){}); } else if(navigator.share){ navigator.share({title:"Doughdominion",text:txt,url:url}).catch(function(){}); } else { ddDl(c); } },"image/png"); } else if(navigator.share){ navigator.share({title:"Doughdominion",text:txt,url:url}).catch(function(){}); } else { ddDl(c); } }); }
+function ddDl(c){ var a=document.createElement("a"); a.href=c.toDataURL("image/png"); a.download="doughdominion.png"; document.body.appendChild(a); a.click(); a.remove(); }
+function downloadCard(e){ makeShareCard(e,function(c){ ddDl(c); }); }
+function renderStarter(body){ var list=stLoad(); var form="<div class='jr-stform'>"+"<div class='jr-after-h'>"+esc(t("jr_add_feeding"))+"</div>"+"<div class='pdc-row2'>"+"<label class='pdc-field'><span class='pdc-flabel'>"+esc(t("jr_st_date"))+"</span><input class='pdc-input' type='date' id='stDate'></label>"+"<label class='pdc-field'><span class='pdc-flabel'>"+esc(t("jr_st_ratio"))+"</span><input class='pdc-input' id='stRatio' placeholder='"+esc(t("jr_st_ratio_ph"))+"'></label>"+"</div>"+"<label class='pdc-field'><span class='pdc-flabel'>"+esc(t("jr_st_flour"))+"</span><input class='pdc-input' id='stFlour' placeholder='"+esc(t("jr_st_flour_ph"))+"'></label>"+"<label class='pdc-field'><span class='pdc-flabel'>"+esc(t("jr_st_note"))+"</span><input class='pdc-input' id='stNote' placeholder='"+esc(t("jr_st_note_ph"))+"'></label>"+"<button type='button' class='pdc-cal jr-stadd' id='stAdd'>"+esc(t("jr_st_add"))+"</button>"+"</div>"; var lh; if(!list.length){ lh="<div class='jr-empty'>"+esc(t("jr_empty_starter"))+"</div>"; } else { lh="<ul class='jr-list jr-stlist'>"; list.forEach(function(f){ var meta=[f.flour,f.ratio].filter(Boolean).map(esc).join(" \u00B7 "); lh+="<li class='jr-strow'><div class='jr-strow-top'><span class='jr-strow-date'>"+esc(stDateDisp(f))+"</span><button type='button' class='jr-strow-x' data-del='"+f.id+"' aria-label='x'>\u00D7</button></div>"+(meta?"<div class='jr-strow-meta'>"+meta+"</div>":"")+(f.note?"<div class='jr-strow-note'>"+esc(f.note)+"</div>":"")+"</li>"; }); lh+="</ul>"; } body.innerHTML=form+lh; var td=new Date(); document.getElementById("stDate").value=td.getFullYear()+"-"+two(td.getMonth()+1)+"-"+two(td.getDate()); document.getElementById("stAdd").addEventListener("click",function(){ var f={ id:Date.now(), date:document.getElementById("stDate").value||"", flour:document.getElementById("stFlour").value.trim(), ratio:document.getElementById("stRatio").value.trim(), note:document.getElementById("stNote").value.trim() }; if(!f.flour&&!f.ratio&&!f.note) return; var l=stLoad(); l.unshift(f); if(stPersist(l)) renderStarter(body); }); Array.prototype.forEach.call(body.querySelectorAll("[data-del]"),function(btn){ btn.addEventListener("click",function(){ var did=parseInt(btn.getAttribute("data-del"),10); var l=stLoad().filter(function(x){return x.id!==did;}); stPersist(l); renderStarter(body); }); }); }
+(function(){ function wire(){ var ob=document.getElementById("openJournal"); if(ob) ob.addEventListener("click",openJournal); var cb=document.getElementById("jrClose"); if(cb) cb.addEventListener("click",closeJournal); var tb=document.getElementById("jrTabBakes"); if(tb) tb.addEventListener("click",function(){ JR_TAB="bakes"; JR_OPEN=null; renderJournal(); }); var ts=document.getElementById("jrTabStarter"); if(ts) ts.addEventListener("click",function(){ JR_TAB="starter"; renderJournal(); }); var ov=document.getElementById("journal"); if(ov) ov.addEventListener("click",function(ev){ if(ev.target===ov) closeJournal(); }); document.addEventListener("keydown",function(ev){ if(ev.key==="Escape"){ var j=document.getElementById("journal"); if(j&&!j.hidden) closeJournal(); } }); } if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",wire);}else{wire();} })();
+
 (function init(){
   var sel=document.getElementById("langSel");
   LANG_ORDER.forEach(function(c){ var o=document.createElement("option"); o.value=c; o.textContent=I18N[c]._name; sel.appendChild(o); });
@@ -916,7 +1078,7 @@ function detectUnits(){ try{ var s=localStorage.getItem("doughjo_units"); if(s) 
   var is=document.getElementById("introSel"); if(is) is.value=detectIntro();
   if(window.matchMedia){ try{ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(){ if(THEME==="auto") applyTheme(); }); }catch(e){} }
   var pc=document.getElementById("presets");
-  Object.keys(PRESETS).forEach(function(name){ var mk=PRESETS[name].method; var b=document.createElement("button"); b.type="button"; b.className="pdc-chip"; b.innerHTML="<span class=\"pdc-chip-name\">"+name+"</span><span class=\"pdc-chip-meth\" data-i18n=\""+mk+"\">"+t(mk)+"</span>"; b.addEventListener("click",function(){ applyPreset(name); }); pc.appendChild(b); });
+  Object.keys(PRESETS).forEach(function(name){ var mk=PRESETS[name].method; var b=document.createElement("button"); b.type="button"; b.className="pdc-chip"; b.innerHTML="<span class=\"pdc-chip-name\">"+name+"</span>"; b.addEventListener("click",function(){ applyPreset(name); }); pc.appendChild(b); });
   ["balls","ballWeight","hydration","salt","yeastType","oil","sugar","honey"].forEach(function(id){ var e=document.getElementById(id); e.addEventListener("input",render); e.addEventListener("change",render); });
   document.getElementById("yeast").addEventListener("input",function(){ if(!autoYeast){ YEASTBY[method]=this.value; render(); } });
   document.getElementById("levainPct").addEventListener("input",render);
@@ -947,7 +1109,7 @@ function detectUnits(){ try{ var s=localStorage.getItem("doughjo_units"); if(s) 
       buildPlan();
     }); }
   })();
-  document.getElementById("results").addEventListener("click",function(ev){ var el=ev.target; while(el&&el!==this){ if(el.id==="printBtn"){ try{window.print();}catch(e){} return; } if(el.id==="shareBtn"){ sharePlan(); return; } if(el.id==="copyBtn"){ copyPlan(); return; } el=el.parentNode; } });
+  document.getElementById("results").addEventListener("click",function(ev){ var el=ev.target; while(el&&el!==this){ if(el.id==="saveBakeBtn"){ saveCurrentBake(); return; } if(el.id==="printBtn"){ try{window.print();}catch(e){} return; } if(el.id==="shareBtn"){ sharePlan(); return; } if(el.id==="copyBtn"){ copyPlan(); return; } el=el.parentNode; } });
   document.getElementById("langSel").addEventListener("change",function(){ setLang(this.value); });
   document.getElementById("unitSel").addEventListener("change",function(){ setUnits(this.value); });
   document.getElementById("themeSel").addEventListener("change",function(){ setTheme(this.value); });
@@ -963,5 +1125,17 @@ function detectUnits(){ try{ var s=localStorage.getItem("doughjo_units"); if(s) 
 })();
 if("serviceWorker" in navigator){ window.addEventListener("load",function(){ navigator.serviceWorker.register("sw.js").catch(function(){}); }); }
 </script>
+<div id="journal" class="jr" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Bake journal">
+  <div class="jr-sheet">
+    <div class="jr-head">
+      <div class="jr-tabs">
+        <button type="button" class="jr-tab on" id="jrTabBakes" data-i18n="jr_tab_bakes">Bakes</button>
+        <button type="button" class="jr-tab" id="jrTabStarter" data-i18n="jr_tab_starter">Starter</button>
+      </div>
+      <button type="button" class="jr-close" id="jrClose" aria-label="Close">&#10005;</button>
+    </div>
+    <div class="jr-body" id="jrBody"></div>
+  </div>
+</div>
 </body>
 </html>
