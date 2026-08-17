@@ -537,7 +537,8 @@ var PRESETS = {
   "Contemporary": { balls:"6", ballWeight:"280", hydration:"70", salt:"3", yeast:"0.5", oil:"1", sugar:"0", honey:"0.5", method:"poolish" },
   "Neapolitan": { balls:"4", ballWeight:"250", hydration:"62", salt:"2.8", yeast:"0.2", oil:"0", sugar:"0", honey:"0", method:"traditional" },
   "New York": { balls:"4", ballWeight:"280", hydration:"63", salt:"2", yeast:"0.4", oil:"2", sugar:"1.5", honey:"0", method:"traditional" },
-  "Detroit / Pan": { balls:"2", ballWeight:"450", hydration:"70", salt:"2", yeast:"0.6", oil:"2", sugar:"0", honey:"0", method:"traditional" }
+  "Detroit / Pan": { balls:"2", ballWeight:"450", hydration:"70", salt:"2", yeast:"0.6", oil:"2", sugar:"0", honey:"0", method:"traditional" },
+  "Home oven": { balls:"4", ballWeight:"250", hydration:"64", salt:"2.8", yeast:"0.4", oil:"3", sugar:"2", honey:"0", method:"poolish" }
 };
 var YEAST_FACTOR = { instant:1, active:1.25, fresh:3 };
 var STAGE_DEFS = { poolish:[["pwarm","st_pwarm"],["pcold","st_pcold"],["dough","st_dough"],["proof","st_proof"]], biga:[["pwarm","st_bwarm"],["pcold","st_bcold"],["dough","st_dough"],["proof","st_proof"]], sourdough:[["levain","st_levain"],["bulk","st_sbulk"],["proof","st_proof"]], traditional:[["bulk","st_bulk"],["proof","st_proof"]] };
@@ -761,6 +762,7 @@ I18N.en.jr_st_note="Activity & aroma"; I18N.nl.jr_st_note="Activiteit & geur";
 I18N.en.jr_st_note_ph="How much it rose, how it smells."; I18N.nl.jr_st_note_ph="Hoeveel het rees, hoe het ruikt.";
 I18N.en.jr_st_add="Add feeding"; I18N.nl.jr_st_add="Voeding toevoegen";
 I18N.en.quickstarts="Quick starts"; I18N.nl.quickstarts="Snelstart";
+I18N.en.preset_homeoven="Home oven"; I18N.nl.preset_homeoven="Thuisoven";
 I18N.en.jr_share_h="Share"; I18N.nl.jr_share_h="Delen";
 I18N.en.jr_share="Share\u2026"; I18N.nl.jr_share="Deel\u2026";
 I18N.en.jr_save_card="Save card"; I18N.nl.jr_save_card="Bewaar kaart";
@@ -1078,7 +1080,7 @@ function renderStarter(body){ var list=stLoad(); var form="<div class='jr-stform
   var is=document.getElementById("introSel"); if(is) is.value=detectIntro();
   if(window.matchMedia){ try{ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(){ if(THEME==="auto") applyTheme(); }); }catch(e){} }
   var pc=document.getElementById("presets");
-  Object.keys(PRESETS).forEach(function(name){ var mk=PRESETS[name].method; var b=document.createElement("button"); b.type="button"; b.className="pdc-chip"; b.innerHTML="<span class=\"pdc-chip-name\">"+name+"</span>"; b.addEventListener("click",function(){ applyPreset(name); }); pc.appendChild(b); });
+  Object.keys(PRESETS).forEach(function(name){ var mk=PRESETS[name].method; var b=document.createElement("button"); b.type="button"; b.className="pdc-chip"; var slug="preset_"+name.toLowerCase().replace(/[^a-z0-9]/g,""); var tr=(I18N[LANG]&&I18N[LANG][slug]); b.innerHTML=tr?("<span class=\"pdc-chip-name\" data-i18n=\""+slug+"\">"+tr+"</span>"):("<span class=\"pdc-chip-name\">"+name+"</span>"); b.addEventListener("click",function(){ applyPreset(name); }); pc.appendChild(b); });
   ["balls","ballWeight","hydration","salt","yeastType","oil","sugar","honey"].forEach(function(id){ var e=document.getElementById(id); e.addEventListener("input",render); e.addEventListener("change",render); });
   document.getElementById("yeast").addEventListener("input",function(){ if(!autoYeast){ YEASTBY[method]=this.value; render(); } });
   document.getElementById("levainPct").addEventListener("input",render);
