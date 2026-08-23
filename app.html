@@ -255,6 +255,10 @@ body.jr-lock{ overflow:hidden; }
 .jr-soc{ font:inherit; font-size:13px; font-weight:600; text-decoration:none; color:var(--brick-deep); background:var(--panel); border:1px solid var(--line); border-radius:999px; padding:7px 14px; }
 .jr-soc:hover{ border-color:var(--brick); }
 .jr-soc-note{ font-size:12px; color:var(--muted); line-height:1.45; margin-top:2px; }
+.pdc-plan-divider{ cursor:pointer; background:none; border:none; width:100%; font:inherit; display:block; }
+.pdc-plan-divider:hover{ color:var(--brick); }
+.pdc-plan-back{ font:inherit; font-size:13px; font-weight:600; color:var(--brick-deep); background:transparent; border:none; cursor:pointer; padding:0 0 12px; display:inline-block; }
+.pdc-plan-back:hover{ color:var(--brick); }
 </style>
 </head>
 <body>
@@ -303,7 +307,7 @@ body.jr-lock{ overflow:hidden; }
       <button type="button" class="pdc-quick-build" id="quickBuild" data-i18n="quick_build">Build this plan →</button>
       <div class="pdc-quick-fine" data-i18n="quick_fine">Honest minimum — real dough needs ~2 h. Then stretch &amp; bake.</div>
     </div>
-    <div class="pdc-planner">
+    <div class="pdc-planner" id="planner">
       <div class="pdc-plan-title" data-i18n="plan_title">Plan it for me</div>
       <div class="pdc-plan-desc" data-i18n="plan_desc">Give it your temperatures and time.</div>
       <div class="pdc-seg-ctl" id="planModeCtl" style="margin-bottom:12px">
@@ -316,7 +320,7 @@ body.jr-lock{ overflow:hidden; }
       </div>
       <div class="pdc-row2" id="rowOven" style="display:none">
         <label class="pdc-field"><span class="pdc-flabel" data-i18n="oven_time">In the oven at</span><input class="pdc-input" id="planOvenAt" type="time"></label>
-        <div class="pdc-field"></div>
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="oven_day">Day</span><div class="pdc-seg-ctl"><button type="button" class="pdc-seg-btn on" id="odToday" data-i18n="today">Today</button><button type="button" class="pdc-seg-btn" id="odTomorrow" data-i18n="tomorrow">Tomorrow</button></div></label>
       </div>
       <div class="pdc-row2">
         <label class="pdc-field"><span class="pdc-flabel" id="lbl_planTemp">Room temp</span><input class="pdc-input" id="planTemp" type="number" inputmode="decimal" step="1" value="20"></label>
@@ -353,8 +357,10 @@ body.jr-lock{ overflow:hidden; }
       <div class="pdc-plan-notes" id="planNotes"></div>
     </div>
 
-    <div class="pdc-plan-divider" data-i18n="or_by_hand">or set it by hand</div>
+    <button type="button" class="pdc-plan-divider" id="toHand" data-i18n="or_by_hand">or set it by hand</button>
 
+    <div id="byHand" style="display:none">
+    <button type="button" class="pdc-plan-back" id="toAuto" data-i18n="to_auto">&larr; Plan it for me</button>
     <div class="pdc-quickstart-lbl" data-i18n="quickstarts">Quick starts</div>
     <div class="pdc-presets" id="presets"></div>
 
@@ -409,6 +415,7 @@ body.jr-lock{ overflow:hidden; }
         <label class="pdc-field"><span class="pdc-flabel" data-i18n="sugar">Sugar %</span><input class="pdc-input" id="sugar" type="number" inputmode="decimal" min="0" step="0.5" value="0"></label>
         <div class="pdc-field"></div>
       </div>
+    </div>
     </div>
   </section>
 
@@ -762,6 +769,8 @@ I18N.en.jr_st_note="Activity & aroma"; I18N.nl.jr_st_note="Activiteit & geur";
 I18N.en.jr_st_note_ph="How much it rose, how it smells."; I18N.nl.jr_st_note_ph="Hoeveel het rees, hoe het ruikt.";
 I18N.en.jr_st_add="Add feeding"; I18N.nl.jr_st_add="Voeding toevoegen";
 I18N.en.quickstarts="Quick starts"; I18N.nl.quickstarts="Snelstart";
+I18N.en.to_auto="\u2190 Plan it for me"; I18N.nl.to_auto="\u2190 Plan het voor mij";
+I18N.en.oven_day="Day"; I18N.nl.oven_day="Dag";
 I18N.en.preset_homeoven="Home oven"; I18N.nl.preset_homeoven="Thuisoven";
 I18N.en.jr_share_h="Share"; I18N.nl.jr_share_h="Delen";
 I18N.en.jr_share="Share\u2026"; I18N.nl.jr_share="Deel\u2026";
@@ -798,7 +807,7 @@ function buildPlan(){
   var roomC=dispToC(V("planTemp")), fridgeC=dispToC(V("planFridgeTemp")), oven=V("planWarm")==="oven", flour=Math.max(0,num(V("planFlour"))), size=num(V("planSize")), strength=V("planStrength");
   var sour=(method==="sourdough");
   var ovenMode=(planMode==="oven"), now=new Date(), ov=null, ovenHM=null, avail;
-  if(ovenMode){ ovenHM=V("planOvenAt")||nowHM(); ov=startBase(ovenHM); if(ov.getTime()<=now.getTime()) ov=new Date(ov.getTime()+86400000); avail=(ov.getTime()-now.getTime())/3600000; }
+  if(ovenMode){ ovenHM=V("planOvenAt")||nowHM(); ov=startBase(ovenHM); if(ovenDay==="tomorrow") ov=new Date(ov.getTime()+86400000); if(ov.getTime()<=now.getTime()) ov=new Date(ov.getTime()+86400000); avail=(ov.getTime()-now.getTime())/3600000; }
   else { avail=num(V("planHours")); }
   var p;
   if(sour){ var pm=planFridge?28:12; var dur=ovenMode?Math.min(avail,pm):avail; if(dur<3) dur=Math.max(3,avail); p=makePlanSour(dur, roomC, oven, planFridge, fridgeC, flour, size, strength, V("planStarter")); }
@@ -991,6 +1000,9 @@ function applyPreset(name){
   document.getElementById("planNotes").innerHTML="";
   setMethod(p.method); render();
 }
+var ovenDay="today";
+function setOvenDay(d){ ovenDay=d; var a=document.getElementById("odToday"), b=document.getElementById("odTomorrow"); if(a)a.classList.toggle("on",d==="today"); if(b)b.classList.toggle("on",d==="tomorrow"); if(typeof buildPlan==="function") buildPlan(); else render(); }
+function setBuild(m){ var pl=document.getElementById("planner"), bh=document.getElementById("byHand"), dv=document.getElementById("toHand"); var hand=(m==="hand"); if(pl)pl.style.display=hand?"none":""; if(bh)bh.style.display=hand?"":"none"; if(dv)dv.style.display=hand?"none":""; }
 function setPlanMode(m){ planMode=m; document.getElementById("pmHave").classList.toggle("on",m==="have"); document.getElementById("pmOven").classList.toggle("on",m==="oven"); document.getElementById("rowHave").style.display=(m==="have")?"":"none"; document.getElementById("rowOven").style.display=(m==="oven")?"":"none"; }
 function setStart(v){ startTime=v; var a=document.getElementById("startTime"), b=document.getElementById("planStart"); if(a&&a.value!==v)a.value=v; if(b&&b.value!==v)b.value=v; render(); }
 
@@ -1095,6 +1107,10 @@ function renderStarter(body){ var list=stLoad(); var form="<div class='jr-stform
   document.getElementById("pmHave").addEventListener("click",function(){ setPlanMode("have"); });
   document.getElementById("pmOven").addEventListener("click",function(){ setPlanMode("oven"); });
   document.getElementById("planGo").addEventListener("click",buildPlan);
+  var th=document.getElementById("toHand"); if(th) th.addEventListener("click",function(){ setBuild("hand"); });
+  var ta=document.getElementById("toAuto"); if(ta) ta.addEventListener("click",function(){ setBuild("auto"); });
+  var ot=document.getElementById("odToday"); if(ot) ot.addEventListener("click",function(){ setOvenDay("today"); });
+  var om=document.getElementById("odTomorrow"); if(om) om.addEventListener("click",function(){ setOvenDay("tomorrow"); });
   (function(){
     var qb=document.getElementById("quickBtn"), qo=document.getElementById("quickOut");
     if(qb&&qo){ qb.addEventListener("click",function(){
