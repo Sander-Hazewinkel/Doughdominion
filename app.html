@@ -320,7 +320,7 @@ body.jr-lock{ overflow:hidden; }
       </div>
       <div class="pdc-row2" id="rowOven" style="display:none">
         <label class="pdc-field"><span class="pdc-flabel" data-i18n="oven_time">In the oven at</span><input class="pdc-input" id="planOvenAt" type="time"></label>
-        <label class="pdc-field"><span class="pdc-flabel" data-i18n="oven_day">Day</span><div class="pdc-seg-ctl"><button type="button" class="pdc-seg-btn on" id="odToday" data-i18n="today">Today</button><button type="button" class="pdc-seg-btn" id="odTomorrow" data-i18n="tomorrow">Tomorrow</button></div></label>
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="oven_date">Date</span><input class="pdc-input" type="date" id="planOvenDate"></label>
       </div>
       <div class="pdc-row2">
         <label class="pdc-field"><span class="pdc-flabel" id="lbl_planTemp">Room temp</span><input class="pdc-input" id="planTemp" type="number" inputmode="decimal" step="1" value="20"></label>
@@ -344,7 +344,7 @@ body.jr-lock{ overflow:hidden; }
         <label class="pdc-field"><span class="pdc-flabel" data-i18n="flour_strength">Flour strength</span>
           <select class="pdc-input" id="planStrength"><option value="strong" data-i18n="str_strong">Strong (00 / bread)</option><option value="plain" data-i18n="str_plain">All-purpose</option><option value="unsure" selected data-i18n="str_unsure">Not sure</option></select>
         </label>
-        <div class="pdc-field"></div>
+        <label class="pdc-field"><span class="pdc-flabel" data-i18n="cold_ferment">Cold ferment (h)</span><select class="pdc-input" id="planCold"><option value="0" selected data-i18n="cold_auto">Auto</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option></select></label>
       </div>
       <div class="pdc-row2" id="rowStarter" style="display:none">
         <label class="pdc-field"><span class="pdc-flabel" data-i18n="starter_strength">Starter strength</span>
@@ -770,7 +770,9 @@ I18N.en.jr_st_note_ph="How much it rose, how it smells."; I18N.nl.jr_st_note_ph=
 I18N.en.jr_st_add="Add feeding"; I18N.nl.jr_st_add="Voeding toevoegen";
 I18N.en.quickstarts="Quick starts"; I18N.nl.quickstarts="Snelstart";
 I18N.en.to_auto="\u2190 Plan it for me"; I18N.nl.to_auto="\u2190 Plan het voor mij";
-I18N.en.oven_day="Day"; I18N.nl.oven_day="Dag";
+I18N.en.oven_date="Date"; I18N.nl.oven_date="Datum";
+I18N.en.cold_ferment="Cold ferment (h)"; I18N.nl.cold_ferment="Koelrust (u)";
+I18N.en.cold_auto="Auto"; I18N.nl.cold_auto="Auto";
 I18N.en.preset_homeoven="Home oven"; I18N.nl.preset_homeoven="Thuisoven";
 I18N.en.jr_share_h="Share"; I18N.nl.jr_share_h="Delen";
 I18N.en.jr_share="Share\u2026"; I18N.nl.jr_share="Deel\u2026";
@@ -807,13 +809,14 @@ function buildPlan(){
   var roomC=dispToC(V("planTemp")), fridgeC=dispToC(V("planFridgeTemp")), oven=V("planWarm")==="oven", flour=Math.max(0,num(V("planFlour"))), size=num(V("planSize")), strength=V("planStrength");
   var sour=(method==="sourdough");
   var ovenMode=(planMode==="oven"), now=new Date(), ov=null, ovenHM=null, avail;
-  if(ovenMode){ ovenHM=V("planOvenAt")||nowHM(); ov=startBase(ovenHM); if(ovenDay==="tomorrow") ov=new Date(ov.getTime()+86400000); if(ov.getTime()<=now.getTime()) ov=new Date(ov.getTime()+86400000); avail=(ov.getTime()-now.getTime())/3600000; }
+  if(ovenMode){ ovenHM=V("planOvenAt")||nowHM(); ov=startBase(ovenHM); var _od=V("planOvenDate"); if(_od){ var _pp=_od.split("-"); ov=new Date(+_pp[0],+_pp[1]-1,+_pp[2],ov.getHours(),ov.getMinutes(),0,0); } else if(ov.getTime()<=now.getTime()){ ov=new Date(ov.getTime()+86400000); } avail=(ov.getTime()-now.getTime())/3600000; }
   else { avail=num(V("planHours")); }
   var p;
   if(sour){ var pm=planFridge?28:12; var dur=ovenMode?Math.min(avail,pm):avail; if(dur<3) dur=Math.max(3,avail); p=makePlanSour(dur, roomC, oven, planFridge, fridgeC, flour, size, strength, V("planStarter")); }
   else { var pmy=planFridge?24:10; var durY=ovenMode?Math.min(avail,pmy):avail; if(durY<0.5) durY=Math.max(0.5,avail); p=makePlan(durY, roomC, oven, planFridge, fridgeC, flour, size, strength); }
+  var _pc=num(V("planCold")); if(_pc>0 && p && p.stages && p.stages.pcold){ p.stages.pcold.h=_pc; }
   var totalH=Object.keys(p.stages).reduce(function(a,k){ return a+(p.stages[k].h>0?p.stages[k].h:0); },0);
-  var startHM, extraNote=null, shortfall=(sour && totalH>avail+0.25);
+  var startHM, extraNote=null, shortfall=(totalH>avail+0.25);
   if(ovenMode){
     if(shortfall){ var earliest=new Date(now.getTime()+totalH*3600000); startHM=two(now.getHours())+":"+two(now.getMinutes()); extraNote=tt("pls_short_oven",{h:nf(totalH,1), oven:dayLabel(earliest)+" "+two(earliest.getHours())+":"+two(earliest.getMinutes())}); }
     else { var startD=new Date(ov.getTime()-totalH*3600000); startHM=two(startD.getHours())+":"+two(startD.getMinutes()); extraNote=tt("pl_startat",{oven:dayLabel(ov)+" "+ovenHM, start:dayLabel(startD)+" "+startHM}); }
@@ -1000,8 +1003,6 @@ function applyPreset(name){
   document.getElementById("planNotes").innerHTML="";
   setMethod(p.method); render();
 }
-var ovenDay="today";
-function setOvenDay(d){ ovenDay=d; var a=document.getElementById("odToday"), b=document.getElementById("odTomorrow"); if(a)a.classList.toggle("on",d==="today"); if(b)b.classList.toggle("on",d==="tomorrow"); if(typeof buildPlan==="function") buildPlan(); else render(); }
 function setBuild(m){ var pl=document.getElementById("planner"), bh=document.getElementById("byHand"), dv=document.getElementById("toHand"); var hand=(m==="hand"); if(pl)pl.style.display=hand?"none":""; if(bh)bh.style.display=hand?"":"none"; if(dv)dv.style.display=hand?"none":""; }
 function setPlanMode(m){ planMode=m; document.getElementById("pmHave").classList.toggle("on",m==="have"); document.getElementById("pmOven").classList.toggle("on",m==="oven"); document.getElementById("rowHave").style.display=(m==="have")?"":"none"; document.getElementById("rowOven").style.display=(m==="oven")?"":"none"; }
 function setStart(v){ startTime=v; var a=document.getElementById("startTime"), b=document.getElementById("planStart"); if(a&&a.value!==v)a.value=v; if(b&&b.value!==v)b.value=v; render(); }
@@ -1107,10 +1108,10 @@ function renderStarter(body){ var list=stLoad(); var form="<div class='jr-stform
   document.getElementById("pmHave").addEventListener("click",function(){ setPlanMode("have"); });
   document.getElementById("pmOven").addEventListener("click",function(){ setPlanMode("oven"); });
   document.getElementById("planGo").addEventListener("click",buildPlan);
+  var pcs=document.getElementById("planCold"); if(pcs) pcs.addEventListener("change",function(){ buildPlan(); });
   var th=document.getElementById("toHand"); if(th) th.addEventListener("click",function(){ setBuild("hand"); });
   var ta=document.getElementById("toAuto"); if(ta) ta.addEventListener("click",function(){ setBuild("auto"); });
-  var ot=document.getElementById("odToday"); if(ot) ot.addEventListener("click",function(){ setOvenDay("today"); });
-  var om=document.getElementById("odTomorrow"); if(om) om.addEventListener("click",function(){ setOvenDay("tomorrow"); });
+  var ovd=document.getElementById("planOvenDate"); if(ovd){ var _n=new Date(); ovd.value=_n.getFullYear()+"-"+two(_n.getMonth()+1)+"-"+two(_n.getDate()); ovd.addEventListener("change",function(){ if(typeof buildPlan==="function") buildPlan(); }); }
   (function(){
     var qb=document.getElementById("quickBtn"), qo=document.getElementById("quickOut");
     if(qb&&qo){ qb.addEventListener("click",function(){
