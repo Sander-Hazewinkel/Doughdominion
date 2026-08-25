@@ -259,6 +259,22 @@ body.jr-lock{ overflow:hidden; }
 .pdc-plan-divider:hover{ color:var(--brick); }
 .pdc-plan-back{ font:inherit; font-size:13px; font-weight:600; color:var(--brick-deep); background:transparent; border:none; cursor:pointer; padding:0 0 12px; display:inline-block; }
 .pdc-plan-back:hover{ color:var(--brick); }
+.pdc-batchby{ display:flex; align-items:center; gap:10px; margin:10px 0 2px; }
+.pdc-batch-note{ font-size:13px; font-weight:600; color:var(--brick-deep); margin-top:6px; }
+.pdc-night-badge{ color:#7A6CC4; font-size:12px; }
+.pdc-step-night .pdc-step-time{ color:#7A6CC4; font-weight:600; }
+.pdc-night-note{ margin-top:10px; font-size:13px; line-height:1.45; color:#6a5a2a; background:rgba(231,169,60,.12); border:1px solid rgba(231,169,60,.4); border-radius:9px; padding:9px 12px; }
+.whl-block{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin:6px 0 4px; }
+.whl-col{ text-align:center; }
+.whl-title{ font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-bottom:4px; }
+.whl{ position:relative; width:186px; height:186px; }
+.whl-ring{ position:absolute; inset:0; }
+.whl-opt{ position:absolute; top:50%; left:50%; width:58px; height:30px; margin:-15px 0 0 -29px; display:flex; align-items:center; justify-content:center; text-align:center; font:inherit; font-size:10.5px; font-weight:600; line-height:1.05; color:var(--muted); background:transparent; border:none; cursor:pointer; border-radius:8px; transition:color .2s; }
+.whl-opt.on{ color:var(--brick-deep); font-weight:700; }
+.whl-center{ position:absolute; top:50%; left:50%; width:62px; height:62px; margin:-31px 0 0 -31px; border-radius:50%; background:var(--panel); border:2px solid var(--brick); display:flex; align-items:center; justify-content:center; text-align:center; padding:6px; box-shadow:0 3px 12px rgba(44,98,56,.14); }
+.whl-center b{ font-family:Georgia,"Times New Roman",serif; font-size:11.5px; color:var(--brick-deep); line-height:1.1; }
+.whl-pop{ animation:whlpop .28s ease; }
+@keyframes whlpop{ 0%{ transform:scale(.86);} 60%{ transform:scale(1.06);} 100%{ transform:scale(1);} }
 </style>
 </head>
 <body>
@@ -307,6 +323,12 @@ body.jr-lock{ overflow:hidden; }
       <button type="button" class="pdc-quick-build" id="quickBuild" data-i18n="quick_build">Build this plan →</button>
       <div class="pdc-quick-fine" data-i18n="quick_fine">Honest minimum — real dough needs ~2 h. Then stretch &amp; bake.</div>
     </div>
+    <div class="whl-block">
+      <div class="whl-col"><div class="whl-title" data-i18n="wheel_style">Style</div><div class="whl" id="wheelStyle"></div></div>
+      <div class="whl-col"><div class="whl-title" data-i18n="wheel_ferment">Fermentation</div><div class="whl" id="wheelFerment"></div></div>
+    </div>
+    <div class="pdc-method-hint" id="methodHint" style="text-align:center"></div>
+    <details class="pdc-howto" id="starterHowto" style="display:none"><summary id="howtoSummary"></summary><div id="howtoBody"></div></details>
     <div class="pdc-planner" id="planner">
       <div class="pdc-plan-title" data-i18n="plan_title">Plan it for me</div>
       <div class="pdc-plan-desc" data-i18n="plan_desc">Give it your temperatures and time.</div>
@@ -361,20 +383,6 @@ body.jr-lock{ overflow:hidden; }
 
     <div id="byHand" style="display:none">
     <button type="button" class="pdc-plan-back" id="toAuto" data-i18n="to_auto">&larr; Plan it for me</button>
-    <div class="pdc-quickstart-lbl" data-i18n="quickstarts">Quick starts</div>
-    <div class="pdc-presets" id="presets"></div>
-
-    <div class="pdc-group">
-      <div class="pdc-glabel" data-i18n="method">Method</div>
-      <div class="pdc-seg-ctl" role="group">
-        <button type="button" class="pdc-seg-btn on" id="mPoolish" data-i18n="poolish">Poolish</button>
-        <button type="button" class="pdc-seg-btn" id="mBiga" data-i18n="biga">Biga</button>
-        <button type="button" class="pdc-seg-btn" id="mSour" data-i18n="sourdough">Sourdough</button>
-        <button type="button" class="pdc-seg-btn" id="mTrad" data-i18n="traditional">Traditional</button>
-      </div>
-      <div class="pdc-method-hint" id="methodHint"></div>
-      <details class="pdc-howto" id="starterHowto" style="display:none"><summary id="howtoSummary"></summary><div id="howtoBody"></div></details>
-    </div>
 
     <div class="pdc-group">
       <div class="pdc-glabel"><span data-i18n="schedule">Schedule</span> <span class="pdc-glabel-note" data-i18n="schedule_note">time &amp; temperature per stage</span></div>
@@ -389,6 +397,9 @@ body.jr-lock{ overflow:hidden; }
         <label class="pdc-field"><span class="pdc-flabel" data-i18n="balls">Dough balls</span><input class="pdc-input" id="balls" type="number" inputmode="numeric" min="1" step="1" value="6"></label>
         <label class="pdc-field"><span class="pdc-flabel" data-i18n="weight_each">Weight each (g)</span><input class="pdc-input" id="ballWeight" type="number" inputmode="decimal" min="0" step="5" value="280"></label>
       </div>
+      <div class="pdc-batchby"><span class="pdc-flabel" data-i18n="batch_by">Batch by</span><div class="pdc-seg-ctl"><button type="button" class="pdc-seg-btn on" id="bbBalls" data-i18n="bb_balls">Balls</button><button type="button" class="pdc-seg-btn" id="bbFlour" data-i18n="bb_flour">Flour</button></div></div>
+      <label class="pdc-field" id="flourHaveRow" style="display:none"><span class="pdc-flabel" data-i18n="flour_have">Flour you have (g)</span><input class="pdc-input" id="flourHave" type="number" inputmode="decimal" min="0" step="10" value="500"></label>
+      <div class="pdc-batch-note" id="batchNote" style="display:none"></div>
     </div>
 
     <div class="pdc-group">
@@ -773,6 +784,15 @@ I18N.en.to_auto="\u2190 Plan it for me"; I18N.nl.to_auto="\u2190 Plan het voor m
 I18N.en.oven_date="Date"; I18N.nl.oven_date="Datum";
 I18N.en.cold_ferment="Cold ferment (h)"; I18N.nl.cold_ferment="Koelrust (u)";
 I18N.en.cold_auto="Auto"; I18N.nl.cold_auto="Auto";
+I18N.en.wheel_style="Style"; I18N.nl.wheel_style="Stijl";
+I18N.en.wheel_ferment="Fermentation"; I18N.nl.wheel_ferment="Fermentatie";
+I18N.en.batch_by="Batch by"; I18N.nl.batch_by="Bereken op";
+I18N.en.bb_balls="Balls"; I18N.nl.bb_balls="Bollen";
+I18N.en.bb_flour="Flour"; I18N.nl.bb_flour="Meel";
+I18N.en.flour_have="Flour you have (g)"; I18N.nl.flour_have="Meel dat je hebt (g)";
+I18N.en.batch_note="\u2192 {n} balls \u00b7 {left} flour left over"; I18N.nl.batch_note="\u2192 {n} bollen \u00b7 {left} meel over";
+I18N.en.night_badge="During sleep hours (23:00\u201308:00)"; I18N.nl.night_badge="Tijdens slaapuren (23:00\u201308:00)";
+I18N.en.night_note="Hands-on during sleep hours (23:00\u201308:00): {steps}. Long rests may span the night; only these need you awake."; I18N.nl.night_note="Handelingen tijdens slaapuren (23:00\u201308:00): {steps}. Lange rusten mogen de nacht overlopen; alleen deze vragen dat je wakker bent.";
 I18N.en.preset_homeoven="Home oven"; I18N.nl.preset_homeoven="Thuisoven";
 I18N.en.jr_share_h="Share"; I18N.nl.jr_share_h="Delen";
 I18N.en.jr_share="Share\u2026"; I18N.nl.jr_share="Deel\u2026";
@@ -815,6 +835,7 @@ function buildPlan(){
   if(sour){ var pm=planFridge?28:12; var dur=ovenMode?Math.min(avail,pm):avail; if(dur<3) dur=Math.max(3,avail); p=makePlanSour(dur, roomC, oven, planFridge, fridgeC, flour, size, strength, V("planStarter")); }
   else { var pmy=planFridge?24:10; var durY=ovenMode?Math.min(avail,pmy):avail; if(durY<0.5) durY=Math.max(0.5,avail); p=makePlan(durY, roomC, oven, planFridge, fridgeC, flour, size, strength); }
   var _pc=num(V("planCold")); if(_pc>0 && p && p.stages && p.stages.pcold){ p.stages.pcold.h=_pc; }
+  if(ovenMode && !_pc && p && p.stages && p.stages.pcold){ var _sh=function(c){ var tt2=0; Object.keys(p.stages).forEach(function(k){ tt2+=(k==="pcold"?c:(+p.stages[k].h>0?+p.stages[k].h:0)); }); return tt2; }; var _mn=function(c){ var hh=new Date(ov.getTime()-_sh(c)*3600000).getHours(); return hh>=23||hh<8; }; var _cur=+p.stages.pcold.h; if(_mn(_cur)){ var _lo=Math.max(10,_cur-8), _hi=Math.min(24,_cur+8), _pick=null; for(var _dd=1; _dd<=8 && _pick===null; _dd++){ if(_cur+_dd<=_hi && !_mn(_cur+_dd)) _pick=_cur+_dd; else if(_cur-_dd>=_lo && !_mn(_cur-_dd)) _pick=_cur-_dd; } if(_pick!==null) p.stages.pcold.h=_pick; } }
   var totalH=Object.keys(p.stages).reduce(function(a,k){ return a+(p.stages[k].h>0?p.stages[k].h:0); },0);
   var startHM, extraNote=null, shortfall=(totalH>avail+0.25);
   if(ovenMode){
@@ -846,10 +867,11 @@ function model(){
   var sPct=saltPctVal(), suggested=suggestFromSchedule(), yP=effYeast();
   var h=num(V("hydration"))/100, s=sPct/100, y=(method==="sourdough")?0:yP/100, o=num(V("oil"))/100, su=num(V("sugar"))/100, ho=num(V("honey"))/100;
   var type=V("yeastType")||"instant", sum=1+h+s+y+o+su+ho, flour=sum>0?total/sum:0;
+  var _bf=(typeof batchBy!=="undefined"&&batchBy==="flour"), _fl=0; if(_bf&&ballWN>0&&sum>0){ var _fh=Math.max(0,num(V("flourHave"))); ballsN=Math.max(0,Math.floor(_fh*sum/ballWN)); total=ballsN*ballWN; flour=sum>0?total/sum:0; _fl=Math.max(0,_fh-flour); }
   var stg=stageList(), S={}; stg.forEach(function(x){S[x.k]=x;});
   var m={ ballsN:ballsN,ballWN:ballWN,total:total,type:type,flour:flour,water:flour*h,salt:flour*s,yeast:flour*y,oil:flour*o,sugar:flour*su,honey:flour*ho,
     hyd:num(V("hydration")),saltP:sPct,yeastP:yP,S:S,suggested:suggested };
-  m.instantEquiv=m.yeast/(YEAST_FACTOR[type]||1);
+  m.instantEquiv=m.yeast/(YEAST_FACTOR[type]||1); m.flourLeft=_fl; m.batchFlour=_bf;
   m.totalH=stg.reduce(function(a,x){ return a+(x.h>0?x.h:0); },0);
   if(method==="sourdough"){ var lp=Math.max(0,num(V("levainPct")))/100, lh=Math.max(0,num(V("levainHyd")))/100; m.levainFlour=flour*lp; m.levainWater=m.levainFlour*lh; m.levain=m.levainFlour+m.levainWater; m.addedFlour=flour-m.levainFlour; m.addedWater=Math.max(0,m.water-m.levainWater); m.seed=Math.max(3,round(m.levain*0.15,0)); m.levainP=num(V("levainPct")); m.levainH=num(V("levainHyd")); }
   else if(method==="biga"){ m.pfFlour=flour*0.50; m.pfWater=m.pfFlour*0.50; m.finalFlour=flour-m.pfFlour; m.finalWater=Math.max(0,m.water-m.pfWater); }
@@ -912,17 +934,17 @@ function planText(m,steps){
 }
 var CURRENT_PLAN="";
 function render(){
-  var m=model(), steps=buildSteps(m); CURRENT_PLAN=planText(m,steps);
+  var m=model(), steps=buildSteps(m); CURRENT_PLAN=planText(m,steps); (function(){ var _bf2=document.getElementById("balls"), _bn=document.getElementById("batchNote"); if(m.batchFlour){ if(_bf2){ _bf2.value=m.ballsN; _bf2.setAttribute("readonly","readonly"); } if(_bn){ _bn.style.display=""; _bn.textContent=tt("batch_note",{n:m.ballsN, left:fmtW(m.flourLeft,"flour")}); } } else { if(_bf2) _bf2.removeAttribute("readonly"); if(_bn) _bn.style.display="none"; } })();
   var saltNoteHTML = (method==="sourdough")
     ? tt("salt_note_sour",{saltP:nf(m.saltP,1)+"%",gkg:nf(m.saltP*10,1),saltG:fmtW(m.salt,"salt"),levainP:nf(m.levainP,0)+"%",levainH:nf(m.levainH,0)+"%",levainG:fmtW(m.levain,"flour")})
     : tt("salt_note",{saltP:nf(m.saltP,1)+"%",gkg:nf(m.saltP*10,1),saltG:fmtW(m.salt,"salt"),yeastP:nf(m.yeastP,2)+"%",yeastG:fmtW(m.yeast,"yeast"),yl:yl(m.type)});
   var _rl=document.getElementById("remLead"); if(_rl) remLead=_rl.value; var _rm=document.getElementById("remMode"); if(_rm) remMode=_rm.value;
   var rs=rows(m), bar=""; rs.forEach(function(r){ var w=m.total>0?(r.grams/m.total*100):0; bar+="<div class='pdc-seg' style='width:"+w+"%;background:"+r.color+"'></div>"; });
-  var stepsHTML=""; steps.forEach(function(sp,i){ stepsHTML+="<li class='pdc-step'><div class='pdc-step-left'><span class='pdc-step-n'>"+(i+1)+"</span><span class='pdc-step-time'>"+clockLabel(startTime,sp.t)+"</span><span class='pdc-step-elapsed'>"+fmtElapsed(sp.t)+"</span></div><div class='pdc-step-body'><div class='pdc-step-title'>"+esc(sp.title)+"</div><div class='pdc-step-detail'>"+esc(sp.detail)+"</div></div></li>"; });
+  var stepsHTML="", _nb=startBase(startTime), _night=[]; steps.forEach(function(sp,i){ var _abs=new Date(_nb.getTime()+sp.t*3600000), _hh=_abs.getHours(), _isN=(!isWaitStep(sp))&&(_hh>=23||_hh<8); if(_isN)_night.push(sp.title); stepsHTML+="<li class='pdc-step"+(_isN?" pdc-step-night":"")+"'><div class='pdc-step-left'><span class='pdc-step-n'>"+(i+1)+"</span><span class='pdc-step-time'>"+clockLabel(startTime,sp.t)+(_isN?" <span class='pdc-night-badge' title=\""+esc(t("night_badge"))+"\">\u263e</span>":"")+"</span><span class='pdc-step-elapsed'>"+fmtElapsed(sp.t)+"</span></div><div class='pdc-step-body'><div class='pdc-step-title'>"+esc(sp.title)+"</div><div class='pdc-step-detail'>"+esc(sp.detail)+"</div></div></li>"; }); var nightNoteHTML=_night.length?("<div class='pdc-night-note'>"+tt("night_note",{steps:_night.join(", ")})+"</div>"):"";
   document.getElementById("resultsBody").innerHTML =
     "<div class='pdc-mode'>"+modeName()+"<span class='pdc-mode-time'>"+tt("mode_time",{h:nf(m.totalH,1)+" h"})+"</span></div>"+
     "<div class='pdc-totals'><div><div class='pdc-tnum'>"+fmtW(m.flour,"flour")+"</div><div class='pdc-tlabel'>"+t("flour")+"</div></div><div><div class='pdc-tnum2'>"+fmtW(m.total,"flour")+"</div><div class='pdc-tlabel'>"+t("total_dough")+"</div></div></div>"+
-    "<div class='pdc-bar'>"+bar+"</div><ol class='pdc-steps'>"+stepsHTML+"</ol>"+
+    "<div class='pdc-bar'>"+bar+"</div><ol class='pdc-steps'>"+stepsHTML+"</ol>"+nightNoteHTML+
     "<div class='pdc-salt-note'>"+saltNoteHTML+"</div>"+
     "<div class='pdc-actions'><button type='button' class='pdc-savebake' id='saveBakeBtn'>"+t("jr_save")+"</button><button type='button' class='pdc-share' id='shareBtn'>"+t("share")+"</button><button type='button' class='pdc-copy' id='copyBtn'>"+t("copy")+"</button><button type='button' class='pdc-print' id='printBtn'>"+t("print")+"</button></div>"+
     "<div class='pdc-remind'><div class='pdc-remind-title'>"+t("reminders")+"</div><div class='pdc-remind-row'>"+
@@ -1004,6 +1026,10 @@ function applyPreset(name){
   setMethod(p.method); render();
 }
 function setBuild(m){ var pl=document.getElementById("planner"), bh=document.getElementById("byHand"), dv=document.getElementById("toHand"); var hand=(m==="hand"); if(pl)pl.style.display=hand?"none":""; if(bh)bh.style.display=hand?"":"none"; if(dv)dv.style.display=hand?"none":""; }
+var batchBy="balls";
+function setBatchBy(mode){ batchBy=mode; var a=document.getElementById("bbBalls"), b=document.getElementById("bbFlour"), r=document.getElementById("flourHaveRow"); if(a)a.classList.toggle("on",mode==="balls"); if(b)b.classList.toggle("on",mode==="flour"); if(r)r.style.display=(mode==="flour")?"":"none"; render(); }
+function makeWheel(mountId,opts,curVal,onSelect){ var mount=document.getElementById(mountId); if(!mount) return null; var N=opts.length,R=64,btns=[]; var ring=document.createElement("div"); ring.className="whl-ring"; opts.forEach(function(o,i){ var a=(-90+i*360/N)*Math.PI/180,dx=R*Math.cos(a),dy=R*Math.sin(a); var btn=document.createElement("button"); btn.type="button"; btn.className="whl-opt"; btn.textContent=o.label; btn.style.transform="translate("+dx.toFixed(1)+"px,"+dy.toFixed(1)+"px)"; btn.addEventListener("click",function(){ pick(i,true); }); ring.appendChild(btn); btns.push(btn); }); var center=document.createElement("div"); center.className="whl-center"; var cbb=document.createElement("b"); center.appendChild(cbb); mount.appendChild(ring); mount.appendChild(center); function pick(i,fire){ btns.forEach(function(bb,j){ bb.classList.toggle("on",j===i); }); cbb.textContent=opts[i].label; center.classList.remove("whl-pop"); void center.offsetWidth; center.classList.add("whl-pop"); if(fire&&onSelect) onSelect(opts[i].value,opts[i].label); } var idx=0; for(var k=0;k<opts.length;k++){ if(opts[k].value===curVal){ idx=k; break; } } pick(idx,false); return { set:function(v){ for(var k=0;k<opts.length;k++){ if(opts[k].value===v){ pick(k,false); break; } } } }; }
+function applyStyleRatios(name){ var pp=PRESETS[name]; if(!pp) return; [["ballWeight",pp.ballWeight],["balls",pp.balls],["hydration",pp.hydration],["salt",pp.salt],["oil",pp.oil],["sugar",pp.sugar],["honey",pp.honey]].forEach(function(kv){ var e=document.getElementById(kv[0]); if(e&&kv[1]!=null) e.value=kv[1]; }); saltUnit="pct"; var sb=document.getElementById("saltUnitBtn"); if(sb) sb.textContent="%"; var si=document.getElementById("salt"); if(si) si.step="0.1"; render(); }
 function setPlanMode(m){ planMode=m; document.getElementById("pmHave").classList.toggle("on",m==="have"); document.getElementById("pmOven").classList.toggle("on",m==="oven"); document.getElementById("rowHave").style.display=(m==="have")?"":"none"; document.getElementById("rowOven").style.display=(m==="oven")?"":"none"; }
 function setStart(v){ startTime=v; var a=document.getElementById("startTime"), b=document.getElementById("planStart"); if(a&&a.value!==v)a.value=v; if(b&&b.value!==v)b.value=v; render(); }
 
@@ -1092,22 +1118,23 @@ function renderStarter(body){ var list=stLoad(); var form="<div class='jr-stform
   THEME=detectTheme(); var ts=document.getElementById("themeSel"); if(ts) ts.value=THEME; applyTheme();
   var is=document.getElementById("introSel"); if(is) is.value=detectIntro();
   if(window.matchMedia){ try{ window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(){ if(THEME==="auto") applyTheme(); }); }catch(e){} }
-  var pc=document.getElementById("presets");
-  Object.keys(PRESETS).forEach(function(name){ var mk=PRESETS[name].method; var b=document.createElement("button"); b.type="button"; b.className="pdc-chip"; var slug="preset_"+name.toLowerCase().replace(/[^a-z0-9]/g,""); var tr=(I18N[LANG]&&I18N[LANG][slug]); b.innerHTML=tr?("<span class=\"pdc-chip-name\" data-i18n=\""+slug+"\">"+tr+"</span>"):("<span class=\"pdc-chip-name\">"+name+"</span>"); b.addEventListener("click",function(){ applyPreset(name); }); pc.appendChild(b); });
+  var STYLE_OPTS=Object.keys(PRESETS).map(function(nm){ var sl="preset_"+nm.toLowerCase().replace(/[^a-z0-9]/g,""); return {value:nm,label:(I18N[LANG]&&I18N[LANG][sl])||nm}; });
+  var FERM_OPTS=[{value:"poolish",label:t("poolish")},{value:"biga",label:t("biga")},{value:"sourdough",label:t("sourdough")},{value:"traditional",label:t("traditional")}];
+  makeWheel("wheelStyle",STYLE_OPTS,"Contemporary",function(v){ applyStyleRatios(v); });
+  makeWheel("wheelFerment",FERM_OPTS,method,function(v){ setMethod(v); render(); });
   ["balls","ballWeight","hydration","salt","yeastType","oil","sugar","honey"].forEach(function(id){ var e=document.getElementById(id); e.addEventListener("input",render); e.addEventListener("change",render); });
   document.getElementById("yeast").addEventListener("input",function(){ if(!autoYeast){ YEASTBY[method]=this.value; render(); } });
   document.getElementById("levainPct").addEventListener("input",render);
   document.getElementById("levainHyd").addEventListener("input",render);
   document.getElementById("yeastAuto").addEventListener("click",toggleAuto);
   document.getElementById("saltUnitBtn").addEventListener("click",function(){ setSaltUnit(saltUnit==="pct"?"gkg":"pct"); render(); });
-  document.getElementById("mPoolish").addEventListener("click",function(){ setMethod("poolish"); render(); });
-  document.getElementById("mBiga").addEventListener("click",function(){ setMethod("biga"); render(); });
-  document.getElementById("mSour").addEventListener("click",function(){ setMethod("sourdough"); render(); });
-  document.getElementById("mTrad").addEventListener("click",function(){ setMethod("traditional"); render(); });
   document.getElementById("planFridge").addEventListener("click",function(){ planFridge=!planFridge; this.classList.toggle("on",planFridge); this.textContent=planFridge?t("yes"):t("no"); document.getElementById("planFridgeTemp").disabled=!planFridge; });
   document.getElementById("pmHave").addEventListener("click",function(){ setPlanMode("have"); });
   document.getElementById("pmOven").addEventListener("click",function(){ setPlanMode("oven"); });
   document.getElementById("planGo").addEventListener("click",buildPlan);
+  var bbb=document.getElementById("bbBalls"); if(bbb) bbb.addEventListener("click",function(){ setBatchBy("balls"); });
+  var bbf=document.getElementById("bbFlour"); if(bbf) bbf.addEventListener("click",function(){ setBatchBy("flour"); });
+  var fhi=document.getElementById("flourHave"); if(fhi) fhi.addEventListener("input",function(){ if(batchBy==="flour") render(); });
   var pcs=document.getElementById("planCold"); if(pcs) pcs.addEventListener("change",function(){ buildPlan(); });
   var th=document.getElementById("toHand"); if(th) th.addEventListener("click",function(){ setBuild("hand"); });
   var ta=document.getElementById("toAuto"); if(ta) ta.addEventListener("click",function(){ setBuild("auto"); });
