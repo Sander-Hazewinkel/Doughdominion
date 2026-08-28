@@ -1,4 +1,5 @@
-const CACHE = 'dough-v45';
+/* Doughdominion (c) 2026 - All rights reserved. */
+const CACHE = 'dough-v46';
 const ASSETS = ['./', './index.html', './app.html', './icon-180.png','./icon-512.png','./manifest.json'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));
