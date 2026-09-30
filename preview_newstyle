@@ -1,0 +1,127 @@
+Here's the complete file. Copy **everything** from the first line to the last.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Doughdominion — design preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{font-family:"Inter",system-ui,sans-serif;margin:0;background:#FBF8F1;color:#2A2822;-webkit-font-smoothing:antialiased}
+.dd-note{max-width:900px;margin:0 auto;padding:14px 18px;background:#2C6238;color:#FBF8F1;font-size:13px;line-height:1.5;text-align:center}
+.dd-note b{font-weight:700}
+iframe{display:block;width:100%;height:calc(100vh - 52px);border:0}
+</style>
+</head>
+<body>
+<div class="dd-note">🎨 <b>Design preview</b> — this is your real app with the new look applied. Your live app is untouched. Nothing here can break it.</div>
+<iframe id="app" src="app.html"></iframe>
+
+<script>
+// The new stylesheet, injected into the real app once it loads inside the frame.
+var DD_CSS = `
+body{
+  --paper:#FBF8F1 !important; --panel:#F3F0E7 !important; --ink:#2A2822 !important; --muted:#726E63 !important;
+  --brick:#3B7A45 !important; --brick-deep:#2C6238 !important; --basil:#2E7D5B !important; --accent2:#4E9D58 !important;
+  --on-accent:#FBF8F1 !important; --line:rgba(38,32,26,0.12) !important;
+  --quickbg:linear-gradient(180deg,#FFFFFF,#F6F2E8) !important;
+  --card:linear-gradient(180deg,#FFFFFF,#FAF7EF);
+  --shadow:0 14px 40px rgba(52,60,42,.10), 0 2px 6px rgba(0,0,0,.04);
+  --shadow-soft:0 6px 22px rgba(52,60,42,.07);
+  --ember:#DC9E2A;
+  font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif !important;
+  -webkit-font-smoothing:antialiased; letter-spacing:-.005em;
+}
+html[data-theme="dark"] body{
+  --paper:#171613 !important; --panel:#211F1A !important; --ink:#EDEAE1 !important; --muted:#A49E92 !important;
+  --brick:#6FBE79 !important; --brick-deep:#57AE64 !important; --basil:#4FA98D !important; --accent2:#8AD694 !important;
+  --on-accent:#15140F !important; --line:rgba(255,255,255,0.11) !important;
+  --quickbg:linear-gradient(180deg,#2C2A22,#232019) !important;
+  --card:linear-gradient(180deg,#232019,#1D1B16);
+  --shadow:0 10px 30px rgba(0,0,0,.42), 0 2px 6px rgba(0,0,0,.3);
+  --shadow-soft:0 4px 18px rgba(0,0,0,.35);
+  --ember:#EAB64A;
+}
+
+/* Header */
+.pdc-mark{ width:48px !important; height:48px !important; margin-bottom:14px !important; }
+.pdc-title{ font-family:"Fraunces",Georgia,serif !important; font-weight:700 !important; font-size:clamp(42px,10vw,64px) !important; line-height:.88 !important; letter-spacing:-.03em !important; }
+.pdc-tagline{ font-size:18px !important; font-weight:600 !important; letter-spacing:-.015em !important; }
+.pdc-zen{ font-family:"Fraunces",Georgia,serif !important; font-style:italic !important; font-size:15px !important; }
+.pdc-props{ letter-spacing:.11em !important; opacity:.85 !important; font-weight:500 !important; }
+.pdc-set select{ font-family:"Inter",sans-serif !important; border-radius:9px !important; transition:border-color .15s; }
+.pdc-set select:hover{ border-color:var(--brick) !important; }
+.pdc-grid{ gap:26px !important; }
+
+/* Quick */
+.pdc-quick{ font-size:16px !important; font-weight:700 !important; border-radius:14px !important; padding:16px 18px !important; box-shadow:var(--shadow-soft) !important; transition:border-color .18s, transform .07s, box-shadow .2s !important; }
+.pdc-quick:hover{ box-shadow:var(--shadow) !important; }
+.pdc-quick-out{ background:var(--card) !important; border-radius:16px !important; padding:20px !important; box-shadow:var(--shadow-soft) !important; }
+.pdc-quick-lead{ letter-spacing:.14em !important; font-weight:600 !important; }
+.pdc-quick-big{ font-family:"Fraunces",Georgia,serif !important; letter-spacing:-.02em !important; }
+.pdc-quick-build{ background:linear-gradient(180deg,#45894F,var(--brick-deep)) !important; border-radius:11px !important; padding:12px 22px !important; box-shadow:0 3px 12px rgba(36,78,46,.25) !important; transition:transform .07s, box-shadow .2s !important; }
+.pdc-quick-build:hover{ box-shadow:0 5px 18px rgba(36,78,46,.32) !important; }
+.pdc-quick-build:active{ transform:translateY(1px) !important; }
+
+/* Planner card */
+.pdc-planner{ border:1px solid rgba(59,122,69,0.16) !important; background:var(--card) !important; border-radius:20px !important; padding:22px !important; box-shadow:var(--shadow-soft) !important; }
+.pdc-plan-title{ font-family:"Fraunces",Georgia,serif !important; font-size:23px !important; letter-spacing:-.02em !important; }
+.pdc-plan-desc{ font-size:13px !important; line-height:1.5 !important; }
+.pdc-plan-go{ font-size:16px !important; font-weight:700 !important; padding:16px 18px !important; border-radius:13px !important; background:linear-gradient(180deg,#45894F,var(--brick-deep)) !important; box-shadow:0 3px 14px rgba(36,78,46,.24) !important; transition:transform .07s, box-shadow .2s !important; }
+.pdc-plan-go:hover{ box-shadow:0 6px 20px rgba(36,78,46,.32) !important; }
+.pdc-plan-go:active{ transform:translateY(1px) !important; }
+.pdc-plan-note{ font-size:12.5px !important; line-height:1.5 !important; }
+.pdc-plan-divider{ font-family:"Inter",sans-serif !important; font-weight:600 !important; letter-spacing:.12em !important; padding:8px 0 !important; }
+
+/* Inputs */
+.pdc-input{ font-size:16px !important; padding:12px 13px !important; border-radius:11px !important; transition:border-color .15s, box-shadow .15s !important; }
+.pdc-input:focus{ outline:none !important; border-color:var(--brick) !important; box-shadow:0 0 0 3px rgba(59,122,69,.14) !important; }
+
+/* Segmented + toggles */
+.pdc-seg-btn{ border-radius:11px !important; transition:all .15s !important; }
+.pdc-seg-btn.on{ box-shadow:0 2px 8px rgba(46,125,91,.25) !important; }
+.pdc-toggle2{ border-radius:11px !important; }
+
+/* Dials — the podium */
+.whl-block{ gap:16px !important; margin:14px 0 !important; }
+.whl-col{ background:var(--card) !important; border:1px solid var(--line) !important; border-radius:24px !important; padding:16px 8px 20px !important; box-shadow:var(--shadow-soft) !important; }
+.whl-title{ font-family:"Inter",sans-serif !important; font-size:12.5px !important; letter-spacing:.14em !important; color:var(--brick-deep) !important; font-weight:700 !important; margin-bottom:10px !important; }
+.whl{ width:min(296px,80vw) !important; }
+.whl-opt{ font-family:"Inter",sans-serif !important; font-weight:700 !important; }
+.whl-opt.on{ color:var(--ember) !important; font-weight:800 !important; }
+.whl-dial{ filter:drop-shadow(0 0 12px rgba(220,158,42,.55)) !important; }
+.whl-center{ border:2px solid var(--brick) !important; box-shadow:0 4px 16px rgba(44,98,56,.18) !important; }
+.whl-center b{ font-family:"Fraunces",Georgia,serif !important; }
+
+/* Labels */
+.pdc-glabel{ font-family:"Inter",sans-serif !important; font-size:12.5px !important; letter-spacing:.14em !important; color:var(--brick-deep) !important; font-weight:700 !important; }
+.pdc-chip{ border-radius:14px !important; }
+
+/* Results = recipe card */
+#results{ background:var(--card) !important; border:1px solid var(--line) !important; border-radius:22px !important; padding:24px !important; box-shadow:var(--shadow) !important; }
+.pdc-rh-title{ font-family:"Inter",sans-serif !important; letter-spacing:.14em !important; font-weight:700 !important; }
+.pdc-mode{ letter-spacing:.14em !important; font-weight:700 !important; }
+.pdc-tnum{ font-family:"Fraunces",Georgia,serif !important; font-size:clamp(38px,6.5vw,60px) !important; letter-spacing:-.02em !important; }
+.pdc-tnum2{ font-family:"Fraunces",Georgia,serif !important; letter-spacing:-.02em !important; }
+.pdc-bar{ height:32px !important; border-radius:9px !important; }
+.pdc-step-n{ box-shadow:0 0 0 4px var(--paper), 0 2px 6px rgba(36,78,46,.25) !important; }
+.pdc-step-title{ font-family:"Fraunces",Georgia,serif !important; font-size:16.5px !important; letter-spacing:-.01em !important; }
+.pdc-step{ transition:background .15s; border-radius:10px; }
+.pdc-step:hover{ background:rgba(59,122,69,.04); }
+
+/* Action buttons */
+.pdc-share,.pdc-savebake{ border-radius:11px !important; box-shadow:0 2px 8px rgba(36,78,46,.18) !important; }
+.pdc-copy,.pdc-print{ border-radius:11px !important; }
+.pdc-cal{ border-radius:11px !important; }
+
+/* Journal */
+.jr-sheet{ border-radius:20px 20px 0 0 !important; }
+.pdc-journal-open{ border-radius:999px !important; }
+.jr-row-name,.jr-name,.jr-plan-title{ font-family:"Fraunces",Georgia,serif !important; }
+
+/* Footer */
+.pdc-foot
